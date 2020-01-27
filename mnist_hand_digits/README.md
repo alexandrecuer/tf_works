@@ -4,7 +4,7 @@ run `python3 keras_cnn.py` to train, test and save the model as an hd5 reusable 
 
 run `python3 keras_predict.py` to predict on the test dataset
 
-run `keras_own_dig.py` to predict on your personal handwritten digits
+run `python3 keras_own_dig.py` to predict on your personal handwritten digits
 
 # nota
 
