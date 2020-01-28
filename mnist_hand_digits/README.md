@@ -23,3 +23,5 @@ the model works fine with those [digits](savine) but not with others
 tips on how to adjust contrast and brightness on openCV
 
 https://stackoverflow.com/questions/39308030/how-do-i-increase-the-contrast-of-an-image-in-python-opencv
+
+https://morioh.com/p/bc60494297f6
