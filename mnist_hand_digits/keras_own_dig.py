@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-from PIL import Image
+#from PIL import Image
 import cv2
 
 mnist = tf.keras.datasets.mnist
@@ -11,10 +11,8 @@ contrast_improve = 0
 path = "savine"
 extension = ".png"
 
-img_x, img_y = 28, 28
-
 loaded_model = tf.keras.models.load_model('hand_digit.h5')
-print(loaded_model.layers[0].input_shape)
+focus_shape=loaded_model.layers[0].input_shape
 
 for r,d,f in os.walk(path):
     for file in f:
@@ -36,19 +34,25 @@ for r,d,f in os.walk(path):
                 gray = adjusted
 
             # reverse and resize
-            gray = cv2.resize(255-gray, (28,28))
+            gray = cv2.resize(255-gray, (focus_shape[1],focus_shape[2]))
+            #(tresh,gray) = cv2.threshold(gray, 128,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+
+            # output the image
             if contrast_improve:
                 plt.title("image finale {} et j={}".format(file,j))
             else:
                 plt.title("image finale {} - contraste inchangé".format(file))
-            # output the image
             plt.imshow(gray)
             plt.show()
 
             im2arr = np.array(gray)
-            im2arr = im2arr.reshape(1,28,28,1)
+            if len(focus_shape)==3:
+                im2arr = im2arr.reshape(1,focus_shape[1],focus_shape[2])
+            else:
+                im2arr = im2arr.reshape(1,focus_shape[1],focus_shape[2],focus_shape[3])
+
             # are these 2 below lines necessary
-            im2arr = im2arr.astype('float32')
-            im2arr /= 255
+            #im2arr = im2arr.astype('float32')
+            #im2arr /= 255
             y_pred = loaded_model.predict_classes(im2arr)
             print("pour le scan {} la prédiction est  {}".format(file,y_pred))

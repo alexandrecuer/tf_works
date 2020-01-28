@@ -10,7 +10,7 @@ num_classes = 10
 # pour augmenter la précision du modèle, passer epochs de 5 à 10
 epochs = 5
 
-# input image dimensions
+# input image dimensions - all images in mnist are 28 pixels by 28 pixels
 img_x, img_y = 28, 28
 
 # load the MNIST data set, which already splits into train and test sets for us
