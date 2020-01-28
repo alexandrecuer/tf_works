@@ -8,4 +8,4 @@ run `python3 keras_own_dig.py` to predict on your personal handwritten digits
 
 # nota
 
-the model works fine with those [digits](mnist_hand_digits/savine) but not with others
+the model works fine with those [digits](savine) but not with others
