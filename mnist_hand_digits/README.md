@@ -8,6 +8,8 @@ basic preprocessing before testing :
 
 https://medium.com/@o.kroeger/tensorflow-mnist-and-your-own-handwritten-digits-4d1cd32bbab4
 
+https://sausheong.github.io/posts/building-neural-networks-with-tensorflow-keras-pytorch-mxnet/
+
 # how to use
 
 run `python3 keras_cnn.py` to train, test and save the model as an hd5 reusable file
