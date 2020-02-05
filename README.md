@@ -4,6 +4,8 @@ just a place to gather all work related to tensor flow - started in 2020
 
 ## Configuration
 
+a "weak" machine
+
 Toshiba Portégé R30A19J 64 bits :
 - RAM : 7,7 Go
 - HDD : 491,2 Go
@@ -41,6 +43,11 @@ sudo apt-get update
 sudo apt-get install atom
 ```
 
+### openGym
+
+```
+pip install gym
+```
 
 
 
