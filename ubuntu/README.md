@@ -29,6 +29,9 @@ mkdir /mnt/EFI/BOOT
 cp /mnt/EFI/ubuntu/* /mnt/EFI/BOOT
 mv /mnt/EFI/BOOT/grubx64.efi /mnt/EFI/BOOT/bootx64.efi
 ```
+more on UEFI :
+
+https://ubuntuforums.org/showthread.php?t=2147295
 
 ## Grub
 
