@@ -29,3 +29,19 @@ mkdir /mnt/EFI/BOOT
 cp /mnt/EFI/ubuntu/* /mnt/EFI/BOOT
 mv /mnt/EFI/BOOT/grubx64.efi /mnt/EFI/BOOT/bootx64.efi
 ```
+
+## Grub
+
+how to start from a grub command line
+
+https://askubuntu.com/questions/616811/gnu-grub-terminal-instead-of-ubuntu-login-screen
+```
+grub> ls 
+(hd0) (hd0,gpt1) (hd0,gpt2) (cd0)
+```
+assuming your linux partition is on /dev/sda2:
+```
+grub> linux  (hd0,gpt2)/vmlinuz root=/dev/sda2
+grub> initrd  (hd0,gtp2)/initrd.img
+grub> boot
+```
