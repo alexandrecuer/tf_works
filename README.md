@@ -33,6 +33,15 @@ pip3 install tensorflow
 pip3 install --upgrade tensorflow
 pip3 install --upgrade numpy
 ```
+with a CPU-only machine :
+```
+pip3 install tensorflow-cpu
+```
+
+check keras version
+```
+pip3 list | grep -i keras
+```
 
 ### install atom
 
