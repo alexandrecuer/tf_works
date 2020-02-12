@@ -5,6 +5,7 @@ import math
 from datetime import datetime
 import struct
 import matplotlib.pylab as plt
+import time
 
 winterStart=1539950400
 
@@ -191,6 +192,94 @@ plt.ylabel("Kwh used for heating per step")
 plt.plot(powerW._datas)
 
 plt.xlabel("Steps - one step = {}s".format(inDoorT._step))
+plt.show()
+
+float_data=np.zeros((len(inDoorT._datas),3))
+float_data[:,0]=outDoorT._datas
+float_data[:,1]=inDoorT._datas
+float_data[:,2]=powerW._datas[0:len(inDoorT._datas)]
+
+#print(float_data[0:504,:])
+#print(inDoorT._datas[0:504])
+#print(outDoorT._datas[0:504])
+#print(powerW._datas[0:504])
+
+def generator(data,lookback,delay,min_index,max_index,shuffle=False,batch_size=128,step=1):
+    if max_index is None:
+        max_index=len(data) -delay - 1
+    i=min_index+lookback
+    datasetNb=0
+    while 1:
+        datasetNb+=1
+        #print("construction of set {} - index in data is {}".format(datasetNb,i))
+        # we create an array with the end indexes of each training dataset in the batch
+        # we have 128 element in the batch, so the array is of size 128
+        # the next element is just shifted by 1 timestep in "data" compared to the previous one.
+        # 2 methods : shuffle or random one and chronological
+        if shuffle:
+            rows = np.random.randint(min_index+lookback,max_index,size=batch_size)
+        else:
+            if i+batch_size>=max_index:
+                i=min_index+lookback
+            rows=np.arange(i,min(i+batch_size,max_index))
+            # print(rows)
+            i+=len(rows)
+        # data.shape[-1] returns the last dimension of data, ie the number of physical features
+        # the training dataset structure is (samples,time,features)
+        samples=np.zeros((len(rows),lookback//step,data.shape[-1]))
+        # print("empty samples shape is {}".format(samples.shape))
+        targets=np.zeros((len(rows),))
+        # print("empty targets shape is {}".format(targets.shape))
+        for j, row in enumerate(rows):
+            # we sample values in data, over a size range equal to lookback, with a sampling period equal to step
+            # we use the range python function for this
+            indices = range(rows[j]-lookback, rows[j], step)
+            #print("we are at row {} of dataset {} and the sampling range in data is {}".format(j,datasetNb,indices))
+            samples[j]=data[indices]
+            targets[j]=data[rows[j]+delay][1]
+            #input("press a key")
+        yield samples, targets
+
+lookback=12
+delay=1
+# a step is one hour
+step=1
+val_steps=168-lookback
+
+train_gen=generator(float_data[5:504+5,:],lookback,delay,0,None)
+val_gen=generator(float_data[504+5:504+5+168],lookback,delay,0,None)
+
+for i in range(10):
+    samples,targets=next(train_gen)
+    plt.figure()
+    plt.suptitle("a training set with target {}".format(targets[0]))
+    plt.subplot(2, 1, 1)
+    plt.plot(samples[0,:,0])
+    plt.plot(samples[0,:,1])
+    plt.subplot(2, 1, 2)
+    plt.hist(samples[0,:,2])
+    plt.show()
+
+import tensorflow as tf
+print("TF", tf.__version__)
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Flatten(input_shape=(lookback//step,float_data.shape[-1])))
+model.add(tf.keras.layers.Dense(32, activation='relu'))
+model.add(tf.keras.layers.Dense(1))
+model.compile(optimizer=tf.keras.optimizers.RMSprop(),loss='mae')
+start_time = time.time()
+history = model.fit_generator(train_gen,steps_per_epoch=500,epochs=20,validation_data=val_gen,validation_steps=val_steps)
+
+print("Execution time in %s seconds ---" % (time.time() - start_time))
+
+loss=history.history['loss']
+val_loss=history.history['val_loss']
+epochs=range(1,len(loss)+1)
+plt.figure()
+plt.plot(epochs,loss,'bo',label='training loss')
+plt.plot(epochs,val_loss,'b',label='validation loss')
+plt.title("validation and training loss")
+plt.legend()
 plt.show()
 
 """
