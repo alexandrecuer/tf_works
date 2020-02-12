@@ -79,4 +79,7 @@ install via apt :
 sudo apt-get update
 sudo apt-get install virtualbox-6.1
 ```
-
+Launch virtualbox
+```
+virtualbox &
+```
