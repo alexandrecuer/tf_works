@@ -58,8 +58,25 @@ sudo apt-get install atom
 pip install gym
 ```
 
+## install virtualbox on Ubuntu Bionic
 
+```
+sudo nano /etc/apt/sources.list
+```
 
+add the following line at the end of sources.list :
+```
+deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bionic contrib
+```
 
+add the public key :
+```
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+```
 
+install via apt :
+```
+sudo apt-get update
+sudo apt-get install virtualbox-6.1
+```
 
