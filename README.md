@@ -33,6 +33,15 @@ pip3 install tensorflow
 pip3 install --upgrade tensorflow
 pip3 install --upgrade numpy
 ```
+with a CPU-only machine :
+```
+pip3 install tensorflow-cpu
+```
+
+check keras version
+```
+pip3 list | grep -i keras
+```
 
 ### install atom
 
@@ -49,8 +58,28 @@ sudo apt-get install atom
 pip install gym
 ```
 
+## install virtualbox on Ubuntu Bionic
 
+```
+sudo nano /etc/apt/sources.list
+```
 
+add the following line at the end of sources.list :
+```
+deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bionic contrib
+```
 
+add the public key :
+```
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+```
 
-
+install via apt :
+```
+sudo apt-get update
+sudo apt-get install virtualbox-6.1
+```
+Launch virtualbox
+```
+virtualbox &
+```
