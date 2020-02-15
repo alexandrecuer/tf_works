@@ -1,14 +1,13 @@
 import numpy as np
 import random
 import math
-#import tensorflow as tf
-from datetime import datetime
 import time
 import struct
 import matplotlib.pylab as plt
 from PHPFina import PHPFina,humanDate
 
 winterStart=1539950400
+#winterStart=1546974000
 print ("début hiver : {} ou {}s en unixtimestamp".format(humanDate(winterStart),winterStart))
 
 def InitializeFeed(nb,step,start):
@@ -30,6 +29,8 @@ def GoToTensor(params,step,start,nbsteps):
             feed.getKwh(nbsteps)
         if len(feed._datas):
             float_data[:,i]=feed._datas[0:nbsteps]
+        else:
+            return False
     return float_data
 
 def ChecknR(tensor,regularize=True):
@@ -42,121 +43,186 @@ def ChecknR(tensor,regularize=True):
     print(mean)
     print(std)
 
-# we assume the winter period to be something like 200 or 210 days
 # outdoor, indoor, instant power
-# instead of feed 139, we could have used feed 140 which is the kwh accumulated feed
 params=[{"id":1,"action":"smp"},{"id":191,"action":"smp"},{"id":139,"action":"acc"}]
+## Sampling feeds and tensor construction
+# we assume the winter period to be something like 200 or 210 days
+# FIX THE NUMBER OF POINTS PER HOUR !
+nbptinh=1
+nbsteps=300*24*nbptinh
+step=3600//nbptinh
+winter=GoToTensor(params,step,winterStart,nbsteps)
 
-## HOURLY APPROACH
-nbHsteps=210*24
-step_h=3600
-winterh=GoToTensor(params,step_h,winterStart,nbHsteps)
-
-plt.subplot(211)
+plt.subplot(311)
 #Out temperature
-plt.plot(winterh[:,0])
+plt.plot(winter[:,0])
 #In temperature
-plt.plot(winterh[:,1])
+plt.plot(winter[:,1])
 plt.ylabel("In and Out Temp in °C")
-plt.subplot(212)
+plt.subplot(312)
 plt.ylabel("Kwh used for heating per step")
-plt.plot(winterh[:,2])
-plt.xlabel("Steps - one step = {}s".format(step_h))
+plt.plot(winter[:,2])
+plt.xlabel("Steps - one step = {}s".format(step))
+plt.subplot(313)
+plt.scatter(winter[:,0],winter[:,2], color='red')
 plt.show()
 
-#print(float_data[0:504,:])
-#print(inDoorT._datas[0:504])
-#print(outDoorT._datas[0:504])
-#print(powerW._datas[0:504])
+# first approach - Multiple Linear Regression
+from pandas import DataFrame
+from sklearn import linear_model
+import statsmodels.api as sm
+l=winter.shape[0]-1
+futureTint=[]
+for i in range(l):
+    futureTint.append(winter[i+1,1])
 
-def generator(data,lookback,delay,min_index,max_index,shuffle=False,batch_size=128,step=1):
-    if max_index is None:
-        max_index=len(data) -delay - 1
-    i=min_index+lookback
-    datasetNb=0
+# regression with sklearn
+regr = linear_model.LinearRegression()
+regr.fit(winter[:l,:], futureTint)
+print('Intercept: \n', regr.intercept_)
+print('Coefficients: \n', regr.coef_)
+
+# regression with statsmodels
+b = sm.add_constant(winter[:l,:]) # adding a constant
+model = sm.OLS(futureTint, b).fit()
+predictions = model.predict(b)
+print_model = model.summary()
+print(print_model)
+
+input("press key")
+
+# ***********
+# a generator
+def heating_gen(data,rows,lookback,delay,batch_size=50):
+    i=0
     while 1:
-        datasetNb+=1
-        # print("batch nb {} startingpos in data {}".format(datasetNb,i))
-        # we create an array with the end indexes of each training dataset in the batch
-        # 2 methods : shuffle = randomize VS chronological
-        # in chronological mode, element n+1 is just shifted by 1 timestep further in "data" compared to element n
-        if shuffle:
-            rows = np.random.randint(min_index+lookback,max_index,size=batch_size)
-        else:
-            if i+batch_size>=max_index:
-                i=min_index+lookback
-            rows=np.arange(i,min(i+batch_size,max_index))
-            i+=len(rows)
-        # data.shape[-1] returns the last dimension of data, ie the number of physical features
-        # the training tensor is an array of datasets - shape =  (samples,time,features)
-        samples=np.zeros((len(rows),lookback//step,data.shape[-1]))
-        # print("empty samples shape is {}".format(samples.shape))
-        targets=np.zeros((len(rows),))
-        # print("empty targets shape is {}".format(targets.shape))
-        for j, row in enumerate(rows):
-            # we sample values in data, over a size range equal to lookback, with a sampling period equal to step
-            indices = range(rows[j]-lookback, rows[j], step)
-            #print("Element {} of dataset {} - sampling range in data is {}".format(j,datasetNb,indices))
+        if i+batch_size>len(rows):
+            i=0
+        i+=batch_size
+        samples=np.zeros((batch_size,lookback,data.shape[-1]))
+        targets=np.zeros((batch_size,))
+        for j in range(batch_size):
+            indices = range(rows[j]-lookback, rows[j])
             samples[j]=data[indices]
-            targets[j]=data[rows[j]+delay][1]
-            #input("press a key")
+            targets[j]=data[rows[j]+delay-1][1]
         yield samples, targets
 
-train=3*7*24
-val=7*24
-lookback=24
-delay=4
+# the same but with everything in RAM
+def heating_simple(data,rows,lookback,delay):
+    samples=np.zeros((len(rows),lookback,data.shape[-1]))
+    targets=np.zeros((len(rows),))
+    for j in range(len(rows)):
+        indices = range(rows[j]-lookback, rows[j])
+        samples[j]=data[indices]
+        targets[j]=data[rows[j]+delay-1][1]
+    return samples, targets
 
-val_steps=val-lookback
-float_data=winterh
-train_gen=generator(float_data[0:train,:],lookback,delay,0,None)
-val_gen=generator(float_data[train:train+val],lookback,delay,0,None)
+def plot_batch(samples,targets,i):
+    fig, ax1 = plt.subplots()
+    ax1.set_xlabel('time')
+    ax1.set_ylabel('T')
+    ax1.plot(samples[i,:,0], color='tab:red')
+    ax1.plot(samples[i,:,1], color='tab:blue')
+    ax1.tick_params(axis='y')
+    ax2 = ax1.twinx()
+    ax2.set_ylabel('Kwh/h')
+    ax2.plot(samples[i,:,2], color='tab:green')
+    ax2.tick_params(axis='y')
+    fig.tight_layout()  # otherwise the right y-label is slightly clipped
+    target="%.2f" %targets[i]
+    plt.suptitle("el. {} with target {}".format(i,target))
+    plt.show()
 
-"""
-for k in range(10):
-    samples,targets=next(train_gen)
+def plot(samples,target,text):
+    fig, ax1 = plt.subplots()
+    ax1.set_xlabel('time')
+    ax1.set_ylabel('T')
+    ax1.plot(samples[:,0], color='tab:red')
+    ax1.plot(samples[:,1], color='tab:blue')
+    for j, v in enumerate(samples[:,1]):
+        ax1.text(j, v, "%.1f" %v, bbox=dict(facecolor='blue', alpha=0.1))
+    ax1.tick_params(axis='y')
+    ax2 = ax1.twinx()
+    ax2.set_ylabel('Kwh/h')
+    ax2.plot(samples[:,2], color='tab:green')
+    ax2.tick_params(axis='y')
+    fig.tight_layout()
+    plt.suptitle("{} - target {}".format(text,"%.2f" %target))
+    plt.show()
 
-    for i in range(10):
-        fig, ax1 = plt.subplots()
-        ax1.set_xlabel('time (h)')
-        ax1.set_ylabel('T')
-        ax1.plot(samples[i,:,0], color='tab:red')
-        ax1.plot(samples[i,:,1], color='tab:blue')
-        ax1.tick_params(axis='y')
-        ax2 = ax1.twinx()
-        ax2.set_ylabel('Kwh/h')
-        ax2.plot(samples[i,:,2], color='tab:green')
-        ax2.tick_params(axis='y')
-        fig.tight_layout()  # otherwise the right y-label is slightly clipped
-        plt.suptitle("set {} el. {} with target {}".format(k,i,targets[i]))
-        plt.show()
-"""
+# we create the sampling arrays for training and validation
+start=20*nbptinh
+size=24*3*7*nbptinh
+period=24*4*7*nbptinh
+# fix the jump to go from one dataset to another
+jump=nbptinh
+for i in range(10):
+    if i==0:
+        t=np.arange(start,start+size,jump)
+        v=np.arange(start+size,start+period,jump)
+    else:
+        t=np.concatenate((t,np.arange(start,start+size,jump)),axis=None)
+        v=np.concatenate((v,np.arange(start+size,start+period,jump)),axis=None)
+    start+=period
+nts=len(t)
+nvs=len(v)
+print(t)
+print("number of training samples : {}".format(nts))
+print(v)
+print("number of validation samples : {}".format(nvs))
+ChecknR(winter,False)
+batch_size=50
+lookback=12
+#heating_train=heating_gen(winter,t,lookback*nbptinh,nbptinh,batch_size)
+#heating_val=heating_gen(winter,v,lookback*nbptinh,nbptinh,batch_size)
+#t_steps=nts//batch_size
+#v_steps=nvs//batch_size
+x_train,y_train=heating_simple(winter,t,lookback*nbptinh,nbptinh)
+x_val,y_val=heating_simple(winter,v,lookback*nbptinh,nbptinh)
 
+
+for i in range(10):
+    plot(x_train[i],y_train[i],"training el. {}".format(i))
+
+for i in range(10):
+    plot(x_val[i],y_val[i],"validation el. {}".format(i))
+
+input("press a key")
 
 import tensorflow as tf
 print("TF", tf.__version__)
 model = tf.keras.models.Sequential()
-model.add(tf.keras.layers.Flatten(input_shape=(lookback,float_data.shape[-1])))
+model.add(tf.keras.layers.Flatten(input_shape=(lookback*nbptinh,winter.shape[-1])))
 model.add(tf.keras.layers.Dense(10, activation='relu'))
 model.add(tf.keras.layers.Dense(10, activation='relu'))
-#model.add(tf.keras.layers.GRU(32,dropout=0.2,recurrent_dropout=0.2,input_shape=(None,float_data.shape[-1])))
+#model.add(tf.keras.layers.GRU(32,dropout=0.2,recurrent_dropout=0.2,input_shape=(None,winter.shape[-1])))
 model.add(tf.keras.layers.Dense(1))
 model.compile(optimizer=tf.keras.optimizers.RMSprop(),loss='mae')
+
+class History(tf.keras.callbacks.Callback):
+
+    def on_train_begin(self, logs={}):
+        self.losses = []
+        self.val_losses = []
+
+    def on_epoch_end(self, batch, logs={}):
+        self.losses.append(logs.get('loss'))
+        self.val_losses.append(logs.get('val_loss'))
+
+history = History()
+
 start_time = time.time()
-history = model.fit_generator(train_gen,steps_per_epoch=500,epochs=20,validation_data=val_gen,validation_steps=val_steps)
+model.fit(x_train,y_train,batch_size=50,epochs=40,validation_data=(x_val,y_val),callbacks=[history])
+model.evaluate(x_val, y_val, verbose=1)
 
 print("Execution time in %s seconds ---" % (time.time() - start_time))
 
-loss=history.history['loss']
-val_loss=history.history['val_loss']
+loss=history.losses
+val_loss=history.val_losses
 epochs=range(1,len(loss)+1)
 plt.figure()
 plt.plot(epochs,loss,'bo',label='training loss')
 plt.plot(epochs,val_loss,'b',label='validation loss')
-plt.title("validation and training loss for lookback {}".format(lookback))
+plt.title("validation and training loss")
 plt.legend()
 plt.show()
-
-"""
-checkPoints(1,64742,300)
-"""
