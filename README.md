@@ -58,6 +58,14 @@ sudo apt-get install atom
 pip install gym
 ```
 
+### statistic tools
+
+```
+pip install pandas
+pip install -U scikit-learn
+pip install statsmodels
+```
+
 ## install virtualbox on Ubuntu Bionic
 
 ```
