@@ -5,10 +5,10 @@ import time
 import struct
 import matplotlib.pylab as plt
 from PHPFina import PHPFina,humanDate
-
-winterStart=1539950400
-#winterStart=1546974000
-print ("début hiver : {} ou {}s en unixtimestamp".format(humanDate(winterStart),winterStart))
+# toolkits for Multiple Linear Regression
+from pandas import DataFrame
+from sklearn import linear_model
+import statsmodels.api as sm
 
 def InitializeFeed(nb,step,start):
     feed=PHPFina(nb,step)
@@ -43,53 +43,22 @@ def ChecknR(tensor,regularize=True):
     print(mean)
     print(std)
 
-# outdoor, indoor, instant power
-params=[{"id":1,"action":"smp"},{"id":191,"action":"smp"},{"id":139,"action":"acc"}]
-## Sampling feeds and tensor construction
-# we assume the winter period to be something like 200 or 210 days
-# FIX THE NUMBER OF POINTS PER HOUR !
-nbptinh=1
-nbsteps=300*24*nbptinh
-step=3600//nbptinh
-winter=GoToTensor(params,step,winterStart,nbsteps)
-
-plt.subplot(311)
-#Out temperature
-plt.plot(winter[:,0])
-#In temperature
-plt.plot(winter[:,1])
-plt.ylabel("In and Out Temp in °C")
-plt.subplot(312)
-plt.ylabel("Kwh used for heating per step")
-plt.plot(winter[:,2])
-plt.xlabel("Steps - one step = {}s".format(step))
-plt.subplot(313)
-plt.scatter(winter[:,0],winter[:,2], color='red')
-plt.show()
-
-# first approach - Multiple Linear Regression
-from pandas import DataFrame
-from sklearn import linear_model
-import statsmodels.api as sm
-l=winter.shape[0]-1
-futureTint=[]
-for i in range(l):
-    futureTint.append(winter[i+1,1])
-
 # regression with sklearn
-regr = linear_model.LinearRegression()
-regr.fit(winter[:l,:], futureTint)
-print('Intercept: \n', regr.intercept_)
-print('Coefficients: \n', regr.coef_)
+def sklearn_multireg():
+    regr = linear_model.LinearRegression()
+    l=winter.shape[0]-1
+    regr.fit(winter[:l,:], futureTint)
+    print('Intercept: \n', regr.intercept_)
+    print('Coefficients: \n', regr.coef_)
 
 # regression with statsmodels
-b = sm.add_constant(winter[:l,:]) # adding a constant
-model = sm.OLS(futureTint, b).fit()
-predictions = model.predict(b)
-print_model = model.summary()
-print(print_model)
-
-input("press key")
+def statsmodels_multireg():
+    l=winter.shape[0]-1
+    b = sm.add_constant(winter[:l,:]) # adding a constant
+    model = sm.OLS(futureTint, b).fit()
+    predictions = model.predict(b)
+    print_model = model.summary()
+    print(print_model)
 
 # ***********
 # a generator
@@ -117,46 +86,86 @@ def heating_simple(data,rows,lookback,delay):
         targets[j]=data[rows[j]+delay-1][1]
     return samples, targets
 
-def plot_batch(samples,targets,i):
-    fig, ax1 = plt.subplots()
-    ax1.set_xlabel('time')
-    ax1.set_ylabel('T')
-    ax1.plot(samples[i,:,0], color='tab:red')
-    ax1.plot(samples[i,:,1], color='tab:blue')
-    ax1.tick_params(axis='y')
-    ax2 = ax1.twinx()
-    ax2.set_ylabel('Kwh/h')
-    ax2.plot(samples[i,:,2], color='tab:green')
-    ax2.tick_params(axis='y')
-    fig.tight_layout()  # otherwise the right y-label is slightly clipped
-    target="%.2f" %targets[i]
-    plt.suptitle("el. {} with target {}".format(i,target))
+def plotdatas():
+    plt.subplot(311)
+    #Out temperature
+    plt.plot(winter[:,0])
+    #In temperature
+    plt.plot(winter[:,1])
+    plt.ylabel("In and Out Temp in °C")
+    plt.subplot(312)
+    plt.ylabel("Kwh used for heating per step")
+    plt.plot(winter[:,2])
+    plt.xlabel("Steps - one step = {}s".format(step))
+    plt.subplot(313)
+    plt.scatter(winter[:,0],winter[:,2], color='red')
     plt.show()
 
-def plot(samples,target,text):
+def plotset(samples,target,text,lastonly=True):
     fig, ax1 = plt.subplots()
     ax1.set_xlabel('time')
     ax1.set_ylabel('T')
     ax1.plot(samples[:,0], color='tab:red')
     ax1.plot(samples[:,1], color='tab:blue')
-    for j, v in enumerate(samples[:,1]):
-        ax1.text(j, v, "%.1f" %v, bbox=dict(facecolor='blue', alpha=0.1))
+    if lastonly:
+        j = len(samples[:,1])
+        v = samples[-1,1]
+        ax1.text(j-1, v, "%.2f" %v, bbox=dict(facecolor='blue', alpha=0.1))
+    else:
+        for j, v in enumerate(samples[:,1]):
+            ax1.text(j, v, "%.1f" %v, bbox=dict(facecolor='blue', alpha=0.1))
     ax1.tick_params(axis='y')
     ax2 = ax1.twinx()
     ax2.set_ylabel('Kwh/h')
     ax2.plot(samples[:,2], color='tab:green')
     ax2.tick_params(axis='y')
-    fig.tight_layout()
+    fig.tight_layout() # otherwise the right y-label is slightly clipped
     plt.suptitle("{} - target {}".format(text,"%.2f" %target))
     plt.show()
 
+# Do you want to vizualise a few datasets ?
+vis=True
+# see label of last temperature data only
+lastTlabel = False
+winterStart=1539950400
+#winterStart=1546974000
+print ("Winter starts on {} or {}s unix timestamp".format(humanDate(winterStart),winterStart))
+
+# we assume the winter period to be something like 200 or 210 days
+# number of points per hour
+nbptinh=1
+nbsteps=210*24*nbptinh
+step=3600//nbptinh
+# jump to go from one dataset to another
+jump=nbptinh
+# delay in the future to define the prediction for the dataset
+delay=jump
+#how many hours of lookback to build the sets
+lookback=6
+batch_size=50
+
+## Sampling feeds and tensor construction
+# outdoor, indoor, instant power
+params=[{"id":1,"action":"smp"},{"id":191,"action":"smp"},{"id":139,"action":"acc"}]
+winter=GoToTensor(params,step,winterStart,nbsteps)
+plotdatas()
+
+# first approach - Multiple Linear Regression
+l=winter.shape[0]-1
+futureTint=[]
+for i in range(l):
+    futureTint.append(winter[i+1,1])
+sklearn_multireg()
+statsmodels_multireg()
+input("press key")
+
 # we create the sampling arrays for training and validation
+# 3 weeks for training and 1 week for validation
 start=20*nbptinh
 size=24*3*7*nbptinh
 period=24*4*7*nbptinh
-# fix the jump to go from one dataset to another
-jump=nbptinh
-for i in range(10):
+max = nbsteps // period
+for i in range(max):
     if i==0:
         t=np.arange(start,start+size,jump)
         v=np.arange(start+size,start+period,jump)
@@ -166,36 +175,43 @@ for i in range(10):
     start+=period
 nts=len(t)
 nvs=len(v)
-print(t)
 print("number of training samples : {}".format(nts))
-print(v)
 print("number of validation samples : {}".format(nvs))
-ChecknR(winter,False)
-batch_size=50
-lookback=12
-#heating_train=heating_gen(winter,t,lookback*nbptinh,nbptinh,batch_size)
-#heating_val=heating_gen(winter,v,lookback*nbptinh,nbptinh,batch_size)
+
+ChecknR(winter,True)
+#heating_train=heating_gen(winter,t,lookback*nbptinh,delay,batch_size)
+#heating_val=heating_gen(winter,v,lookback*nbptinh,delay,batch_size)
 #t_steps=nts//batch_size
 #v_steps=nvs//batch_size
-x_train,y_train=heating_simple(winter,t,lookback*nbptinh,nbptinh)
-x_val,y_val=heating_simple(winter,v,lookback*nbptinh,nbptinh)
+x_train,y_train=heating_simple(winter,t,lookback*nbptinh,delay)
+x_val,y_val=heating_simple(winter,v,lookback*nbptinh,delay)
 
+if vis==True:
+    for i in range(10):
+        plotset(x_train[i],y_train[i],"training set. {}".format(i),lastTlabel)
 
-for i in range(10):
-    plot(x_train[i],y_train[i],"training el. {}".format(i))
+    for i in range(10):
+        plotset(x_val[i],y_val[i],"validation set. {}".format(i),lastTlabel)
+    input("press a key")
 
-for i in range(10):
-    plot(x_val[i],y_val[i],"validation el. {}".format(i))
-
-input("press a key")
+# a naive approach as the baseline
+# next temperature in the room equals previous one
+preds=x_val[:,-1,1]
+print(preds[100:110])
+print(y_val[100:110])
+mae=np.mean(np.abs(preds-y_val))
+print(mae)
+input("end of naive approach - press a key")
 
 import tensorflow as tf
 print("TF", tf.__version__)
 model = tf.keras.models.Sequential()
 model.add(tf.keras.layers.Flatten(input_shape=(lookback*nbptinh,winter.shape[-1])))
-model.add(tf.keras.layers.Dense(10, activation='relu'))
-model.add(tf.keras.layers.Dense(10, activation='relu'))
-#model.add(tf.keras.layers.GRU(32,dropout=0.2,recurrent_dropout=0.2,input_shape=(None,winter.shape[-1])))
+model.add(tf.keras.layers.Dense(20, activation='relu'))
+#model.add(tf.keras.layers.Dropout(0.2))
+model.add(tf.keras.layers.Dense(5, activation='relu'))
+#model.add(tf.keras.layers.GRU(10,dropout=0.1,recurrent_dropout=0.5,return_sequences=True,input_shape=(None,winter.shape[-1])))
+#model.add(tf.keras.layers.GRU(5, activation='relu',dropout=0.1, recurrent_dropout=0.5))
 model.add(tf.keras.layers.Dense(1))
 model.compile(optimizer=tf.keras.optimizers.RMSprop(),loss='mae')
 
@@ -212,7 +228,7 @@ class History(tf.keras.callbacks.Callback):
 history = History()
 
 start_time = time.time()
-model.fit(x_train,y_train,batch_size=50,epochs=40,validation_data=(x_val,y_val),callbacks=[history])
+model.fit(x_train,y_train,batch_size=batch_size,epochs=40,validation_data=(x_val,y_val),callbacks=[history])
 model.evaluate(x_val, y_val, verbose=1)
 
 print("Execution time in %s seconds ---" % (time.time() - start_time))
