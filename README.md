@@ -33,7 +33,7 @@ pip3 install tensorflow
 pip3 install --upgrade tensorflow
 pip3 install --upgrade numpy
 ```
-with a CPU-only machine :
+with a CPU-only machine (caution - seem to be deprecated) :
 ```
 pip3 install tensorflow-cpu
 ```
