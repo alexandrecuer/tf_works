@@ -86,7 +86,7 @@ while i < nbsteps:
     i+=Hslices
     j+=1
 plt.plot(t,reag)
-plt.ylabel("Kwh(10)->Kwh(h))")
+plt.ylabel("Kwh({}s)->Kwh({}s))".format(step,step_h))
 
 ChecknR(winter,True)
 plt.subplot(222)
