@@ -11,7 +11,7 @@ tar -xvf emoncms-backup-2019-08-19.tar.gz
 ``` 
 ## finding a model
 
-A model is needed before we can tackle the construction of the intelligent agent that will operate the heating system. 
+A model is needed before we can tackle the construction of the intelligent agent that will operate the HVAC. 
 
 The agent will learn what to do using reinforcement learning techniques.
 
