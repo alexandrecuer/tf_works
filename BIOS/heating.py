@@ -101,7 +101,15 @@ def plotdatas():
     plt.show()
 
 def plotset(samples,target,text,lastonly=True):
-    fig, ax1 = plt.subplots()
+    fig, ax2 = plt.subplots()
+
+    ax2.set_ylabel('Kwh/h')
+    t=np.arange(0,len(samples[:,2]),1)
+    ax2.plot(t,samples[:,2], color='tab:green')
+    ax2.fill_between(t,0,samples[:,2],facecolor='green', alpha=0.3)
+    ax2.tick_params(axis='y')
+
+    ax1 = ax2.twinx()
     ax1.set_xlabel('time')
     ax1.set_ylabel('T')
     ax1.plot(samples[:,0], color='tab:red')
@@ -114,17 +122,14 @@ def plotset(samples,target,text,lastonly=True):
         for j, v in enumerate(samples[:,1]):
             ax1.text(j, v, "%.1f" %v, bbox=dict(facecolor='blue', alpha=0.1))
     ax1.tick_params(axis='y')
-    ax2 = ax1.twinx()
-    ax2.set_ylabel('Kwh/h')
-    ax2.plot(samples[:,2], color='tab:green')
-    ax2.tick_params(axis='y')
+
     fig.tight_layout() # otherwise the right y-label is slightly clipped
     plt.suptitle("{} - target {}".format(text,"%.2f" %target))
     plt.show()
 
 regularize=True
 # Do you want to vizualise a few datasets ?
-vis=False
+vis=True
 # see label of last temperature data only
 lastTlabelOnly = False
 winterStart=1539950400
