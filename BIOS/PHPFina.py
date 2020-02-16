@@ -76,15 +76,14 @@ class PHPFina:
     def getDatas(self,nbSteps):
         start = self._SamplingPos
         nbPtInStep=self._step//self._interval
-        if self._step % self._interval:
-            print("offset !")
-            if self._step % self._interval == 0.5:
-                offset=1
-            else:
-                print("we cannot get the datas - check the intervals")
-                return
-        else:
+        if self._step/self._interval - nbPtInStep == 0:
             offset=0
+        elif self._step/self._interval - nbPtInStep == 0.5:
+            print("we have an half step offset")
+            offset=1
+        else:
+            print("offset - we cannot get the datas - check steps/intervals")
+            return
         position=int(start*4)
         with open(self._dir+"/"+str(self._nb)+".dat", "rb") as ts:
             for i in range(nbSteps):
