@@ -40,8 +40,7 @@ def ChecknR(tensor,regularize=True):
     std=tensor.std(axis=0)
     if regularize:
         tensor/=std
-    print(mean)
-    print(std)
+    return mean, std
 
 # regression with sklearn
 def sklearn_multireg():
@@ -123,10 +122,11 @@ def plotset(samples,target,text,lastonly=True):
     plt.suptitle("{} - target {}".format(text,"%.2f" %target))
     plt.show()
 
+regularize=True
 # Do you want to vizualise a few datasets ?
-vis=True
+vis=False
 # see label of last temperature data only
-lastTlabel = False
+lastTlabelOnly = False
 winterStart=1539950400
 #winterStart=1546974000
 print ("Winter starts on {} or {}s unix timestamp".format(humanDate(winterStart),winterStart))
@@ -141,7 +141,7 @@ jump=nbptinh
 # delay in the future to define the prediction for the dataset
 delay=jump
 #how many hours of lookback to build the sets
-lookback=6
+lookback=12
 batch_size=50
 
 ## Sampling feeds and tensor construction
@@ -178,7 +178,10 @@ nvs=len(v)
 print("number of training samples : {}".format(nts))
 print("number of validation samples : {}".format(nvs))
 
-ChecknR(winter,True)
+winterbis=winter
+mean, std = ChecknR(winter,regularize)
+print(mean)
+print(std)
 #heating_train=heating_gen(winter,t,lookback*nbptinh,delay,batch_size)
 #heating_val=heating_gen(winter,v,lookback*nbptinh,delay,batch_size)
 #t_steps=nts//batch_size
@@ -188,10 +191,10 @@ x_val,y_val=heating_simple(winter,v,lookback*nbptinh,delay)
 
 if vis==True:
     for i in range(10):
-        plotset(x_train[i],y_train[i],"training set. {}".format(i),lastTlabel)
+        plotset(x_train[i],y_train[i],"training set. {}".format(i),lastTlabelOnly)
 
     for i in range(10):
-        plotset(x_val[i],y_val[i],"validation set. {}".format(i),lastTlabel)
+        plotset(x_val[i],y_val[i],"validation set. {}".format(i),lastTlabelOnly)
     input("press a key")
 
 # a naive approach as the baseline
@@ -203,16 +206,29 @@ mae=np.mean(np.abs(preds-y_val))
 print(mae)
 input("end of naive approach - press a key")
 
+input_shape=(lookback*nbptinh,winter.shape[-1])
 import tensorflow as tf
 print("TF", tf.__version__)
+#tf.keras.backend.set_floatx('float64')
+
+inputs=tf.keras.Input(shape=input_shape)
+x=tf.keras.layers.Flatten()(inputs)
+x=tf.keras.layers.Dense((20), activation='relu')(x)
+x=tf.keras.layers.Dense((5), activation='relu')(x)
+outputs=tf.keras.layers.Dense(1)(x)
+model=tf.keras.Model(inputs=inputs,outputs=outputs)
+
+"""
 model = tf.keras.models.Sequential()
-model.add(tf.keras.layers.Flatten(input_shape=(lookback*nbptinh,winter.shape[-1])))
+model.add(tf.keras.layers.Flatten(input_shape=input_shape))
 model.add(tf.keras.layers.Dense(20, activation='relu'))
 #model.add(tf.keras.layers.Dropout(0.2))
 model.add(tf.keras.layers.Dense(5, activation='relu'))
 #model.add(tf.keras.layers.GRU(10,dropout=0.1,recurrent_dropout=0.5,return_sequences=True,input_shape=(None,winter.shape[-1])))
 #model.add(tf.keras.layers.GRU(5, activation='relu',dropout=0.1, recurrent_dropout=0.5))
 model.add(tf.keras.layers.Dense(1))
+"""
+
 model.compile(optimizer=tf.keras.optimizers.RMSprop(),loss='mae')
 
 class History(tf.keras.callbacks.Callback):
@@ -242,3 +258,19 @@ plt.plot(epochs,val_loss,'b',label='validation loss')
 plt.title("validation and training loss")
 plt.legend()
 plt.show()
+
+model.summary()
+nbres=15
+if regularize:
+    predictions=mean[1]+std[1]*model.predict(x_val[:nbres])[:,0]
+    truths=mean[1]+std[1]*y_val[:nbres]
+else:
+    predictions=model.predict(x_val[:nbres])[:,0]
+    truths=y_val[:nbres]
+
+print("the predictions")
+print(predictions)
+print("the truths")
+print(truths)
+print("the deltas")
+print(np.abs(predictions-truths))
