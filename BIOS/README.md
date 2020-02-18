@@ -15,9 +15,15 @@ A model is needed before we can tackle the construction of the intelligent agent
 
 The agent will learn what to do using reinforcement learning techniques.
 
-3 options explored :
-- multilinear regression
-- naive approach = next temperature in the room equals temperature at previous step
+naive approach = next temperature in the room equals temperature at previous step
+-  
+2 options explored :
+
+### multilinear regression
+```
+python3 mlreg.py
+```
+- 
 - blackbox approach with supervised machine learning
 
 ```
