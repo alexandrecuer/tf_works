@@ -1,6 +1,6 @@
-# tensor flow works
+# operating systems with machine intelligence
 
-just a place to gather all work related to tensor flow - started in 2020
+just a place to gather all IA works (mostly related to tensor flow but not only) - started in 2020
 
 ## Configuration
 
