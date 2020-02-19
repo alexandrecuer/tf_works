@@ -56,7 +56,7 @@ Common sense tells us that indoor temperatures vary little compared to outdoor t
 So the naive approach could be to consider that next temperature in the room equals temperature at previous step. 
 This approach cannot be implemented as we need to predict over one week or more
 
-### multilinear regression
+### blackbox approach using multilinear regression
 
 ```
 python3 mlreg.py
