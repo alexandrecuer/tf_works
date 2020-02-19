@@ -90,9 +90,9 @@ for z in range(10):
         # in each input, we find the indoor T values from index history_size to 2*history_size-1
         # the number of indoor T values is history_size
         # l is the size of the pred array
-        # to make the predictions step by step :
-        # - if l < history_size, we have to replace the last l T values by the predicted ones
-        # - if l >= history_size, we have to replace the whole history_size values in the input by the predicted ones
+        # to make the predictions step by step, we need to modify the input vector :
+        # - if l < history_size, we have to replace the last l indoor T values by the predicted ones
+        # - if l >= history_size, we have to replace the whole history_size indoor T values by the predicted ones
         input=float_data[nbset+k]
         if len(pred)>0:
             if len(pred)>history_size:
