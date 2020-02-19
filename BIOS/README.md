@@ -1,14 +1,5 @@
-# Allier Habitat dataset
+# BIOS : Building Intelligent Operating System
 
-collected over one year (June 2018 to august 2019)
-
-3 single-family homes with electric heating
-``` 
-git clone https://github.com/alexandrecuer/tf_works
-cd tf_works/BIOS
-wget https://raw.githubusercontent.com/alexandrecuer/smartgrid/master/datasets/emoncms-backup-2019-08-19.tar.gz
-tar -xvf emoncms-backup-2019-08-19.tar.gz
-```
 the problem : Regarding comfort and energy savings, would it be possible to improve the operation of HVAC systems, in the field of **tertiary buildings**, using reinforcement learning (RL) techniques ? Could it be possible to train an intelligent agent in a sandbox running an appropriate model and then to drop it on the field ?
 
 A model is needed before we can tackle the construction of an intelligent agent that will operate the HVAC. 
@@ -41,6 +32,20 @@ in offline reinforcement learning mode, a typical training step can be described
 - the system trains the agent on a random batch
 
 On the field, the monitored thruth (Tint) will replace the model
+
+## datasets
+
+### Allier Habitat dataset
+
+collected over one year (June 2018 to august 2019)
+
+3 single-family homes with electric heating
+``` 
+git clone https://github.com/alexandrecuer/tf_works
+cd tf_works/BIOS
+wget https://raw.githubusercontent.com/alexandrecuer/smartgrid/master/datasets/emoncms-backup-2019-08-19.tar.gz
+tar -xvf emoncms-backup-2019-08-19.tar.gz
+```
 
 ## finding a model
 
