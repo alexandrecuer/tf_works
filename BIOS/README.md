@@ -52,9 +52,12 @@ For a given building, the model has to find the "next" correct internal temperat
 
 ### naive approach
 
-next temperature in the room equals temperature at previous step - OK for t = 1, not more
+Common sense tells us that indoor temperatures vary little compared to outdoor temperatures. 
+So the naive approach could be to consider that next temperature in the room equals temperature at previous step. 
+This approach cannot be implemented as we need to predict over one week or more
 
 ### multilinear regression
+
 ```
 python3 mlreg.py
 ```
