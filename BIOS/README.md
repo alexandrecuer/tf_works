@@ -12,28 +12,33 @@ tar -xvf emoncms-backup-2019-08-19.tar.gz
 the problem : Regarding comfort and energy savings, would it be possible to improve the operation of HVAC systems, in the field of **tertiary buildings**, using reinforcement learning (RL) techniques ? Could it be possible to train an intelligent agent in a sandbox running an appropriate model and then to drop it on the field ?
 
 A model is needed before we can tackle the construction of an intelligent agent that will operate the HVAC. 
-We have to keep in mind the difficulty to acquire representative datas for each phenomena we need to describe in order to properly cover our problematic (i.e. the energy supply of the building). A range of 1 year of real-life datas is a small thing as real-life is very different from gaming experience, a field where RL has proven to be efficient. So we need to compensate using modelization....
+We have to keep in mind the difficulty to acquire representative datas for each phenomena we need to accurately describe in order to properly cover our problematic (i.e. the energy supply of the building). A range of 1 year of real-life datas is a small thing as real-life is very different from gaming experience, a field where RL has proven to be efficient. So we need to compensate using modelization....
 
 An hour is a reasonable timestep, so :
-- t = 1 means t + 1 hour
-- t = plus48 means t + 48 hours (a full weekend range)
+- t = 1 means now + 1 hour
+- t = plus48 means now + 48 hours (a full weekend range)
 
-The agent will have to estimate PKwh(t in 1 -> plus48) in order to reach, at t = plus48, the confort temperature setpoint, given some history (monitoring) and simulation inputs...
+Use case example : the agent will have to estimate PKwh(t in 1 -> plus48) in order to reach, at t = plus48, the confort temperature set-point, given some history (monitoring) and simulation inputs...
 
-monitored data inputs :
-- PKwh(t in -10 -> 0) 
-- Text(t in -10 -> 0)
-- Tint(t in -10 -> 0)
 
-simulated data inputs :
-- Text(t in 1 -> plus48)
+<table>
+  <tr>
+    <td>monitored data inputs :</td><td>simulated data inputs :</td>
+  </tr><tr>
+    <td>PKwh(t in -10 -> 0)</td><td>Text(t in 1 -> plus48)</td>
+  </tr><tr>
+    <td>Text(t in -10 -> 0)</td><td></td>
+  </tr><tr>
+    <td>Tint(t in -10 -> 0)</td><td></td>
+ </tr>
+</table>
 
-in offline reinforcement learning mode, a typical step can be described as follow :
-- the agent will calculate PKwh(t in 1 -> plus48)
-- the model will evaluate Tint(t in 1 -> plus48)
-- the system will rate and record the performance in a memory
-- the system will use the memory to create batches on the fly
-- the system train the agent on a random batch
+in offline reinforcement learning mode, a typical training step can be described as follow :
+- the agent calculates PKwh(t in 1 -> plus48)
+- the model evaluates Tint(t in 1 -> plus48)
+- the system rates and records the performance in a memory
+- the system uses the memory to create batches on the fly
+- the system trains the agent on a random batch
 
 On the field, the monitored thruth (Tint) will replace the model
 
