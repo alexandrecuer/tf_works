@@ -95,4 +95,5 @@ virtualbox &
 ## Jupiter notebook
 ```
 pip3 install jupyter
+sudo apt-get install texlive-full
 ```
