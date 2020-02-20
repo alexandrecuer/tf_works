@@ -91,3 +91,8 @@ Launch virtualbox
 ```
 virtualbox &
 ```
+
+## Jupiter notebook
+```
+pip3 install jupyter
+```
