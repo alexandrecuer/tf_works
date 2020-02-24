@@ -83,7 +83,7 @@ keep_for_validation=1500
 
 debug=False
 
-training=False
+training=True
 
 # we cannot mix multi-simulation and muti-size prediction
 if singlesim==False and target_size>1:
