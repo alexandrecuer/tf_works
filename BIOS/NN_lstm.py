@@ -154,7 +154,8 @@ col = ["blue", "green", "red"]
 
 for nbset in range(len(labels)):
 #for z in range(10):
-#    nbset=random.randint(0,len(labels))
+    # randint(a,b) returns an int N such as a <= N <=b
+#    nbset=random.randint(0,len(labels)-1)
     if singlesim:
         end=target_size+5
     else:
