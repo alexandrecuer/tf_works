@@ -7,6 +7,7 @@ import matplotlib.pylab as plt
 from PHPFina import PHPFina,humanDate
 from pandas import DataFrame
 from sklearn import linear_model
+import copy
 
 def InitializeFeed(nb,step,start):
     feed=PHPFina(nb,step)
@@ -38,26 +39,42 @@ step=3600//nbptinh
 params=[{"id":1,"action":"smp"},{"id":191,"action":"smp"},{"id":139,"action":"acc"}]
 winter=GoToTensor(params,step,winterStart,nbsteps)
 
-# we just fetch a 10 minutes discretisation of the PHPFina indoor temperature feed
-tint10m=GoToTensor([{"id":191,"action":"smp"}],600,winterStart,nbsteps*6)
-
-history_size=24
-future=1
+history_size=10
 # how many hours in the future are we going to simulate ?
-goto=100
+goto=48
+# where to cut the dataset
+keep_for_validation=1500
 
-l=winter.shape[0]-history_size
-float_data=np.zeros((l,winter.shape[1]*history_size))
+debug=False
+# l is the number of datasets we can construct with the timeseries
+# we assume to make an only prediction 1 hour in the future, so we need to keep the last point aside
+l=winter.shape[0]-1-history_size
+# tsize is the training size
+tsize=l-keep_for_validation
+
+print("size for multiregression is : {}".format(tsize))
+train_mean = winter[:history_size+tsize].mean(axis=0)
+train_std = winter[:history_size+tsize].std(axis=0)
+print(train_mean)
+print(train_std)
+# regularize all the dataset but keep a copy in order not to recalculate things for nothing
+physics = copy.deepcopy(winter)
+winter = (winter-train_mean)/train_std
+
+# we build the matrix column by column
+msize=winter.shape[0]-history_size
+float_data=np.zeros((msize,winter.shape[1]*history_size))
 indice=0
 for j in range(winter.shape[1]):
     for i in range(history_size):
-        float_data[:,indice]=winter[i:i+l,j]
+        float_data[:,indice]=winter[i:i+msize,j]
         indice+=1
-
-futureTint=winter[history_size+future:l+future,1]
+print(float_data.shape)
+futureTint=winter[history_size:winter.shape[0],1]
+print(len(futureTint))
 
 regr = linear_model.LinearRegression()
-regr.fit(float_data[0:futureTint.shape[0]], futureTint)
+regr.fit(float_data[0:tsize], futureTint[0:tsize])
 
 print('Intercept: \n', regr.intercept_)
 print('Coefficients: \n', regr.coef_)
@@ -66,58 +83,73 @@ plt.subplot(111)
 plt.plot(regr.coef_)
 plt.show()
 
-history_range=list(range(-history_size+1, 1))
+lab = ["out. temp","indoor temp", "Kwh"]
+col = ["blue", "green", "red"]
 
-for z in range(10):
-    nbset=random.randint(0,float_data.shape[0]-goto)
+history_range=list(range(-history_size, 0))
+future_range=list(range(0,goto))
 
-    plt.subplot(311)
-    plt.ylabel("T in and out")
-    plt.title("dataset {}".format(nbset))
-    #plt.xlim([history_range[0], (future+5)*2])
+for nbset in range(tsize,float_data.shape[0]-goto-1):
+#for z in range(10):
+#    nbset=random.randint(0,float_data.shape[0]-goto)
+
+    ax1 = plt.subplot(311)
+    plt.ylabel("T in and out °C")
+    plt.title("dataset {}".format(history_size+nbset))
 
     plt.xlim([history_range[0], goto+5])
-    future_range=list(range(future,future+goto))
-    if goto < 20:
-        plt.plot(future_range,futureTint[nbset:nbset+goto], 'go', label = "True future")
-    elif goto >= 20:
-        plt.plot(future_range,futureTint[nbset:nbset+goto], label = "True future")
+
+    plt.plot(future_range,futureTint[nbset:nbset+goto], 'rx', label = "True future", color=col[1])
 
     # pred is an array to store the predictions step by step
     pred=[]
     for k in range(goto):
-        # the input for the model
-        # in each input, we find the indoor T values from index history_size to 2*history_size-1
+        # the input sample for the model
+        # in each sample, we find the indoor T values from index history_size to 2*history_size-1
         # the number of indoor T values is history_size
         # l is the size of the pred array
-        # to make the predictions step by step, we need to modify the input vector :
-        # - if l < history_size, we have to replace the last l indoor T values by the predicted ones
-        # - if l >= history_size, we have to replace the whole history_size indoor T values by the predicted ones
-        input=float_data[nbset+k]
+        # to make the predictions step by step :
+        # - if l < history_size, we have to replace the last l T values by the predicted ones
+        # - if l >= history_size, we have to replace the whole history_size values in the sample by the predicted ones
+        sample=copy.deepcopy(float_data[nbset+k])
+        if debug:
+            print(pred)
+            print("before injection")
+            print(sample)
         if len(pred)>0:
             if len(pred)>history_size:
-                simTs=pred[len(pred)-1-history_size:len(pred)-1]
+                simTs=pred[-history_size:]
             else:
                 simTs=pred
-            input[2*history_size-1-min(len(pred),history_size):2*history_size-1]=simTs
-        prediction=np.sum(regr.coef_*input)+regr.intercept_
+            sample[2*history_size-min(len(pred),history_size):2*history_size]=simTs
+        if debug:
+            print("after injection")
+            print(sample)
+            input("press any key")
+        prediction=np.sum(regr.coef_*sample)+regr.intercept_
         pred.append(prediction)
-        #print(pred)
-    if goto < 20:
-        plt.plot(future_range,pred,'rx',label="multilinear prediction")
-    elif goto >= 20:
-        plt.plot(future_range,pred,label="multilinear prediction")
+
+    plt.plot(future_range,pred,'o',label="multilinear prediction", color=col[1])
+    for i in range(2):
+        plt.plot(history_range, float_data[nbset,i*history_size:(i+1)*history_size], 'rx', color=col[i])
+        plt.plot(history_range,winter[nbset:nbset+history_size,i],color=col[i], label=lab[i])
+        plt.plot(future_range,winter[nbset+history_size:nbset+history_size+goto,i], color=col[i])
     plt.legend()
-    for i in range(winter.shape[1]):
-        if i == winter.shape[1]-1:
-            plt.subplot(312)
-            plt.xlim([history_range[0], goto+5])
-            plt.ylabel("Kwh used for heating per step")
-        plt.plot(history_range, float_data[nbset,i*history_size:(i+1)*history_size])
-    # this is the last subplot with a full range view of indoor and outdoor temperatures
-    plt.subplot(313)
-    t = np.arange(0, nbsteps*6, 6)
-    plt.plot(t,winter[:,0])
-    plt.plot(t,winter[:,1])
-    plt.plot(tint10m[:,0])
+
+    plt.subplot(312, sharex=ax1)
+    plt.plot(future_range,train_mean[i]+train_std[i]*np.array(pred),'o',label="multilinear prediction", color=col[1])
+    for i in range(2):
+        plt.plot(history_range, train_mean[i]+train_std[i]*float_data[nbset,i*history_size:(i+1)*history_size], 'rx', color=col[i])
+        plt.plot(history_range,physics[nbset:nbset+history_size,i],color=col[i], label=lab[i])
+        plt.plot(future_range,physics[nbset+history_size:nbset+history_size+goto,i], color=col[i])
+    plt.legend()
+
+    plt.subplot(313, sharex=ax1)
+    plt.xlim([history_range[0], goto+5])
+    plt.plot(history_range, train_mean[2]+train_std[2]*float_data[nbset,2*history_size:3*history_size], 'rx', color=col[2] )
+    plt.plot(history_range,physics[nbset:nbset+history_size,2],color=col[2], label=lab[2])
+    plt.plot(future_range,physics[nbset+history_size:nbset+history_size+goto,2], color=col[2])
+    plt.legend()
+
     plt.show()
+
