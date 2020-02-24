@@ -70,5 +70,5 @@ python3 mlreg.py
 ### blackbox approach with supervised machine learning
 
 ```
-python3 heating.py
+python3 NN_lstm.py
 ```
