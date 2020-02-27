@@ -220,7 +220,7 @@ class BuildingZone():
         vdat=np.array(self._val_datas)
         vlab=np.array(self._val_labels)
         # if using a second layer, should add return_sequences=True
-        self._LSTMmodel.add(tf.keras.layers.LSTM(32, dropout=0.1, recurrent_dropout=0.45 , input_shape=tdat.shape[-2:]))
+        self._LSTMmodel.add(tf.keras.layers.LSTM(32, dropout=0.05, recurrent_dropout=0.50 , input_shape=tdat.shape[-2:]))
         self._LSTMmodel.add(tf.keras.layers.Dense(self._target_size))
         self._LSTMmodel.compile(optimizer=tf.keras.optimizers.RMSprop(), loss='mae')
         history = self._LSTMmodel.fit(tdat, tlab, epochs=20,batch_size=50,validation_data=(vdat, vlab))
