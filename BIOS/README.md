@@ -61,14 +61,5 @@ Common sense tells us that indoor temperatures vary little compared to outdoor t
 So the naive approach could be to consider that next temperature in the room equals temperature at previous step. 
 This approach cannot be implemented as we need to predict over one week or more
 
-### blackbox approach using multilinear regression
+### blackbox approach using multilinear regression VS supervised machine learning
 
-```
-python3 mlreg.py
-```
-
-### blackbox approach with supervised machine learning
-
-```
-python3 NN_lstm.py
-```
