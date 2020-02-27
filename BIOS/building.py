@@ -71,7 +71,7 @@ class BuildingZone():
 
     def MLAprepare(self, datas, labelsToPhysicsValue=False):
         """
-        prepare datas for multinear Regression
+        prepare datas for multilinear Regression
 
         :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
         :return: 2 numpy arrays
