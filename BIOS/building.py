@@ -69,6 +69,12 @@ class BuildingZone():
         self._MLAregularize=True
         self._LSTMmodel = tf.keras.models.Sequential()
 
+    def CalcMeanStd(self, datas):
+        self._mean = datas.mean(axis=0)
+        self._std = datas.std(axis=0)
+        print(self._mean)
+        print(self._std)
+
     def MLAprepare(self, datas, labelsToPhysicsValue=False):
         """
         prepare datas for multilinear Regression
@@ -80,6 +86,11 @@ class BuildingZone():
         you have to prepare AND to transmit the result of preparation to the predict method
         MLA_datas, MLA_labels = MLAprepare(datas)
         MLApredict(MLA_datas,nbset,goto)
+
+        each line of the returned MLA_datas array is a sample, we find :
+        - the outdoor temperature values (x history_size) from index 0 to history_size-1
+        - the indoor temperature values from index history_size to 2*history_size-1
+        - the energy consumptions in kwh from 2*history_size to 3*history_size-1
         """
         clone=copy.deepcopy(datas)
         if self._MLAregularize:
@@ -119,20 +130,19 @@ class BuildingZone():
         executes prediction(s) step by step with the multilinear method
         prediction 10 is made using all 9 previous predictions
 
-        :param datas: an array with the samples to use
+        :param datas: an array with the samples to use, as produced by the MLAprepare method
         :param nbset: the first sample to use for prediction
         :param goto: the number of prediction(s) to realize
         if goto is set to 1, the method will realize only one prediction
+
+        pred is an array to store the predictions step by step
+        l is the size of the pred array
+        to make the predictions step by step :
+          - if l < history_size, we have to replace the last l T values by the predicted ones
+          - if l >= history_size, we have to replace the whole history_size values in the sample by the predicted ones
         """
-        # pred is an array to store the predictions step by step
         pred=[]
         for k in range(goto):
-            # in each sample, we find the indoor T values from index history_size to 2*history_size-1
-            # the number of indoor T values is history_size
-            # l is the size of the pred array
-            # to make the predictions step by step :
-            # - if l < history_size, we have to replace the last l T values by the predicted ones
-            # - if l >= history_size, we have to replace the whole history_size values in the sample by the predicted ones
             sample=copy.deepcopy(datas[nbset+k])
             if self._debug:
                 print(pred)
@@ -160,12 +170,6 @@ class BuildingZone():
         plt.plot(self._MLAcoef)
         plt.show()
 
-    def CalcMeanStd(self, datas):
-        self._mean = datas.mean(axis=0)
-        self._std = datas.std(axis=0)
-        print(self._mean)
-        print(self._std)
-
     def ClearSets(self, train=True):
         """
         clear datas and labels arrays
@@ -177,14 +181,21 @@ class BuildingZone():
             self._val_datas=[]
             self._val_labels=[]
 
-    def AddSets(self, datas, regularize=True, forTrain=True):
+    def AddSets(self, datas, regularize=True, forTrain=True, shuffle=True):
+        """
+        feed the datas and labels array
+        :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+        :param regularize: boolean - if set to True, datas are regularized with the mean/std technique
+        :param forTrain: boolean - if set to True, datasets constructed are injected into train_datas and train_labels
+        :param shuffle: boolean - if set to True with fortrain=True, randomize the training datasets
+        """
         clone=copy.deepcopy(datas)
         if regularize:
             clone=(clone-self._mean)/self._std
         # l is the number of datasets we can construct with datas
         l=clone.shape[0]-self._target_size-self._history_size
         rows=np.arange(self._history_size,self._history_size+l,1)
-        if forTrain:
+        if forTrain and shuffle:
             np.random.shuffle(rows)
         if self._debug:
             print(rows.shape)
@@ -200,12 +211,16 @@ class BuildingZone():
                 self._val_labels.append(clone[rows[j]:rows[j]+self._target_size,1])
 
     def LSTMfit(self, name):
+        """
+        fit an LTSM model using train and val datas/labels defined by the method AddSets()
+        :param name: filename to save the model
+        """
         tdat=np.array(self._train_datas)
         tlab=np.array(self._train_labels)
         vdat=np.array(self._val_datas)
         vlab=np.array(self._val_labels)
-        self._LSTMmodel.add(tf.keras.layers.LSTM(32, return_sequences=True, input_shape=tdat.shape[-2:]))
-        self._LSTMmodel.add(tf.keras.layers.LSTM(16, activation='relu'))
+        # if using a second layer, should add return_sequences=True
+        self._LSTMmodel.add(tf.keras.layers.LSTM(32, dropout=0.1, recurrent_dropout=0.45 , input_shape=tdat.shape[-2:]))
         self._LSTMmodel.add(tf.keras.layers.Dense(self._target_size))
         self._LSTMmodel.compile(optimizer=tf.keras.optimizers.RMSprop(), loss='mae')
         history = self._LSTMmodel.fit(tdat, tlab, epochs=20,batch_size=50,validation_data=(vdat, vlab))
@@ -213,9 +228,26 @@ class BuildingZone():
         self._LSTMmodel.save('{}.h5'.format(name))
 
     def LSTMload(self, name):
+        """
+        load an existing model
+        """
         self._LSTMmodel = tf.keras.models.load_model('{}.h5'.format(name))
 
     def LSTMpredict(self, nbset, goto, **kwargs):
+        """
+        executes prediction(s) step by step with the LSTM fitted model
+        prediction 10 is made using all 9 previous predictions
+
+        :param nbset: the first sample to use for prediction
+        :param goto: the number of prediction(s) to realize
+        if goto is set to 1, the method will realize only one prediction
+
+        t = tensor created by GoToTensor on the basis of some PHPFina timeseries
+        by defaut, uses with the _val_datas and _val_labels recorded by the method AddSets(t)
+        we assume that t.shape = (x,y)
+        :param datas: (optional) array of datasets - shape (history_size,y)
+        :param labels: (optional) array of labels
+        """
         pred=[]
         truth=[]
         if len(kwargs)==0:
@@ -245,7 +277,7 @@ class BuildingZone():
                 if self._debug:
                     print("before injection")
                     print(sample)
-                # we have to update the last min(len(pred),history_size) elements in the temperature column (1)
+                # we have to update the last min(len(pred),history_size) elements in the temperature column (index 1)
                 sample[-min(len(pred),self._history_size):,1]=simTs
             if self._debug:
                 print("after sim injection")
@@ -261,8 +293,17 @@ class BuildingZone():
 
     # uses the val datas as train datas are shuffled
     # nbset is the number of the set in the val array
-    # physics are the original unregularized datas
-    def viewValSet(self, physics, nbset, nbpreds, preds=None):
+    # physics are
+    def viewValSet(self, physics, nbset, nbpreds, **kwargs):
+        """
+        datasets vizualisation
+        :param physics : the original unregularized tensor, as produced by GoToTensor, in order not to recalculate things for nothing
+        :param nbset : the starting index (which will be at x=0 on the window)
+        :param nbpreds : the vizu window will go from x=-history_size to x=nbpreds
+        :param MLApreds : (optional) array of nbpreds predictions with the MLA model
+        :param LSTMpreds : (optional) array of nbpreds predictions with the LSTM model
+        :param MLAtruths, LSTMtruths : (optional) array of truths
+        """
         history_range=list(range(-self._history_size, 0))
         future_range=list(range(0,nbpreds))
         zero=nbset+self._history_size
@@ -273,11 +314,16 @@ class BuildingZone():
         plt.xlim([history_range[0], future_range[-1]])
         truefuture=self._val_labels[nbset]*self._std[1]+self._mean[1]
         plt.plot(0,truefuture, 'o', label='true future', color=self._col[1])
-        if preds is not None:
-            plt.plot(future_range,preds[0],'+',label="multilinear preds", color="black")
-            plt.plot(future_range,preds[1],'o', color=self._col[1])
-            plt.plot(future_range,preds[2],'*',label="LSTM preds", color="black")
-            plt.plot(future_range,preds[3],'*',label="LSTM labels", color="orange")
+        if len(kwargs):
+            for key, vals in kwargs.items():
+                if key == "MLApreds":
+                    plt.plot(future_range,vals,'+',label="multilinear preds", color="black")
+                if key == "LSTMpreds":
+                    plt.plot(future_range,vals,'*',label="LSTM preds", color="black")
+                if key == "MLAtruths":
+                    plt.plot(future_range,vals,'o', color=self._col[1])
+                if key == "LSTMtruths":
+                    plt.plot(future_range,vals,'*',label="LSTM labels", color="orange")
         values=self._val_datas[nbset]*self._std+self._mean
         for k in range(3):
             if k == 2:
