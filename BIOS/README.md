@@ -69,7 +69,7 @@ This approach cannot be implemented as we need to predict over one week or more
 Two classes have been implemented : PHPFina and BuildingZone, plus one external method named GoToTensor
 - PHPFina is used to sample the PHPFina hexa timeseries
 - GoToTensor permits to create a numpy array/tensor from the samples 
-- BuildingZone stores the datasets and implements fitting and prediction using a basic multinear approach and/or a LSTM (Long Short term Memory) neural network 
+- BuildingZone creates+stores the datasets and implements fitting and prediction using a basic multinear approach and/or a LSTM (Long Short term Memory) neural network 
 
 Structure of a tensor is :
 - tensor[:,0] = outdoor temperature values (at the step)
