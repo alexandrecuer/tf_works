@@ -67,9 +67,14 @@ class BuildingZone():
         self._MLAintercept=0
         self._MLAcoef=[]
         self._MLAregularize=True
+        self._regularize=True
         self._LSTMmodel = tf.keras.models.Sequential()
 
     def CalcMeanStd(self, datas):
+        """
+        calculate and store mean and standard deviation on the population
+        :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+        """
         self._mean = datas.mean(axis=0)
         self._std = datas.std(axis=0)
         print(self._mean)
@@ -128,7 +133,7 @@ class BuildingZone():
     def MLApredict(self,datas,nbset,goto):
         """
         executes prediction(s) step by step with the multilinear method
-        prediction 10 is made using all 9 previous predictions
+        for example, prediction 11 is made using all 10 previous predictions, if history_size is 10
 
         :param datas: an array with the samples to use, as produced by the MLAprepare method
         :param nbset: the first sample to use for prediction
@@ -138,7 +143,7 @@ class BuildingZone():
         pred is an array to store the predictions step by step
         l is the size of the pred array
         to make the predictions step by step :
-          - if l < history_size, we have to replace the last l T values by the predicted ones
+          - if l < history_size, we have to replace the last l temperature values by the predicted ones
           - if l >= history_size, we have to replace the whole history_size values in the sample by the predicted ones
         """
         pred=[]
@@ -181,16 +186,21 @@ class BuildingZone():
             self._val_datas=[]
             self._val_labels=[]
 
+    def regularizeSets(self, regularize=True):
+        """
+        :param regularize: boolean - if set to True, all datasets processed will be regularized with the mean/std technique
+        """
+        self._regularize=regularize
+
     def AddSets(self, datas, regularize=True, forTrain=True, shuffle=True):
         """
         feed the datas and labels array
         :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
-        :param regularize: boolean - if set to True, datas are regularized with the mean/std technique
         :param forTrain: boolean - if set to True, datasets constructed are injected into train_datas and train_labels
         :param shuffle: boolean - if set to True with fortrain=True, randomize the training datasets
         """
         clone=copy.deepcopy(datas)
-        if regularize:
+        if self._regularize:
             clone=(clone-self._mean)/self._std
         # l is the number of datasets we can construct with datas
         l=clone.shape[0]-self._target_size-self._history_size
@@ -236,7 +246,7 @@ class BuildingZone():
     def LSTMpredict(self, nbset, goto, **kwargs):
         """
         executes prediction(s) step by step with the LSTM fitted model
-        prediction 10 is made using all 9 previous predictions
+        for example, prediction 11 is made using all 10 previous predictions, if history_size is 10
 
         :param nbset: the first sample to use for prediction
         :param goto: the number of prediction(s) to realize
@@ -286,7 +296,7 @@ class BuildingZone():
             sample=sample.reshape(1,self._history_size,datas.shape[-2:][1])
             prediction=self._LSTMmodel.predict(sample)
             pred.append(prediction[0,0])
-        if self._MLAregularize:
+        if self._regularize:
             pred=np.array(pred)*self._std[1]+self._mean[1]
             truth=np.array(truth)*self._std[1]+self._mean[1]
         return pred, truth
@@ -294,15 +304,14 @@ class BuildingZone():
     # uses the val datas as train datas are shuffled
     # nbset is the number of the set in the val array
     # physics are
-    def viewValSet(self, physics, nbset, nbpreds, **kwargs):
+    def view(self, physics, nbset, nbpreds, **kwargs):
         """
         datasets vizualisation
         :param physics : the original unregularized tensor, as produced by GoToTensor, in order not to recalculate things for nothing
         :param nbset : the starting index (which will be at x=0 on the window)
         :param nbpreds : the vizu window will go from x=-history_size to x=nbpreds
-        :param MLApreds : (optional) array of nbpreds predictions with the MLA model
-        :param LSTMpreds : (optional) array of nbpreds predictions with the LSTM model
-        :param MLAtruths, LSTMtruths : (optional) array of truths
+        :param **pred** : (optional) array of nbpreds predictions with a model
+        :param **truth** : (optional) array of truths
         """
         history_range=list(range(-self._history_size, 0))
         future_range=list(range(0,nbpreds))
@@ -315,15 +324,14 @@ class BuildingZone():
         truefuture=self._val_labels[nbset]*self._std[1]+self._mean[1]
         plt.plot(0,truefuture, 'o', label='true future', color=self._col[1])
         if len(kwargs):
+            icons=['+','*','o','*']
+            indice=0
             for key, vals in kwargs.items():
-                if key == "MLApreds":
-                    plt.plot(future_range,vals,'+',label="multilinear preds", color="black")
-                if key == "LSTMpreds":
-                    plt.plot(future_range,vals,'*',label="LSTM preds", color="black")
-                if key == "MLAtruths":
-                    plt.plot(future_range,vals,'o', color=self._col[1])
-                if key == "LSTMtruths":
-                    plt.plot(future_range,vals,'*',label="LSTM labels", color="orange")
+                if "pred" in key.lower() :
+                    plt.plot(future_range,vals,icons[indice],label="{}.".format(key), color="black")
+                if "truth" in key.lower() :
+                    plt.plot(future_range,vals,icons[indice], color=self._col[1])
+                indice+=1
         values=self._val_datas[nbset]*self._std+self._mean
         for k in range(3):
             if k == 2:
