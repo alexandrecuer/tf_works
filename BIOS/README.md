@@ -63,7 +63,19 @@ This approach cannot be implemented as we need to predict over one week or more
 
 ### blackbox approach using multilinear regression VS supervised machine learning
 
-how to use :
+Two classes have been implemented PHPFina and BuildingZone, plus one external method named GoToTensor
+- PHPFina is used to sample the PHPFina hexa timeseries
+- GoToTensor permits to create a tensor from the samples 
+- BuildingZone stores the datasets and implements fitting and prediction using a basic multinear approach and/or a LSTM (Long Short term Memory) neural network 
+
+Structure of a tensor is :
+- tensor[:,0] = outdoor temperature values (at the step)
+- tensor[:,1] = indoor temperature values (at the step)
+- tensor[:,2] = energy consumptions (for the step to come) in kwh
+
+the datasets are constructed by slicing the tensor at a specified index, on a specified length
+
+How to use :
 
 ```
 from building import BuildingZone, GoToTensor
@@ -88,4 +100,19 @@ create some tensors from the PHPFina feeds
 params=[{"id":1,"action":"smp"},{"id":167,"action":"smp"},{"id":145,"action":"acc"}]
 test=GoToTensor(params,step,1538640000,65*24*nbptinh)
 train=GoToTensor(params,step,1544184000,51*24*nbptinh)
+```
+create the datasets from the tensors and fit 
+
+```
+ite=BuildingZone(step,history_size,target_size)
+ite.CalcMeanStd(train)
+ite.AddSets(train, forTrain=True, shuffle=False)
+ite.AddSets(test, forTrain=False)
+ite.LSTMfit("ite_no_shuffle")
+ite.MLAfit(train, regularize=False)
+ite.MLAviewWeights()
+```
+check performance on test datas
+```
+
 ```
