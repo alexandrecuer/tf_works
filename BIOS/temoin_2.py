@@ -13,17 +13,7 @@ history_size=10
 # when modifying target_size or history_size, the network has to be retrained !!!!
 target_size=1
 # how many hours in the future are we going to simulate ?
-# if singlesim is set to true, a single simulation is done and the goto param is not used
 goto=200
-singlesim=False
-
-debug=False
-training=True
-
-# we cannot mix multi-simulation and muti-size prediction
-if singlesim==False and target_size>1:
-    print("cannot go further - in multisim mode, you need to fix target_size=1")
-    sys.exit()
 #***********************************************************************************
 #***********************************************************************************
 
