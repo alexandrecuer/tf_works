@@ -27,39 +27,36 @@ if singlesim==False and target_size>1:
 #***********************************************************************************
 #***********************************************************************************
 
-paramsb=[{"id":1,"action":"smp"},{"id":191,"action":"smp"},{"id":139,"action":"acc"}]
-winter=GoToTensor(paramsb,step,1539950400,210*24*nbptinh)
-tsize=winter.shape[0]-1-1500
+params=[{"id":1,"action":"smp"},{"id":191,"action":"smp"},{"id":139,"action":"acc"}]
+zone1=GoToTensor(params,step,1537876800,148*24*nbptinh)
+zone2=GoToTensor(params,step,1550664000,83*24*nbptinh)
 temoin=BuildingZone(step,history_size,target_size)
-temoin.CalcMeanStd(winter[0:tsize])
-# the following is optional as by default, datasets stored are regularized
-#temoin.regularizeSets(True)
 
 plt.subplot(211)
 plt.title("winterstart")
-plt.plot(winter[0:tsize:,1])
-plt.plot(winter[0:tsize:,0])
+plt.plot(zone1[:,1])
+plt.plot(zone1[:,0])
 plt.subplot(212)
 plt.title("winterend")
-plt.plot(winter[tsize-history_size:,1])
-plt.plot(winter[tsize-history_size:,0])
+plt.plot(zone2[:,1])
+plt.plot(zone2[:,0])
 plt.show()
 
-temoin.AddSets(winter[0:tsize+1], forTrain=True)
-temoin.AddSets(winter[tsize-history_size:], forTrain=False)
-temoin.LSTMfit("temoin")
+temoin.CalcMeanStd(zone2)
+# the following is optional as by default, datasets stored are regularized
+#temoin.regularizeSets(True)
+temoin.AddSets(zone1, forTrain=True, shuffle=False)
+temoin.AddSets(zone2, forTrain=False)
+temoin.LSTMfit("temoin_2")
+#temoin.LSTMload("temoin_2")
 
-#temoin.LSTMload("temoin")
-
-temoin.ClearSets(train=False)
-temoin.AddSets(winter, forTrain=False)
-temoin.MLAfit(winter[0:tsize], regularize=True)
+temoin.MLAfit(zone1, regularize=False)
 temoin.MLAviewWeights()
 
-MLA_datas, MLA_labels = temoin.MLAprepare(winter,labelsToPhysicsValue=True)
-samples=[200,1500,2000,3000,4220,4260,4300,4350,4400]
+MLA_datas, MLA_labels = temoin.MLAprepare(zone2)
+samples=[0,200,500,1000,1500,1750]
 for i in samples:
     LSTM_preds, LSTM_labels=temoin.LSTMpredict(i,goto)
     MLA_preds=temoin.MLApredict(MLA_datas,i,goto)
-    temoin.view(winter, i, goto, MLApreds=MLA_preds, LSTMpreds=LSTM_preds,
+    temoin.view(zone2, i, goto, MLApreds=MLA_preds, LSTMpreds=LSTM_preds,
                                                 MLAtruths=MLA_labels[i:i+goto], LSTMtruths=LSTM_labels)

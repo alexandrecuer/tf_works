@@ -51,6 +51,8 @@ class BuildingZone():
     # we want target_size steps in a single prediction
     # if target_size is 1, prediction is the next point
     # if target_size > 1, there is target_size points in the prediction
+    # CAUTION - developments are needed to make the part of the code related to prediction work with target_size > 1
+    # anyway single size prediction is enough and multi size prediction is not really a target
     def __init__(self,step,history_size,target_size):
         self._step=step
         self._history_size=history_size
@@ -93,9 +95,9 @@ class BuildingZone():
         MLApredict(MLA_datas,nbset,goto)
 
         each line of the returned MLA_datas array is a sample, we find :
-        - the outdoor temperature values (x history_size) from index 0 to history_size-1
-        - the indoor temperature values from index history_size to 2*history_size-1
-        - the energy consumptions in kwh from 2*history_size to 3*history_size-1
+        - the outdoor temperature values (at the step) from index 0 to history_size-1
+        - the indoor temperature values (at the step) from index history_size to 2*history_size-1
+        - the energy consumptions (for the step to come) in kwh from 2*history_size to 3*history_size-1
         """
         clone=copy.deepcopy(datas)
         if self._MLAregularize:
@@ -195,9 +197,15 @@ class BuildingZone():
     def AddSets(self, datas, regularize=True, forTrain=True, shuffle=True):
         """
         feed the datas and labels array
-        :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+        :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries - shape (x,y)
         :param forTrain: boolean - if set to True, datasets constructed are injected into train_datas and train_labels
         :param shuffle: boolean - if set to True with fortrain=True, randomize the training datasets
+
+        GENERAL CASE - 3 physical parameters monitored : external temperature, indoor temperature and instant power converted to energy (accumulation)
+        each dataset sample is structured as a tensor of shape (history_size,3) :
+        - the outdoor temperature values (at the step) = dataset[0:history_size,0]
+        - the indoor temperature values (at the step) = dataset[0:history_size,1]
+        - the energy consumptions (for the step to come) in kwh = dataset[0:history_size,2]
         """
         clone=copy.deepcopy(datas)
         if self._regularize:
