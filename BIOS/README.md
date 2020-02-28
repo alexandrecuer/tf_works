@@ -63,3 +63,29 @@ This approach cannot be implemented as we need to predict over one week or more
 
 ### blackbox approach using multilinear regression VS supervised machine learning
 
+how to use :
+
+```
+from building import BuildingZone, GoToTensor
+import numpy as np
+```
+define some sizing parameters
+```
+# number of points per hour
+nbptinh=1
+# timestep in seconds
+step=3600//nbptinh
+# history size in step(s) for prediction
+history_size=10
+# size of prediction in step - keep 1 !!!
+target_size=1
+# how many steps in the future are we going to simulate ?
+goto=200
+```
+create some tensors from the PHPFina feeds
+
+```
+params=[{"id":1,"action":"smp"},{"id":167,"action":"smp"},{"id":145,"action":"acc"}]
+test=GoToTensor(params,step,1538640000,65*24*nbptinh)
+train=GoToTensor(params,step,1544184000,51*24*nbptinh)
+```
