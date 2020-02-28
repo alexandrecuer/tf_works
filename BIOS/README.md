@@ -55,7 +55,8 @@ For a given building, the model has to find the "next" correct internal temperat
 - Tint(t in [minus24 -> 0])
 - Text(t in [minus24 -> 0])
 - PKwh(t in [minus24 -> 0])
-- Text(t = 1)
+
+maybe also adding Text(t = 1) ???
 
 ### naive approach
 
@@ -65,7 +66,7 @@ This approach cannot be implemented as we need to predict over one week or more
 
 ### blackbox approach using multilinear regression VS supervised machine learning
 
-Two classes have been implemented PHPFina and BuildingZone, plus one external method named GoToTensor
+Two classes have been implemented : PHPFina and BuildingZone, plus one external method named GoToTensor
 - PHPFina is used to sample the PHPFina hexa timeseries
 - GoToTensor permits to create a tensor from the samples 
 - BuildingZone stores the datasets and implements fitting and prediction using a basic multinear approach and/or a LSTM (Long Short term Memory) neural network 
