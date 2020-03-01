@@ -117,4 +117,5 @@ This permits to add the following json section to your metadatas notebook
 for more information :
 
 https://michaelgoerz.net/notes/custom-template-for-converting-jupyter-notebooks-to-latex.html
+
 http://blog.juliusschulz.de/blog/ultimate-ipython-notebook#converting-notebook-to-latex-pdf
