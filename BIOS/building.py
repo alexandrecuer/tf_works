@@ -19,10 +19,10 @@ def InitializeFeed(nb,step,start):
 
 # given some PHPFina feeds, a period and a start (as a unix timestamp) both in seconds
 def GoToTensor(params,step,start,nbsteps):
-    print("going to tensor for {} feeds".format(len(params)))
+    #print("going to tensor for {} feeds".format(len(params)))
     float_data=np.zeros((nbsteps,len(params)))
     for i in range(len(params)):
-        print("feed number {}".format(i))
+        #print("feed number {}".format(i))
         feed=InitializeFeed(params[i]["id"],step,start)
         if params[i]["action"]=="smp":
             feed.getDatas(nbsteps)
@@ -228,7 +228,7 @@ class BuildingZone():
                 self._val_datas.append(clone[indices])
                 self._val_labels.append(clone[rows[j]:rows[j]+self._target_size,1])
 
-    def LSTMfit(self, name):
+    def LSTMfit(self, name, verbose=0):
         """
         fit an LTSM model using train and val datas/labels defined by the method AddSets()
         :param name: filename to save the model
@@ -241,7 +241,7 @@ class BuildingZone():
         self._LSTMmodel.add(tf.keras.layers.LSTM(32, dropout=0.05, recurrent_dropout=0.50 , input_shape=tdat.shape[-2:]))
         self._LSTMmodel.add(tf.keras.layers.Dense(self._target_size))
         self._LSTMmodel.compile(optimizer=tf.keras.optimizers.RMSprop(), loss='mae')
-        history = self._LSTMmodel.fit(tdat, tlab, epochs=20,batch_size=50,validation_data=(vdat, vlab))
+        history = self._LSTMmodel.fit(tdat, tlab, verbose=verbose, epochs=20,batch_size=50,validation_data=(vdat, vlab))
         plot_train_history(history,'Single Step Training and validation loss')
         self._LSTMmodel.save('{}.h5'.format(name))
 
@@ -332,13 +332,14 @@ class BuildingZone():
         truefuture=self._val_labels[nbset]*self._std[1]+self._mean[1]
         plt.plot(0,truefuture, 'o', label='true future', color=self._col[1])
         if len(kwargs):
-            icons=['+','*','o','*']
+            #icons=['+','*','o','*']
+            icons=[':','--','o','*']
             indice=0
             for key, vals in kwargs.items():
                 if "pred" in key.lower() :
-                    plt.plot(future_range,vals,icons[indice],label="{}.".format(key), color="black")
+                    plt.plot(future_range,vals,icons[indice],markersize=2,label="{}.".format(key), color="black")
                 if "truth" in key.lower() :
-                    plt.plot(future_range,vals,icons[indice], color=self._col[1])
+                    plt.plot(future_range,vals,icons[indice],markersize=2, color=self._col[1])
                 indice+=1
         values=self._val_datas[nbset]*self._std+self._mean
         for k in range(3):
