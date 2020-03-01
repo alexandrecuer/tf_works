@@ -114,7 +114,18 @@ This permits to add the following json section to your metadatas notebook
     "title": "indoor temperature prediction - using real datas to fit a model"
   }
 ```
-for more information :
+
+launch the notebook, from the folder where you want to store your notebooks :
+```
+jupyter notebook
+```
+open mozilla and enter the following address :
+```
+http://localhost:8888
+```
+### latex templates
+
+for more information  :
 
 https://michaelgoerz.net/notes/custom-template-for-converting-jupyter-notebooks-to-latex.html
 
