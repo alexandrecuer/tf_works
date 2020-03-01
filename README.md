@@ -98,3 +98,19 @@ pip3 install jupyter
 sudo apt-get install texlive-full
 sudo apt-get install pandoc
 ```
+Install some basic latex templates :
+```
+cd ~/.jupyter/
+wget https://raw.githubusercontent.com/alexandrecuer/tf_works/master/jupyter_notebook_config.py
+mkdir nbconvert_templates
+cd nbconvert_templates
+wget https://raw.githubusercontent.com/alexandrecuer/tf_works/master/revtex.tplx
+```
+This permits to add the following json section to your metadatas notebook
+```
+"latex_metadata": {
+    "affiliation": "Dromotherm@Cerema",
+    "author": "Alexandre CUER",
+    "title": "indoor temperature prediction - using real datas to fit a model"
+  }
+```
