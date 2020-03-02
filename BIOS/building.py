@@ -309,9 +309,6 @@ class BuildingZone():
             truth=np.array(truth)*self._std[1]+self._mean[1]
         return pred, truth
 
-    # uses the val datas as train datas are shuffled
-    # nbset is the number of the set in the val array
-    # physics are
     def view(self, physics, nbset, nbpreds, **kwargs):
         """
         datasets vizualisation
