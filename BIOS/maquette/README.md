@@ -14,10 +14,6 @@
 
 [débit mètre DN20 - F = [8.1Q-5] ± 10%, F val. inst. impul. (Hz), Q flux instantané](https://www.amazon.fr/Be82aene-Capteur-dimpulsion-1-75Mpa-D%C3%A9bitm%C3%A8tres/dp/B083DKQF2H/ref=sr_1_6?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=debitmetre+dn20&qid=1583421058&sr=8-6)
 
-[compteur eau chaude DN20 (1 impulsion=0,25litre)](https://www.manomano.fr/p/compteur-deau-chaude-avec-sortie-impulsion-1-imp-025-litre-2663411)
-
-[Manchon taraudé Femelle/Femelle avec butée centrale en laiton - Ø 3/4 pouce](https://www.amazon.fr/Ezfitt-Manchon-taraud%C3%A9-Femelle-centrale/dp/B079NGD3LF/ref=sr_1_20?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=3%2F4+femelle+femelle&qid=1583486189&sr=8-20)
-
 [PT100 2mètres](https://www.amazon.fr/Sonde-inoxydable-thermistance-capteur-temperature/dp/B01CNMAQS8/ref=pd_bxgy_img_2/262-9971649-2446628?_encoding=UTF8&pd_rd_i=B01CNMAQS8&pd_rd_r=b3596105-8191-4db1-9e38-9227a4d0a3aa&pd_rd_w=Y9V93&pd_rd_wg=Rbsei&pf_rd_p=da1675de-3974-4ba2-b26f-c06b987f79cb&pf_rd_r=H16ES3JDRVQPR8407678&psc=1&refRID=H16ES3JDRVQPR8407678)
 
 [Té 3 embouts femelles 3/4](https://www.amazon.fr/Watts-Raccord-laiton-visser-Femelle/dp/B079HWNM8V/ref=pd_sbs_60_3/257-2633906-0516104?_encoding=UTF8&pd_rd_i=B079HWNM8V&pd_rd_r=71a1e942-763d-41cf-8dd3-9377115e6ffc&pd_rd_w=hQLsT&pd_rd_wg=ga5Ut&pf_rd_p=72159c7a-2bb2-4a15-aa35-b315ce8f5c64&pf_rd_r=N8SHPHFVS4NKSSWWZTDZ&psc=1&refRID=N8SHPHFVS4NKSSWWZTDZ)
@@ -39,3 +35,9 @@
 [caisse plastique](https://www.amazon.fr/Sundis-4501001-Rangement-Couvercle-Transparent/dp/B01I94TXU6/ref=sr_1_12?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=caisse+plastique&qid=1583498327&sr=8-12)
 
 [collier de fixation x5](https://www.amazon.fr/Boutt%C3%A9-3373168-Colliers-fixation-simple/dp/B00J9C6QSU/ref=sr_1_8?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=collier+fixation+25&qid=1583498781&s=hi&sr=1-8)
+
+## options
+
+[compteur eau chaude DN20 (1 impulsion=0,25litre)](https://www.manomano.fr/p/compteur-deau-chaude-avec-sortie-impulsion-1-imp-025-litre-2663411)
+
+[Manchon taraudé Femelle/Femelle avec butée centrale en laiton - Ø 3/4 pouce](https://www.amazon.fr/Ezfitt-Manchon-taraud%C3%A9-Femelle-centrale/dp/B079NGD3LF/ref=sr_1_20?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=3%2F4+femelle+femelle&qid=1583486189&sr=8-20)
