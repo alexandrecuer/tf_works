@@ -14,6 +14,8 @@
 
 (x4) [débit mètre DN20 - F = [8.1Q-5] ± 10%, F val. inst. impul. (Hz), Q flux instantané](https://www.amazon.fr/Be82aene-Capteur-dimpulsion-1-75Mpa-D%C3%A9bitm%C3%A8tres/dp/B083DKQF2H/ref=sr_1_6?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=debitmetre+dn20&qid=1583421058&sr=8-6)
 
+### temperature asset measurement (road, building, storage)
+
 (x8) [PT100 2mètres](https://www.amazon.fr/Sonde-inoxydable-thermistance-capteur-temperature/dp/B01CNMAQS8/ref=pd_bxgy_img_2/262-9971649-2446628?_encoding=UTF8&pd_rd_i=B01CNMAQS8&pd_rd_r=b3596105-8191-4db1-9e38-9227a4d0a3aa&pd_rd_w=Y9V93&pd_rd_wg=Rbsei&pf_rd_p=da1675de-3974-4ba2-b26f-c06b987f79cb&pf_rd_r=H16ES3JDRVQPR8407678&psc=1&refRID=H16ES3JDRVQPR8407678)
 
 ### temperature fluid measurement
