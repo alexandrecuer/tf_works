@@ -22,7 +22,7 @@
 
 (only x4 for the scale model - 2 in spare)(x6) [PT100 doigt de gant 30mm / 3/4" male](https://www.amazon.fr/Maslin-Capteur-Temp%C3%A9rature-Filetage-Inoxydable/dp/B07KDJ2V6V/ref=sr_1_2?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=sonde%2Bpt100%2B3%2F4&qid=1583400770&sr=8-2&th=1)
 
-[Té 3 embouts DN20 male x3](https://www.amazon.fr/Watts-Raccord-laiton-visser-Laiton/dp/B079HTX7Q4/ref=pd_sbs_60_2/257-2633906-0516104?_encoding=UTF8&pd_rd_i=B079HTX7Q4&pd_rd_r=61592a83-524d-40de-983a-b9562a1d47a5&pd_rd_w=3UHBD&pd_rd_wg=vhdZk&pf_rd_p=72159c7a-2bb2-4a15-aa35-b315ce8f5c64&pf_rd_r=M2HFP0G0AV330J89NPMR&psc=1&refRID=M2HFP0G0AV330J89NPMR)
+(x2) [Té 3 embouts DN20 male x3](https://www.amazon.fr/Watts-Raccord-laiton-visser-Laiton/dp/B079HTX7Q4/ref=pd_sbs_60_2/257-2633906-0516104?_encoding=UTF8&pd_rd_i=B079HTX7Q4&pd_rd_r=61592a83-524d-40de-983a-b9562a1d47a5&pd_rd_w=3UHBD&pd_rd_wg=vhdZk&pf_rd_p=72159c7a-2bb2-4a15-aa35-b315ce8f5c64&pf_rd_r=M2HFP0G0AV330J89NPMR&psc=1&refRID=M2HFP0G0AV330J89NPMR)
 
 (x8) [raccord caisse plastique](https://www.amazon.fr/Boutt%C3%A9-2147517-TC20-Travers%C3%A9e-laiton/dp/B00GOYYS0E/ref=pd_sbs_60_t_1/262-9971649-2446628?_encoding=UTF8&pd_rd_i=B00GOYYS0E&pd_rd_r=d6ef660b-0bb2-4220-9331-78c68bf6fde3&pd_rd_w=CTfqf&pd_rd_wg=gUoyO&pf_rd_p=9b28d941-c13a-4c2b-b935-36854aa20020&pf_rd_r=STKBVJFQPYAJE4RE6DEJ&psc=1&refRID=STKBVJFQPYAJE4RE6DEJ)
 
