@@ -8,7 +8,7 @@
 
 [pompe DN15](https://www.amazon.fr/Prom-near-balais-c%C3%A9ramique-r%C3%A9sistante-temp%C3%A9rature/dp/B07FJP2N3R?ref_=s9_apbd_orecs_hd_bw_b21XDqB&pf_rd_r=PMZV60FX5ZNNHX5PZBSJ&pf_rd_p=54aab920-59f6-583d-aa8a-1b96cc3982eb&pf_rd_s=merchandised-search-10&pf_rd_t=BROWSE&pf_rd_i=1854960031)
 
-[Raccord DN15→DN20](https://www.amazon.fr/Wolfpack-4020087-R%C3%A9duction-Hexagonal-femelle/dp/B0160DG6XU/ref=sr_1_5?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=1%2F2+3%2F4&qid=1583487591&sr=8-5)
+[Raccord DN15 femelle – DN20 male](https://www.amazon.fr/Wolfpack-4020087-R%C3%A9duction-Hexagonal-femelle/dp/B0160DG6XU/ref=sr_1_5?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=1%2F2+3%2F4&qid=1583487591&sr=8-5)
 
 [Vanne 3 voie motorisée DN20](https://www.amazon.fr/vanne-voies-motoris%C3%A9e-electrovanne-bille/dp/B07GCGSPVJ/ref=sr_1_5?keywords=vanne%2B3%2Bvoies%2Bmotoris%C3%A9e&qid=1582276603&sr=8-5&th=1)
 
