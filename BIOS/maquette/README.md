@@ -26,15 +26,15 @@
 
 (x8) [raccord caisse plastique](https://www.amazon.fr/Boutt%C3%A9-2147517-TC20-Travers%C3%A9e-laiton/dp/B00GOYYS0E/ref=pd_sbs_60_t_1/262-9971649-2446628?_encoding=UTF8&pd_rd_i=B00GOYYS0E&pd_rd_r=d6ef660b-0bb2-4220-9331-78c68bf6fde3&pd_rd_w=CTfqf&pd_rd_wg=gUoyO&pf_rd_p=9b28d941-c13a-4c2b-b935-36854aa20020&pf_rd_r=STKBVJFQPYAJE4RE6DEJ&psc=1&refRID=STKBVJFQPYAJE4RE6DEJ)
 
-[tuyau 19mm au mètre (prendre 10m)](https://www.amazon.fr/FlexTube-pouces-flexible-pression-aliments/dp/B07B4GRH2F/ref=sr_1_12?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=tuyau+19mm&qid=1583489791&sr=8-12)
+[tuyau 19mm au mètre (10m)](https://www.amazon.fr/FlexTube-pouces-flexible-pression-aliments/dp/B07B4GRH2F/ref=sr_1_12?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=tuyau+19mm&qid=1583489791&sr=8-12)
 
-[raccord coupleur tétine tuyau x20](https://www.amazon.fr/G%C3%A9n%C3%A9rique-Barbillon-Raccord-Coupleur-femelle/dp/B00WG8XR90/ref=sr_1_28?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=coupleur+3%2F4+3%2F4&qid=1583488174&sr=8-28)
+(2 x20) [raccord coupleur tétine tuyau x20](https://www.amazon.fr/G%C3%A9n%C3%A9rique-Barbillon-Raccord-Coupleur-femelle/dp/B00WG8XR90/ref=sr_1_28?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=coupleur+3%2F4+3%2F4&qid=1583488174&sr=8-28)
 
-[collier de serrage x12](https://www.amazon.fr/Collier-Serrage-Ajustable-Inoxydable-Fixation/dp/B07D6L2PNT/ref=sr_1_33?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=collier+20mm&qid=1583489935&sr=8-33)
+(3 x12) [collier de serrage x12](https://www.amazon.fr/Collier-Serrage-Ajustable-Inoxydable-Fixation/dp/B07D6L2PNT/ref=sr_1_33?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=collier+20mm&qid=1583489935&sr=8-33)
 
 [caisse plastique](https://www.amazon.fr/Sundis-4501001-Rangement-Couvercle-Transparent/dp/B01I94TXU6/ref=sr_1_12?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=caisse+plastique&qid=1583498327&sr=8-12)
 
-[collier de fixation x5](https://www.amazon.fr/Boutt%C3%A9-3373168-Colliers-fixation-simple/dp/B00J9C6QSU/ref=sr_1_8?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=collier+fixation+25&qid=1583498781&s=hi&sr=1-8)
+(8 x5)[collier de fixation x5](https://www.amazon.fr/Boutt%C3%A9-3373168-Colliers-fixation-simple/dp/B00J9C6QSU/ref=sr_1_8?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=collier+fixation+25&qid=1583498781&s=hi&sr=1-8)
 
 ## options
 
