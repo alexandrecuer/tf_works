@@ -43,13 +43,22 @@ def generateSunRange(qs_max, nb, size, offset):
     :offset: hour of the day to start with the synthesis
     :return: numpy vector of length size
     """
+    #print("offset is {}".format(offset))
     sunrange=np.zeros(size)
     sunrange[0:(24-offset)*nb]=generateSunDay(qs_max,nb)[offset*nb:24*nb]
+    written=(24-offset)*nb
     indice=(24-offset)*nb+1
-    while indice < size-offset*nb:
+    while written < size :
+        #print("indice is {}".format(indice))
+        #print("we wrote {} points on a total of {}".format(written,size))
+        if indice+24*nb > size:
+            break
         sunrange[indice:indice+24*nb]=generateSunDay(qs_max,nb)
         indice+=24*nb+1
-    sunrange[-offset*nb:]=generateSunDay(qs_max,nb)[0:offset*nb]
+        written+=24*nb
+    #print("loop finished, we wrote {} on a total of {}".format(written,size))
+    if offset > 0:
+        sunrange[-offset*nb:]=generateSunDay(qs_max,nb)[0:offset*nb]
     return sunrange
 
 def InitializeFeed(nb,step,start):
@@ -176,6 +185,30 @@ def calcdA(p):
     dA[4,0,0]=1/(p[0]*p[4]**2)
     return dA
 
+def RC_model_deterministic(inputs,CRES,CS,RI,R0,RF):
+    """
+    inputs is a 3 colums tensor
+    column1:T_ext
+    column2:P_hea
+    column3:I_sol
+    """
+    A=np.array([[-1/CRES*(1/RI+1/RF), 1/(CRES*RI)],
+                   [1/(CS*RI), -1/CS*(1/RI+1/R0)]])
+    B=np.array([[1/(CRES*RF), 1/CRES, 0],
+                   [1/(CS*R0), 0, 1/CS]])
+    H = np.array([[1, 0]])
+    # we have 2 states : indoor and envelope - envelope is unobserved
+    # n is the number of states
+    n = 2
+    # Initialisation of the states
+    x = np.zeros((len(inputs), n))
+    x[0] = np.array((teta[0,1], teta[0,1]))
+    # Simulation
+    for i in range(len(inputs)-1):
+        x[i+1]=np.linalg.inv(np.eye(n)-step*A).dot(x[i]+step*B.dot(inputs[i]))
+    # This function returns the first simulated state only
+    return np.dot(H, x.T).flatten()
+
 def eulerDis(sample, p, gradient=True,*args):
     # args[0] is the provided synthetic truth for validation purposes
     # if not given, we take the truth from the teta tensor (column 1)
@@ -185,7 +218,7 @@ def eulerDis(sample, p, gradient=True,*args):
         truth=sample[:,1]
     nbpts=sample.shape[0]
     T=np.zeros((nbpts,2))
-    T[0,:]=np.array([truth[0],truth[0]-2])
+    T[0,:]=np.array([truth[0],truth[0]])
     f=0
     C=np.linalg.inv(calcB(p))
     if gradient:
@@ -270,10 +303,11 @@ step=3600//nbptinh
 #params=[{"id":1,"action":"smp"},{"id":191,"action":"smp"},{"id":139,"action":"smp"}]
 house="ite"
 params=[{"id":1,"action":"smp"},{"id":167,"action":"smp"},{"id":145,"action":"smp"}]
-#smpStart=1547107200
-#smpStart=1541505600
-smpStart=1548157800
-tDays=15
+
+# Monday 17 December 2018 00:00:00
+smpStart=1545004800
+tDays=40
+
 smpH=datetime.utcfromtimestamp(smpStart).hour
 print(smpH)
 teta=GoToTensor(params,step,smpStart,tDays*24*nbptinh)
@@ -301,9 +335,43 @@ cres=9e+6
 cs=9e+7
 p=[cres,cs,ri,r0,rf]
 
-Temp, functionf, functiondf = eulerDis(teta, p, gradient=True)
-visualize(teta,house,Temp[:,0],Temp[:,1])
+# u is the inputs tensor with 3 columns : T_ext ,P_hea, I_sol
+u = np.vstack([teta[:,0],teta[:,2],teta[:,3]]).T
+T_in_det=RC_model_deterministic(u,cres,cs,ri,r0,rf)
+Temp, functionf = eulerDis(teta, p, gradient=False)
 
+visualize(teta,house,T_in_det,Temp[:,0])
+
+from scipy.optimize import curve_fit
+
+bounds=(0,np.inf)
+
+init_guess = [1e6, 1e8, 1e-2, 1e3, 1e-2]
+popt, pcov = curve_fit(RC_model_deterministic,
+                       xdata = u,
+                       ydata = teta[:,1],
+                       p0 = init_guess,
+                       method='trf',
+                       bounds=bounds)
+
+print(popt)
+Tin_opt=RC_model_deterministic(u, popt[0], popt[1], popt[2], popt[3], popt[4])
+
+visualize(teta,house,Tin_opt)
+
+#Tuesday 2 October 2018 00:00:00
+vStart=1538438400
+smpH=datetime.utcfromtimestamp(vStart).hour
+print(smpH)
+validation=GoToTensor(params,step,vStart,110*24*nbptinh)
+# adding some sun
+validation[:,-1]=generateSunRange(qs,nbptinh, validation.shape[0], smpH)
+uval = np.vstack([validation[:,0],validation[:,2],validation[:,3]]).T
+Tin_sim=RC_model_deterministic(uval, popt[0], popt[1], popt[2], popt[3], popt[4])
+
+visualize(validation,house,Tin_sim)
+
+"""
 synthetic=copy.deepcopy(teta)
 synthetic[:,1]=Temp[:,0]
 visualize(synthetic,house)
@@ -318,3 +386,4 @@ print("we have an f value of {} when we started with {}".format(fonc[nbits],fonc
 
 Tsim, fsim = eulerDis(synthetic, tab[nbits], gradient=False)
 visualize(synthetic,house,Tsim[:,0])
+"""
