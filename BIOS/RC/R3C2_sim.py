@@ -346,6 +346,7 @@ from scipy.optimize import curve_fit
 
 bounds=(0,np.inf)
 
+# see https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html#scipy.optimize.curve_fit
 init_guess = [1e6, 1e8, 1e-2, 1e3, 1e-2]
 popt, pcov = curve_fit(RC_model_deterministic,
                        xdata = u,
@@ -353,8 +354,10 @@ popt, pcov = curve_fit(RC_model_deterministic,
                        p0 = init_guess,
                        method='trf',
                        bounds=bounds)
-
+# Standard deviation of the parameter estimates
+stdev = np.diag(pcov)**0.5
 print(popt)
+print("standart deviation is {}".format(stdev))
 Tin_opt=RC_model_deterministic(u, popt[0], popt[1], popt[2], popt[3], popt[4])
 
 visualize(teta,house,Tin_opt)
