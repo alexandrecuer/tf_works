@@ -47,14 +47,11 @@ def generateSunRange(qs_max, nb, size, offset):
     sunrange=np.zeros(size)
     sunrange[0:(24-offset)*nb]=generateSunDay(qs_max,nb)[offset*nb:24*nb]
     written=(24-offset)*nb
-    indice=(24-offset)*nb+1
     while written < size :
-        #print("indice is {}".format(indice))
         #print("we wrote {} points on a total of {}".format(written,size))
-        if indice+24*nb > size:
+        if written+24*nb > size:
             break
-        sunrange[indice:indice+24*nb]=generateSunDay(qs_max,nb)
-        indice+=24*nb+1
+        sunrange[written:written+24*nb]=generateSunDay(qs_max,nb)
         written+=24*nb
     #print("loop finished, we wrote {} on a total of {}".format(written,size))
     if offset > 0:
@@ -84,7 +81,7 @@ def GoToTensor(params,step,start,nbsteps):
             return False
     return float_data
 
-def visualize(sample,lib,*args):
+def visualize(sample,lib,**kwargs):
     lab=["out. temp","indoor temp", "Hvac W", "Sun W"]
     col=["blue","green","red","orange"]
     xrange=np.arange(sample.shape[0])
@@ -93,12 +90,13 @@ def visualize(sample,lib,*args):
     plt.title(lib)
     plt.plot(sample[:,1],label=lab[1], color=col[1])
     plt.plot(sample[:,0],label=lab[0], color=col[0])
-    if len(args):
-        for i in range(len(args)):
-            if i==0:
-                plt.plot(args[0], '+', label="Tint simulated", color='green')
-            if i==1:
-                plt.plot(args[1], label="start", color='purple')
+    if len(kwargs):
+        # you can plot 4 extra curves
+        icons=[':','--','o','*']
+        indice=0
+        for key, vals in kwargs.items():
+            plt.plot(vals,icons[indice],markersize=2, label="{}.".format(key))
+            indice+=1
     plt.legend(loc='upper left')
     ax2 = ax1.twinx()
     ax2.set_ylabel("W")
@@ -207,6 +205,28 @@ def RC_model_deterministic(inputs,CRES,CS,RI,R0,RF):
     for i in range(len(inputs)-1):
         x[i+1]=np.linalg.inv(np.eye(n)-step*A).dot(x[i]+step*B.dot(inputs[i]))
     # This function returns the first simulated state only
+    return np.dot(H, x.T).flatten()
+
+def RCgradient(u,CRES,CS,RI,R0,RF):
+    print("I am supposed to be the gradient")
+
+def Krank_Nicholson(u,CRES,CS,RI,R0,RF):
+    """
+    to solve dx/dt=A(p).x(p,t)+b.u(p,t)
+    with x=(Tint,Tenv) as our problem is a 2 states problem
+    the enveloppe is unobserved, whereas indoor is nomitored by a temperature sensor
+    """
+    A=np.array([[-1/CRES*(1/RI+1/RF), 1/(CRES*RI)],
+                   [1/(CS*RI), -1/CS*(1/RI+1/R0)]])
+    B=np.array([[1/(CRES*RF), 1/CRES, 0],
+                   [1/(CS*R0), 0, 1/CS]])
+    nbpts=u.shape[0]
+    n=2
+    x=np.zeros((nbpts,n))
+    x[0] = np.array((teta[0,1], teta[0,1]))
+    for i in range(nbpts-1):
+        x[i+1]=np.linalg.inv(np.eye(n)-step*A/2).dot((np.eye(n)+step*A/2).dot(x[i])+step*B.dot(u[i+1]+u[i])/2)
+    H = np.array([[1, 0]])
     return np.dot(H, x.T).flatten()
 
 def eulerDis(sample, p, gradient=True,*args):
@@ -339,16 +359,22 @@ p=[cres,cs,ri,r0,rf]
 u = np.vstack([teta[:,0],teta[:,2],teta[:,3]]).T
 T_in_det=RC_model_deterministic(u,cres,cs,ri,r0,rf)
 Temp, functionf = eulerDis(teta, p, gradient=False)
+Tk=Krank_Nicholson(u,cres,cs,ri,r0,rf)
 
-visualize(teta,house,T_in_det,Temp[:,0])
+visualize(teta,house,Tint_Euler=T_in_det,Tint_krank_nicholson=Tk)
+
+input("press key")
 
 from scipy.optimize import curve_fit
 
 bounds=(0,np.inf)
 
-# see https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html#scipy.optimize.curve_fit
+"""
+see https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html#scipy.optimize.curve_fit
+‘trf’ : Trust Region Reflective algorithm, particularly suitable for large sparse problems with bounds. Generally robust method.
+"""
 init_guess = [1e6, 1e8, 1e-2, 1e3, 1e-2]
-popt, pcov = curve_fit(RC_model_deterministic,
+popt, pcov = curve_fit(Krank_Nicholson,
                        xdata = u,
                        ydata = teta[:,1],
                        p0 = init_guess,
@@ -358,9 +384,9 @@ popt, pcov = curve_fit(RC_model_deterministic,
 stdev = np.diag(pcov)**0.5
 print(popt)
 print("standart deviation is {}".format(stdev))
-Tin_opt=RC_model_deterministic(u, popt[0], popt[1], popt[2], popt[3], popt[4])
+Tin_trf_opt=RC_model_deterministic(u, popt[0], popt[1], popt[2], popt[3], popt[4])
 
-visualize(teta,house,Tin_opt)
+visualize(teta,house,Tin_trf_opt=Tin_trf_opt)
 
 #Tuesday 2 October 2018 00:00:00
 vStart=1538438400
@@ -372,7 +398,7 @@ validation[:,-1]=generateSunRange(qs,nbptinh, validation.shape[0], smpH)
 uval = np.vstack([validation[:,0],validation[:,2],validation[:,3]]).T
 Tin_sim=RC_model_deterministic(uval, popt[0], popt[1], popt[2], popt[3], popt[4])
 
-visualize(validation,house,Tin_sim)
+visualize(validation,house,Tin_sim=Tin_sim)
 
 """
 synthetic=copy.deepcopy(teta)
