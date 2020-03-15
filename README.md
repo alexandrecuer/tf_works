@@ -130,3 +130,5 @@ for more information  :
 https://michaelgoerz.net/notes/custom-template-for-converting-jupyter-notebooks-to-latex.html
 
 http://blog.juliusschulz.de/blog/ultimate-ipython-notebook#converting-notebook-to-latex-pdf
+
+https://www.xm1math.net/doculatex/espacements.html
