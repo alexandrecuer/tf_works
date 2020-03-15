@@ -209,6 +209,20 @@ def RC_model_deterministic(inputs,CRES,CS,RI,R0,RF):
 
 def RCgradient(u,CRES,CS,RI,R0,RF):
     print("I am supposed to be the gradient")
+    A=np.array([ [-1/CRES*(1/RI+1/RF), 1/(CRES*RI)      ],
+                 [1/(CS*RI)          , -1/CS*(1/RI+1/R0)] ])
+    dA=[]
+    dA.append(np.array([ [(1/RI+1/RF)/CRES**2, -1/(RI*CRES**2)], [0            ,  0                ] ]))
+    dA.append(np.array([ [0                  ,  0             ], [-1/(RI*CS**2), (1/RI+1/R0)/CS**2 ] ]))
+    dA.append(np.array([ [1/(CRES*RI**2)     , -1/(CRES*RI**2)], [-1/(CS*RI**2), 1/(CS*RI**2)      ] ]))
+    dA.append(np.array([ [0                  , 0              ], [0            , 1/(CS*R0**2)      ] ]))
+    dA.append(np.array([ [1/(CRES*RF**2)     , 0              ], [0            , 0                 ] ]))
+
+    B=np.array([[1/(CRES*RF), 1/CRES, 0],
+                   [1/(CS*R0), 0, 1/CS]])
+    dB=[]
+
+    print(dA)
 
 def Krank_Nicholson(u,CRES,CS,RI,R0,RF):
     """
@@ -325,8 +339,10 @@ house="ite"
 params=[{"id":1,"action":"smp"},{"id":167,"action":"smp"},{"id":145,"action":"smp"}]
 
 # Monday 17 December 2018 00:00:00
-smpStart=1545004800
-tDays=40
+#smpStart=1545004800
+#tDays=40
+smpStart=1547121600
+tDays=15
 
 smpH=datetime.utcfromtimestamp(smpStart).hour
 print(smpH)
@@ -348,11 +364,11 @@ np.savetxt("datas_{}_step{}s.csv".format(house,step),datas,delimiter=',',header=
 """
 
 
+cres=4e+5
+cs=9e+7
 ri=1e-2
 r0=1e-2
 rf=1e-2
-cres=9e+6
-cs=9e+7
 p=[cres,cs,ri,r0,rf]
 
 # u is the inputs tensor with 3 columns : T_ext ,P_hea, I_sol
@@ -362,18 +378,20 @@ Temp, functionf = eulerDis(teta, p, gradient=False)
 Tk=Krank_Nicholson(u,cres,cs,ri,r0,rf)
 
 visualize(teta,house,Tint_Euler=T_in_det,Tint_krank_nicholson=Tk)
+RCgradient(u,cres,cs,ri,r0,rf)
 
 input("press key")
 
 from scipy.optimize import curve_fit
 
-bounds=(0,np.inf)
+#bounds=(0,np.inf)
+bounds=([0,0,0,0,0],[np.inf,np.inf,10,10,10])
 
 """
 see https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html#scipy.optimize.curve_fit
 ‘trf’ : Trust Region Reflective algorithm, particularly suitable for large sparse problems with bounds. Generally robust method.
 """
-init_guess = [1e6, 1e8, 1e-2, 1e3, 1e-2]
+init_guess = [4e5, 9e7, 1e-2, 1e-2, 1e-2]
 popt, pcov = curve_fit(Krank_Nicholson,
                        xdata = u,
                        ydata = teta[:,1],
@@ -384,7 +402,7 @@ popt, pcov = curve_fit(Krank_Nicholson,
 stdev = np.diag(pcov)**0.5
 print(popt)
 print("standart deviation is {}".format(stdev))
-Tin_trf_opt=RC_model_deterministic(u, popt[0], popt[1], popt[2], popt[3], popt[4])
+Tin_trf_opt=Krank_Nicholson(u, popt[0], popt[1], popt[2], popt[3], popt[4])
 
 visualize(teta,house,Tin_trf_opt=Tin_trf_opt)
 
@@ -396,7 +414,7 @@ validation=GoToTensor(params,step,vStart,110*24*nbptinh)
 # adding some sun
 validation[:,-1]=generateSunRange(qs,nbptinh, validation.shape[0], smpH)
 uval = np.vstack([validation[:,0],validation[:,2],validation[:,3]]).T
-Tin_sim=RC_model_deterministic(uval, popt[0], popt[1], popt[2], popt[3], popt[4])
+Tin_sim=Krank_Nicholson(uval, popt[0], popt[1], popt[2], popt[3], popt[4])
 
 visualize(validation,house,Tin_sim=Tin_sim)
 
