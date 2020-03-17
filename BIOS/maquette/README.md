@@ -45,3 +45,9 @@
 [compteur eau chaude DN20 (1 impulsion=0,25litre)](https://www.manomano.fr/p/compteur-deau-chaude-avec-sortie-impulsion-1-imp-025-litre-2663411)
 
 [Manchon taraudé Femelle/Femelle avec butée centrale en laiton - Ø 3/4 pouce](https://www.amazon.fr/Ezfitt-Manchon-taraud%C3%A9-Femelle-centrale/dp/B079NGD3LF/ref=sr_1_20?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=3%2F4+femelle+femelle&qid=1583486189&sr=8-20)
+
+# pilotage
+
+http://sarakha63-domotique.fr/jeedom-domotiser-une-vanne-3-voies/
+
+[doc sur les régulateurs P, PI et PID](regulateurs_standards.pdf)
