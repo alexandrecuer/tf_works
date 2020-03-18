@@ -1,6 +1,8 @@
 # operating systems with machine intelligence
 
-just a place to gather all IA works (mostly related to tensor flow but not only) - started in 2020
+numerical analysis work related to the **BIOS** project - started in 2020
+
+BIOS : Building Intelligent Operating System
 
 ## Configuration
 
@@ -14,8 +16,6 @@ Toshiba Portégé R30A19J 64 bits :
 
 OS : Ubuntu 18.04 LTS
 
-### python
-
 Remember to run the update commands with the ubuntu packetmanager or directly  
 ```
 sudo apt-get update -y
@@ -24,6 +24,9 @@ sudo apt-get dist-upgrade -y
 sudo apt-get clean
 sudo apt --fix-broken install
 ```
+
+### python
+
 #### python3 and pip3
 
 The Ubuntu 18.04 LTS ships with python3. you just have to install pip3
@@ -43,14 +46,20 @@ and add to ~/.bashrc
 alias python='/usr/bin/python3'
 alias pip='/usr/bin/pip3'
 ```
+### Scipy
 
-### tensorflow 
+[SciPy](https://www.scipy.org/) is a Python-based ecosystem of open-source software for mathematics, science, and engineering
+
+```
+pip3 install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+```
+
+### Tensorflow 
 
 install tensorflow and numpy
 ```
 pip3 install tensorflow
 pip3 install --upgrade tensorflow
-pip3 install --upgrade numpy
 ```
 with a CPU-only machine (**caution - seem to be deprecated**) :
 ```
@@ -62,7 +71,7 @@ check keras version
 pip3 list | grep -i keras
 ```
 
-### install atom
+### Atom
 
 ```
 wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
@@ -80,7 +89,6 @@ pip install gym
 ### statistic tools
 
 ```
-pip install pandas
 pip install -U scikit-learn
 pip install statsmodels
 ```
