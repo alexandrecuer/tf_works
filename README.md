@@ -16,17 +16,36 @@ OS : Ubuntu 18.04 LTS
 
 ### python & tensorflow
 
+Remember to run the update commands with the ubuntu packetmanager or directly  
 ```
-sudo apt install python
-sudo apt install python-pip
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get dist-upgrade -y
+sudo apt-get clean
+sudo apt --fix-broken install
+```
+#### python3 and pip3
+
+The Ubuntu 18.04 LTS ships with python3. you just have to install pip3
+```
 sudo apt install python3-pip
 ```
 
-add to ~/.bashrc
+#### python and pip
+
+if you also want to have python
+```
+sudo apt install python
+sudo apt install python-pip
+```
+and add to ~/.bashrc
 ```
 alias python='/usr/bin/python3'
 alias pip='/usr/bin/pip3'
 ```
+
+#### tensorflow 
+
 install tensorflow and numpy
 ```
 pip3 install tensorflow
