@@ -14,7 +14,7 @@ Toshiba Portégé R30A19J 64 bits :
 
 OS : Ubuntu 18.04 LTS
 
-### python & tensorflow
+### python
 
 Remember to run the update commands with the ubuntu packetmanager or directly  
 ```
@@ -44,7 +44,7 @@ alias python='/usr/bin/python3'
 alias pip='/usr/bin/pip3'
 ```
 
-#### tensorflow 
+### tensorflow 
 
 install tensorflow and numpy
 ```
