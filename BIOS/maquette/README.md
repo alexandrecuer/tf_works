@@ -1,6 +1,8 @@
-[sujet](Cerema_stage_logiciel_automatisme.pdf)
+# Stage : développement logiciel sur Raspberry PI pour pilotage maquette simulant smart grid thermique
 
-# scale model
+[lien vers le sujet](Cerema_stage_logiciel_automatisme.pdf)
+
+# scale model / maquette de laboratoire
 
 ![principe](dromotherm_laboratoire.png)
 
