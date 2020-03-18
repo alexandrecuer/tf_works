@@ -60,6 +60,8 @@ http://sarakha63-domotique.fr/jeedom-domotiser-une-vanne-3-voies/
 
 https://www.abcclim.net/regulation-p-pi-pid.html
 
+http://www.ferdinandpiette.com/blog/2011/08/implementer-un-pid-sans-faire-de-calculs/
+
 [doc sur les régulateurs P, PI et PID](regulateurs_standards.pdf)
 
 # culture G
