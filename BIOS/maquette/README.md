@@ -1,4 +1,10 @@
-## scale model
+[sujet](Cerema_stage_logiciel_automatisme.pdf)
+
+# scale model
+
+![principe](dromotherm_laboratoire.png)
+
+## composants achetés
 
 [Relais 12V 220V](https://www.amazon.fr/SODIAL-R%C3%A9gulateur-Automatique-Intelligent-Anti-Transposition/dp/B07JP8TYQP/ref=sr_1_10?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=relais+carte+12V&qid=1583481978&sr=8-10)
 
@@ -40,7 +46,7 @@
 
 (8 x5) [collier de fixation x5](https://www.amazon.fr/Boutt%C3%A9-3373168-Colliers-fixation-simple/dp/B00J9C6QSU/ref=sr_1_8?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=collier+fixation+25&qid=1583498781&s=hi&sr=1-8)
 
-## options
+## options (non commandées)
 
 [compteur eau chaude DN20 (1 impulsion=0,25litre)](https://www.manomano.fr/p/compteur-deau-chaude-avec-sortie-impulsion-1-imp-025-litre-2663411)
 
