@@ -48,6 +48,8 @@ alias pip='/usr/bin/pip3'
 ```
 ### Scipy
 
+https://www.scipy.org/install.html
+
 [SciPy](https://www.scipy.org/) is a Python-based ecosystem of open-source software for mathematics, science, and engineering
 
 ```
