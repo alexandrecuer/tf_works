@@ -210,6 +210,7 @@ def RCgrad(_p):
     n_par=len(_p)
     str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(_p)
     print("estimating the gradient - p is {}".format(str))
+    p.append(_p)
     CRES=_p[0]
     CS=_p[1]
     RI=_p[2]
@@ -259,6 +260,19 @@ def RCAdjointState(_p):
 
 nbptinh=12
 step=3600//nbptinh
+
+
+house="ite"
+params=[ {"id":1,"name":"outdoor temp","color":"blue","action":"smp"},
+         {"id":170,"name": "kitchen","color":"purple","action":"smp"},
+         {"id":167,"name": "livingroom","color":"orange","action":"smp"},
+         {"id":173,"name":"bathroom","color":"green","action":"smp"},
+         {"id":176,"name":"bedroom","color":"#b6e91f","action":"smp"},
+         {"id":145,"name":"hvac power (W)","color":"red","action":"smp"}]
+smpStart=1547121600
+tDays=15
+"""
+
 house="temoin"
 params=[ {"id":1,"name":"outdoor temp","color":"blue","action":"smp"},
          {"id":182,"name": "kitchen","color":"purple","action":"smp"},
@@ -268,6 +282,7 @@ params=[ {"id":1,"name":"outdoor temp","color":"blue","action":"smp"},
          {"id":139,"name":"hvac power (W)","color":"red","action":"smp"}]
 smpStart=1556040600
 tDays=14
+"""
 # PHPFina index for the indoor temperature truth
 truth_id=2
 
@@ -279,13 +294,16 @@ smpH=datetime.utcfromtimestamp(smpStart).hour
 teta[:,-1]=generateSunRange(1000,nbptinh, teta.shape[0], smpH)
 params.append({"name":"solar power (W)","color":"yellow"})
 
-#if yu dont want to visualize the full dataset, yu can select only some columns
-meta=[params[0],params[truth_id],params[5],params[6]]
-dataset = np.vstack([teta[:,0],teta[:,truth_id],teta[:,5],teta[:,6]]).T
+# proceed a selection to avoid visualization of the full dataset
+meta=[params[0],params[truth_id],params[-2],params[-1]]
+dataset = np.vstack([teta[:,0],teta[:,truth_id],teta[:,-2],teta[:,-1]]).T
 print(dataset.shape)
 
-p0=[3.67e+5,8.95e+7,1e-2,1e-2,1e-2]
-#p0=[4e+5,9e+7,1e-2,1e-2,1e-2]
+#scaling
+p0=[1e6,1e7,1e-2,1e-2,1e-2]
+p0=[1e+5,9e+7,1e-2,1e-2,1e-2]
+#initial guess
+x0=[5,9,1,1,1]
 
 # u and truth will be used by RCpredict, RCfonc and RCgrad
 # u is the inputs/sollicitations tensor with 3 columns : T_ext ,P_hea, I_sol
@@ -304,9 +322,29 @@ visualize(dataset,meta,house,Tint_simEuler=Tint_simEuler,Tint_simKrank=Tint_simK
 from scipy import optimize
 bounds=[(0,np.inf),(0,np.inf),(1e-5,1e-1),(1e-5,1e-1),(1e-5,1e-1)]
 
-res=optimize.minimize(RCfonc, p0, method="BFGS", jac=RCgrad, bounds=bounds)
+p=[]
+def fonc(_x):
+    return RCfonc(p0*_x)
+
+def grad(_x):
+    return p0*RCgrad(p0*_x)
+
+res=optimize.minimize(fonc, x0, method="BFGS", jac=grad, bounds=bounds)
+
+p=np.array(p)
+nb=321
+labp=["cres", "cs", "ri", "r0", "rf"]
+for indice in range(p.shape[-1]):
+    plt.subplot(nb)
+    nb+=1
+    plt.plot(p[:,indice],label=labp[indice])
+    plt.legend()
+plt.show()
+
+#res=optimize.minimize(RCfonc, p0, method="BFGS", jac=RCgrad, bounds=bounds)
 print(res)
-popt=res["x"]
+popt=res["x"]*p0
+print(popt)
 
 input("press key to vizualize the optimized indoor temperature curve")
 Tint_optBFGS=RCpredict_Euler(u, popt[0], popt[1], popt[2], popt[3], popt[4])
