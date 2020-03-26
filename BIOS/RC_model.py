@@ -27,7 +27,7 @@ def generateSunDay(qs_max, nb):
         if i < sunrise or i > sunset:
             sun[i]=random.random()
         else:
-            sun[i]=max(0,qs_max*(2*math.exp(-10*((i-sunrise-zenith)/sunstp)**2)))
+            sun[i]=max(0,qs_max*(math.exp(-10*((i-sunrise-zenith)/sunstp)**2)))
     return sun
 
 def generateSunRange(qs_max, nb, size, offset):
@@ -99,7 +99,7 @@ def visualize(sample,meta,lib,**kwargs):
         plt.plot(sample[:,j],label=meta[j]["name"], color=meta[j]["color"])
     if len(kwargs):
         # you can plot 4 extra curves with prediction datas
-        icons=[':','--','o','*']
+        icons=[':','--','--','*']
         indice=0
         for key, vals in kwargs.items():
             plt.plot(vals,icons[indice],markersize=2, label="{}.".format(key))
@@ -107,10 +107,8 @@ def visualize(sample,meta,lib,**kwargs):
     plt.legend(loc='upper left')
     ax2 = ax1.twinx()
     ax2.set_ylabel("W")
-    plt.plot(sample[:,-2], label=meta[-2]["name"], color=meta[-2]["color"])
-    plt.fill_between(xrange, 0, sample[:,-2], color=meta[-2]["color"], alpha=0.2)
-    plt.plot(sample[:,-1], label=meta[-1]["name"],color=meta[-1]["color"])
-    plt.fill_between(xrange, 0, sample[:,-1], color=meta[-1]["color"], alpha=0.4)
+    plt.fill_between(xrange, 0, sample[:,-2], label=meta[-2]["name"], color=meta[-2]["color"], alpha=0.2)
+    plt.fill_between(xrange, 0, sample[:,-1], label=meta[-1]["name"], color=meta[-1]["color"], alpha=0.4)
     plt.legend(loc='upper right')
     plt.show()
 
@@ -126,7 +124,7 @@ def CsvExport(name,sample,header='Time,T_ext,P_hea,I_sol,T_int'):
 
     example : CsvExport("test_export",teta,"Time,outdoor temp,kitchen,livingroom,bathroom,bedroom,hvacpower,sunpower")
     """
-    datas=np.zeros((teta.shape[0],teta.shape[1]+1))
+    datas=np.zeros((sample.shape[0],sample.shape[1]+1))
     datas[:,0]=np.arange(0,sample.shape[0]*step,step)
     for j in range(sample.shape[1]):
         datas[:,j+1]=sample[:,j]
@@ -180,19 +178,45 @@ def RCpredict_Euler(inputs,CRES,CS,RI,R0,RF,allStates=False):
     nbpts=inputs.shape[0]
     H = np.array([[1, 0]])
     # Initialisation of the states
+    # we could generate N+1 points with our N sollicitations
+    # but for the last point we will not be able to evaluate the functionnal
     x = np.zeros((nbpts, n))
-    x[0] = np.array((truth[0], truth[0]))
+    x[0] = np.array([truth[0], u[0,0]+offset])
     # Simulation
     for i in range(nbpts-1):
         x[i+1]=np.linalg.inv(np.eye(n)-step*A).dot(x[i]+step*B.dot(inputs[i]))
-    # This function returns the first simulated state only
+
     if allStates == False:
+        return x[:,0]
+    else:
+        return x
+
+def RCpredict_Krank(inputs,CRES,CS,RI,R0,RF,allStates=False):
+    """
+    to solve dx/dt=A(p).x(p,t)+b.u(p,t)
+    with x=(Tint,Tenv) as our problem is a 2 states problem
+    the enveloppe is unobserved, whereas indoor is nomitored by a temperature sensor
+    """
+    A, B = MatriX(CRES,CS,RI,R0,RF,jac=False)
+    nbpts=inputs.shape[0]
+    x=np.zeros((nbpts,n))
+    x[0] = np.array([truth[0], u[0,0]+offset])
+
+    AS_B=np.linalg.inv(np.eye(n)-step*A/2)
+    AS_C=AS_B.dot(np.eye(n)+step*A/2)
+    AS_B=step*AS_B/2
+
+    for i in range(nbpts-1):
+        x[i+1]=AS_C.dot(x[i])+AS_B.dot(B.dot(inputs[i+1]+inputs[i]))
+
+    if allStates == False:
+        #H = np.array([[1, 0]])
         #return np.dot(H, x.T).flatten()
         return x[:,0]
     else:
         return x
 
-def RCfonc(_p):
+def RCfonc(_p,type="classic"):
     str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(_p)
     print("estimating the fonctionnal - p is {}".format(str))
     CRES=_p[0]
@@ -200,7 +224,10 @@ def RCfonc(_p):
     RI=_p[2]
     R0=_p[3]
     RF=_p[4]
-    x=RCpredict_Euler(u,CRES,CS,RI,R0,RF)
+    if type=="classic":
+        x=RCpredict_Euler(u,CRES,CS,RI,R0,RF)
+    elif type=="krank":
+        x=RCpredict_Krank(u,CRES,CS,RI,R0,RF)
     f=0
     for i in range(len(x)):
         f+=0.5*(x[i]-truth[i])**2
@@ -210,7 +237,6 @@ def RCgrad(_p):
     n_par=len(_p)
     str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(_p)
     print("estimating the gradient - p is {}".format(str))
-    p.append(_p)
     CRES=_p[0]
     CS=_p[1]
     RI=_p[2]
@@ -229,38 +255,37 @@ def RCgrad(_p):
 
     return df/len(x)
 
-def RCpredict_Krank(inputs,CRES,CS,RI,R0,RF):
-    """
-    to solve dx/dt=A(p).x(p,t)+b.u(p,t)
-    with x=(Tint,Tenv) as our problem is a 2 states problem
-    the enveloppe is unobserved, whereas indoor is nomitored by a temperature sensor
-    """
-    A, B = MatriX(CRES,CS,RI,R0,RF,jac=False)
-    nbpts=inputs.shape[0]
-    x=np.zeros((nbpts,n))
-    x[0] = np.array((truth[0], truth[0]))
-    for i in range(nbpts-1):
-        x[i+1]=np.linalg.inv(np.eye(n)-step*A/2).dot((np.eye(n)+step*A/2).dot(x[i])+step*B.dot(inputs[i+1]+inputs[i])/2)
-    H = np.array([[1, 0]])
-    return np.dot(H, x.T).flatten()
-
-def RCAdjointState(_p):
+def RCgrad_Krank(_p):
+    n_par=len(_p)
+    str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(_p)
+    print("estimating the gradient - p is {}".format(str))
     CRES=_p[0]
     CS=_p[1]
     RI=_p[2]
     R0=_p[3]
     RF=_p[4]
-    A, B = MatriX(CRES,CS,RI,R0,RF,jac=False)
-    x=RCpredict_Krank(u,CRES,CS,RI,R0,RF)
+    A, B, dA, dB = MatriX(CRES,CS,RI,R0,RF,jac=True)
+    x=RCpredict_Krank(u,CRES,CS,RI,R0,RF,allStates=True)
+
+    AS_B=np.linalg.inv(np.eye(n)-step*A/2)
+    AS_C=AS_B.dot(np.eye(n)+step*A/2)
+    AS_B=step*AS_B/2
+
     S=np.zeros((len(x),n))
-    for j in range(len(x)-2,-1,-1):
-        S[j]=np.linalg.inv(np.eye(n)/step-A.T/2).dot((np.eye(n)/step+A.T/2).dot(S[j+1]) + np.array([x[j]-truth[j],0])/len(x))
-    return S
+    for j in range(len(x)-1,1,-1):
+        S[j-1]=S[j].T.dot(AS_C)+np.array([x[j,0]-truth[j],0]).T.dot(AS_B)*2/len(x)
 
+    df=np.zeros(n_par)
+    for i in range(len(x)-1):
+        for j in range(n_par):
+            df[j]+=S[i].dot(dA[j].dot(x[i+1]+x[i])+dB[j].dot(u[i+1,:]+u[i,:]))/2
+    return df
 
-nbptinh=12
+# number of points in an hour
+nbptinh=2
 step=3600//nbptinh
-
+# offset in °C to add to the initial guess for the envelope temperature when starting prediction
+offset=0
 
 house="ite"
 params=[ {"id":1,"name":"outdoor temp","color":"blue","action":"smp"},
@@ -270,7 +295,9 @@ params=[ {"id":1,"name":"outdoor temp","color":"blue","action":"smp"},
          {"id":176,"name":"bedroom","color":"#b6e91f","action":"smp"},
          {"id":145,"name":"hvac power (W)","color":"red","action":"smp"}]
 smpStart=1547121600
+#smpStart=1545902400
 tDays=15
+#tDays=30
 """
 
 house="temoin"
@@ -283,61 +310,77 @@ params=[ {"id":1,"name":"outdoor temp","color":"blue","action":"smp"},
 smpStart=1556040600
 tDays=14
 """
-# PHPFina index for the indoor temperature truth
+# we set the truth choosing an id among the indoor temperature feeds we have collected (1,2,3,4)
 truth_id=2
-
-teta=GoToTensor(params,step,smpStart,tDays*24*nbptinh)
-
-# generate some sun and amend the params list
-#calculating the starting hour for the datarange
-smpH=datetime.utcfromtimestamp(smpStart).hour
-teta[:,-1]=generateSunRange(1000,nbptinh, teta.shape[0], smpH)
-params.append({"name":"solar power (W)","color":"yellow"})
-
-# proceed a selection to avoid visualization of the full dataset
-meta=[params[0],params[truth_id],params[-2],params[-1]]
-dataset = np.vstack([teta[:,0],teta[:,truth_id],teta[:,-2],teta[:,-1]]).T
-print(dataset.shape)
+# algo can be krank with an evaluation of the gradient on the basis of the adjoint state or a classic scheme
+#algo="classic"
+algo="classic"
 
 #scaling
-p0=[1e6,1e7,1e-2,1e-2,1e-2]
-p0=[1e+5,9e+7,1e-2,1e-2,1e-2]
+p0=np.array([1e+6,1e+7,1e-2,1e-2,1e-2])
 #initial guess
-x0=[5,9,1,1,1]
+x0=np.array([9,9,1,1,1])
+
+# fetching the feeds
+teta=GoToTensor(params,step,smpStart,tDays*24*nbptinh)
+# generate some sun and amend the params list
+# calculating the starting hour for the datarange
+smpH=datetime.utcfromtimestamp(smpStart).hour
+teta[:,-1]=generateSunRange(500,nbptinh, teta.shape[0], smpH)
+params.append({"name":"solar power (W)","color":"yellow"})
 
 # u and truth will be used by RCpredict, RCfonc and RCgrad
 # u is the inputs/sollicitations tensor with 3 columns : T_ext ,P_hea, I_sol
 u = np.vstack([teta[:,0],teta[:,5],teta[:,6]]).T
-# we set the truth
 truth=teta[:,truth_id]
-# we have 2 states : indoor and envelope - envelope is unobserved
 # n is the number of states
+# we have 2 states : indoor and envelope - envelope is unobserved
 n = 2
+# proceed a selection to avoid visualization of the full dataset
+meta=[params[0],params[truth_id],params[-2],params[-1]]
+dataset = np.vstack([teta[:,0],teta[:,truth_id],teta[:,-2],teta[:,-1]]).T
 
-Tint_simEuler=RCpredict_Euler(u,p0[0],p0[1],p0[2],p0[3],p0[4])
-Tint_simKrank=RCpredict_Krank(u,p0[0],p0[1],p0[2],p0[3],p0[4])
-S=RCAdjointState(p0)
-visualize(dataset,meta,house,Tint_simEuler=Tint_simEuler,Tint_simKrank=Tint_simKrank,S0=S[:,0])
+
+s=x0*p0
+T_simEuler=RCpredict_Euler(u,s[0],s[1],s[2],s[3],s[4],allStates=True)
+Tint_simKrank=RCpredict_Krank(u,s[0],s[1],s[2],s[3],s[4])
+visualize(dataset,meta,house,Tint_simEuler=T_simEuler[:,0],TS_simEuler=T_simEuler[:,1],Tint_simKrank=Tint_simKrank)
+
 
 from scipy import optimize
-bounds=[(0,np.inf),(0,np.inf),(1e-5,1e-1),(1e-5,1e-1),(1e-5,1e-1)]
+#for method L-BFGS-B
+bounds=[(0,np.inf),(0,np.inf),(0,1),(0,1),(0,1)]
 
-p=[]
+# we will use array x to store the evolution of the parameters during the iteration process
+# they will stand as quality indicators for convergence or not
+x=[]
+
+# initiate functions with regularisation
 def fonc(_x):
-    return RCfonc(p0*_x)
+    return RCfonc(p0*_x,type=algo)
 
 def grad(_x):
-    return p0*RCgrad(p0*_x)
+    x.append(_x)
+    if algo=="krank":
+        return p0*RCgrad_Krank(p0*_x)
+    elif algo=="classic":
+        return p0*RCgrad(p0*_x)
 
-res=optimize.minimize(fonc, x0, method="BFGS", jac=grad, bounds=bounds)
+#res=optimize.minimize(fonc, x0, method="L-BFGS-B", jac=grad, bounds=bounds)
+res=optimize.minimize(fonc, x0, method="BFGS", jac=grad)
 
-p=np.array(p)
+# SANITY CONVERGENCE CHECK
+quality=np.array(x)
 nb=321
-labp=["cres", "cs", "ri", "r0", "rf"]
-for indice in range(p.shape[-1]):
+lib=["cres", "cs", "ri", "r0", "rf"]
+for z in range(len(lib)):
+    str="%.0E" % (1/p0[z])
+    lib[z]="{} x {}".format(lib[z],str)
+#it is the iteration number
+for it in range(quality.shape[-1]):
     plt.subplot(nb)
     nb+=1
-    plt.plot(p[:,indice],label=labp[indice])
+    plt.plot(quality[:,it],label=lib[it])
     plt.legend()
 plt.show()
 
@@ -347,5 +390,27 @@ popt=res["x"]*p0
 print(popt)
 
 input("press key to vizualize the optimized indoor temperature curve")
-Tint_optBFGS=RCpredict_Euler(u, popt[0], popt[1], popt[2], popt[3], popt[4])
-visualize(teta,params,house,Tint_optBFGS=Tint_optBFGS)
+if algo=="krank":
+    T_opt=RCpredict_Krank(u, popt[0], popt[1], popt[2], popt[3], popt[4],allStates=True)
+elif algo=="classic":
+    T_opt=RCpredict_Euler(u, popt[0], popt[1], popt[2], popt[3], popt[4],allStates=True)
+visualize(teta,params,house,Tint_opt=T_opt[:,0],Ts_opt=T_opt[:,1])
+
+#lets make a simulation out of the optimisation window
+smpStart=1540166400
+tDays=4
+# we do not give the sun to GoToTensor as it was not monitored by Themis
+winter=GoToTensor(params[:-1],step,smpStart,tDays*24*nbptinh)
+smpH=datetime.utcfromtimestamp(smpStart).hour
+#adding the sun
+winter[:,-1]=generateSunRange(500,nbptinh, winter.shape[0], smpH)
+#setting the sollicitations and the truth
+u = np.vstack([winter[:,0],winter[:,5],winter[:,6]]).T
+truth=winter[:,truth_id]
+if algo=="krank":
+    T_sim_winter=RCpredict_Krank(u, popt[0], popt[1], popt[2], popt[3], popt[4],allStates=True)
+elif algo=="classic":
+    T_sim_winter=RCpredict_Euler(u, popt[0], popt[1], popt[2], popt[3], popt[4],allStates=True)
+meta=[params[0],params[truth_id],params[-2],params[-1]]
+dataset = np.vstack([winter[:,0],winter[:,truth_id],winter[:,-2],winter[:,-1]]).T
+visualize(dataset,meta,house,Tint_sim=T_sim_winter[:,0],Ts_sim=T_sim_winter[:,1])
