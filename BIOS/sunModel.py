@@ -166,32 +166,32 @@ def earthDeclination(n,rad=True):
 class globalSunRadiation():
     def __init__(self,lat,long,alt,nbptinh,start,nbdays):
         # latitude and longitude in decimal deg.
-        self.lat=lat
-        self.radlat=math.radians(self.lat)
-        self.long=long
+        self._lat=lat
+        self._radlat=math.radians(self._lat)
+        self._long=long
         # altitude in meter
-        self.alt=alt
+        self._alt=alt
         # offset with the Universal Time Coordinated
-        self.UTCoffset=0
-        self.nbptinh=nbptinh
+        self._UTCoffset=0
+        self._nbptinh=nbptinh
         #Return the UTC datetime from the unix timestamp
         human=datetime.utcfromtimestamp(start)
         # time tuple is tm_year, tm_mon, tm_mday, tm_hour, tm_min, tm_sec, tm_wday, tm_yday, tm_isdst=-1 (day saving time)
         tt=human.timetuple()
         print("you have choosen to generate global sun rad. on {} which is day of the year number {}".format(human,tt.tm_yday))
-        self.startday = tt.tm_yday
-        self.nbdays = nbdays
-        self.indice=0
-        self.datas=np.zeros((self.nbdays*24*self.nbptinh, 5))
+        self._startday = tt.tm_yday
+        self._nbdays = nbdays
+        self._indice=0
+        self._datas=np.zeros((self._nbdays*24*self._nbptinh, 5))
         # Energy received on the period
-        self.E=0
+        self._E=0
 
     def hourAngle(self,n,h,rad=True):
         """
         angle between the sun and the local meridian
         result in degrees or radians
         """
-        w = 15*(h-self.UTCoffset+deltaT(n)-12) + self.long
+        w = 15*(h-self._UTCoffset+deltaT(n)-12) + self._long
 
         if rad==True:
             return math.radians(w)
@@ -203,7 +203,7 @@ class globalSunRadiation():
         calculates the sun duration for the day n
         result in hour
         """
-        return 2*math.degrees(math.acos(-math.tan(self.radlat)*math.tan(earthDeclination(n))))/15
+        return 2*math.degrees(math.acos(-math.tan(self._radlat)*math.tan(earthDeclination(n))))/15
 
     def solarAngles(self,n,h,rad=True):
         """
@@ -215,7 +215,7 @@ class globalSunRadiation():
         decl=earthDeclination(n)
         w=self.hourAngle(n,h)
         #hauteur du soleil - sun height : sh
-        sh = math.sin(self.radlat)*math.sin(decl) + math.cos(self.radlat)*math.cos(decl)*math.cos(w)
+        sh = math.sin(self._radlat)*math.sin(decl) + math.cos(self._radlat)*math.cos(decl)*math.cos(w)
         gamma=math.asin(sh)
         #trace du soleil dans le plan horizontal
         alpha=math.asin(math.cos(decl)*math.sin(w)/math.cos(gamma))
@@ -232,9 +232,9 @@ class globalSunRadiation():
         gas absorption disorder (02, CO2, O3 ozone, water vapor, aerosols)
         Capderou ?
         """
-        sinphi = math.sin(self.radlat)
+        sinphi = math.sin(self._radlat)
         A=math.sin(2*math.pi*(n-121)/365)
-        z=self.alt/1000
+        z=self._alt/1000
         angles=self.solarAngles(n,h)
         T1 = 2.4 - 0.9*sinphi + 0.1*(2 + sinphi*A - 0.2*z - (1.22+0.14*A)*(1-math.sin(angles[0])))
         T2 = 0.89**z
@@ -249,13 +249,14 @@ class globalSunRadiation():
         """
         angles=self.solarAngles(n,h)
         TL=self.Linke(n,h)
-        z=alt/1000
+        z=self._alt/1000
         # solar gain / coefficient d'atténuation tenant compte des variations de la nébulosité
         fs=0.65
+        fs=1
         mod1=fs*(1300-57*TL)*math.exp(0.22*z/7.8)*math.sin(angles[0])**((TL+36)/33)
         mod2=fs*extraRadiation(n)*math.sin(angles[0])
-        self.datas[self.indice]=np.array([mod1,TL,math.degrees(angles[0]),math.degrees(angles[1]),math.degrees(angles[2])])
-        self.indice+=1
+        self._datas[self._indice]=np.array([mod1,TL,math.degrees(angles[0]),math.degrees(angles[1]),math.degrees(angles[2])])
+        self._indice+=1
         return mod1, mod2
 
     def generate(self):
@@ -263,10 +264,10 @@ class globalSunRadiation():
         generate and store datas
         global radiation in W/m2, linke trouble, gamma, alpha, omega
         """
-        for d in range(self.nbdays):
-            day=self.startday+d
+        for d in range(self._nbdays):
+            day=self._startday+d
             for h in range(24):
-                for m in range(self.nbptinh):
+                for m in range(self._nbptinh):
                     self.globalRadiation(day,h+m/nbptinh)
 
     def energy(self):
@@ -274,21 +275,21 @@ class globalSunRadiation():
         steps_in_month=30*24*nbptinh
         indice=0
         Emonth=0
-        for i in range(self.datas.shape[0]):
+        for i in range(self._datas.shape[0]):
             if indice > steps_in_month:
                 indice=0
                 E.append(Emonth)
                 Emonth=0
-            Emonth+=self.datas[i,0]
+            Emonth+=self._datas[i,0]
             indice+=1
         if len(E):
-            print("Kwh not integrated in the mensual estimation : {}".format(Emonth/(self.nbptinh*1000)))
-            E=np.array(E)/(self.nbptinh*1000)
+            print("Kwh not integrated in the mensual estimation : {}".format(Emonth/(self._nbptinh*1000)))
+            E=np.array(E)/(self._nbptinh*1000)
             print("the following array synthetises mensual estimations on the choosen period")
             print(E)
-            self.E=np.sum(E)
+            self._E=np.sum(E)
         else:
-            self.E=Emonth/(self.nbptinh*1000)
+            self._E=Emonth/(self._nbptinh*1000)
 
 # Escurolles is lat 46°8'39'' long 3°15'58''
 # in decimal deg.
@@ -325,8 +326,7 @@ for i in [1,100,200,300]:
     print("day  duration of day {} is {} h".format(i, sun.sunDuration(i)))
 """
 sun.generate()
-sun.energy()
-print(sun.E)
+
 
 
 
@@ -346,15 +346,47 @@ plt.show()
 viewSunPath()
 
 ax1=plt.subplot(211)
-plt.plot(sun.datas[:,0],label="global radiation in W/m2",color="orange")
+plt.plot(sun._datas[:,0],label="global radiation in W/m2",color="orange")
 plt.legend(loc='upper left')
 ax2 = ax1.twinx()
-plt.plot(sun.datas[:,1],label="Linke trouble",color="green")
+plt.plot(sun._datas[:,1],label="Linke trouble",color="green")
 plt.legend(loc='upper right')
 plt.subplot(212,sharex=ax1)
-plt.plot(sun.datas[:,2],label="gamma-height",color="orange")
-plt.plot(sun.datas[:,3],label="alpha-zenith",color="red")
-plt.plot(sun.datas[:,4],label="omega-hour angle",color="pink")
+plt.plot(sun._datas[:,2],label="gamma-height",color="orange")
+plt.plot(sun._datas[:,3],label="alpha-zenith",color="red")
+plt.plot(sun._datas[:,4],label="omega-hour angle",color="pink")
 plt.legend(loc='upper right')
 plt.xlabel("Time - step=h/{}".format(nbptinh))
+plt.show()
+
+from openData import openData
+dataset='donnees-synop-essentielles-omm%40public'
+station="07460"
+start=2018
+stop=2019
+tz="Europe/Paris"
+fields=["date","nbas","tc"]
+# we fix here the presumed timestep in hour
+# for data coming from météo france, timestep is usually 3 hours
+step_in_h=3
+synop=openData(dataset,station,start,stop,fields,tz,step_in_h)
+synop.retrieve()
+
+# cloud attenuation factor
+indice=0
+Kct=np.zeros(sun._datas.shape[0])
+for i in range(sun._datas.shape[0]):
+    if i % (nbptinh*step_in_h) == 0:
+        Kc=(1-0.75*(synop._full_data[indice,1]/9)**3.4)
+        if indice < synop._full_data.shape[0]:
+            indice+=1
+    Kct[i]=Kc
+
+sun._datas[:,0]=Kct*sun._datas[:,0]
+
+sun.energy()
+print(sun._E)
+
+plt.subplot(111)
+plt.plot(sun._datas[:,0])
 plt.show()
