@@ -26,6 +26,8 @@ import requests
 # %22 is "
 # cf https://www.nicolas-hoffmann.net/utilitaires/codes-hexas-ascii-unicode-utf8-caracteres-usuels.php
 
+# here we are using the API v1 as this script is only a prototype
+# see the openData class to have a more accomplished tool
 server="https://data.opendatasoft.com/explore/dataset"
 dataset='donnees-synop-essentielles-omm@public'
 # clermont-ferrand station is number 07460
@@ -34,9 +36,10 @@ station="07460"
 year=2018
 tz="Europe/Paris"
 
-req='{}/{}/download/?format=csv&q=numer_sta%3D%22{}%22&sort=date&refine.date={}'.format(server,dataset,station,year)
+req='{}/{}/download/?format=csv&q=numer_sta=%22{}%22&sort=date&refine.date={}'.format(server,dataset,station,year)
 req='{}&timezone={}&use_labels_for_header=true&csv_separator=%3B'.format(req,tz)
-#print(req)
+print(req)
+input("press a key")
 
 response = requests.get(req)
 
