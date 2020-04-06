@@ -4,7 +4,7 @@ numerical analysis work related to the **BIOS** project - started in 2020
 
 BIOS : Building Intelligent Operating System
 
-## Configuration
+## Main configuration
 
 a "weak" machine
 
@@ -24,29 +24,15 @@ sudo apt-get dist-upgrade -y
 sudo apt-get clean
 sudo apt --fix-broken install
 ```
+## DataScience tools
 
-### python
+### configuration with python 3.6
 
-#### python3 and pip3
-
-The Ubuntu 18.04 LTS ships with python3. you just have to install pip3
+The Ubuntu 18.04 LTS ships with python3.6. you just have to install pip3
 ```
 sudo apt install python3-pip
 ```
-
-#### python and pip
-
-if you also want to have python
-```
-sudo apt install python
-sudo apt install python-pip
-```
-and add to ~/.bashrc
-```
-alias python='/usr/bin/python3'
-alias pip='/usr/bin/pip3'
-```
-### Scipy
+install scipy/matplotlib/numpy = matlab like tools for python
 
 https://www.scipy.org/install.html
 
@@ -56,9 +42,7 @@ https://www.scipy.org/install.html
 pip3 install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
 ```
 
-### Tensorflow 
-
-install tensorflow and numpy
+install tensorflow
 ```
 pip3 install tensorflow
 pip3 install --upgrade tensorflow
@@ -72,6 +56,8 @@ check keras version
 ```
 pip3 list | grep -i keras
 ```
+### upgrading to python 3.7
+
 
 ### Atom
 
