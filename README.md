@@ -56,6 +56,25 @@ pip3 list | grep -i keras
 ```
 ### upgrading to python 3.7
 
+There is packaged version of python 3.7.
+```
+sudo apt install python3.7 python3.7-dev python3.7-venv
+```
+Create a virtual environment in which we will install NumPy, SciPy and Matplotlib
+```
+python3.7 -m venv work3.7
+source work3.7/bin/activate
+```
+When an environment is activated the shell prompt is temporarily changed to show the name of the active environment. If you close your Terminal or restart your machine, the environment is deactivated. You can also deactivate an environment by using the deactivate command.
+Just install the missing libraries :
+```
+pip3 install --user numpy scipy matplotlib
+```
+or
+```
+pip3 install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+```
+Plus tensorflow if needed....
 
 ### openGym
 
