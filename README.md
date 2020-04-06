@@ -56,7 +56,7 @@ pip3 list | grep -i keras
 ```
 ### upgrading to python 3.7
 
-There is packaged version of python 3.7.
+There is packaged version of python 3.7 for ubuntu.
 ```
 sudo apt install python3.7 python3.7-dev python3.7-venv
 ```
