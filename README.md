@@ -73,9 +73,9 @@ If you close your terminal/restart your machine/use the deactivate command, the 
 
 Just install the missing libraries (do not use the --user option):
 ```
-pip3 install --user numpy scipy matplotlib
+pip3 install numpy scipy matplotlib
 or
-pip3 install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+pip3 install numpy scipy matplotlib ipython jupyter pandas sympy nose
 
 pip3 install requests
 ```
