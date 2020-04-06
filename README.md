@@ -65,8 +65,13 @@ Create a virtual environment in which we will install NumPy, SciPy and Matplotli
 python3.7 -m venv work3.7
 source work3.7/bin/activate
 ```
-When an environment is activated the shell prompt is temporarily changed to show the name of the active environment. If you close your Terminal or restart your machine, the environment is deactivated. You can also deactivate an environment by using the deactivate command.
-Just install the missing libraries :
+When an environment is activated the shell prompt is temporarily changed to show the name of the active environment. 
+```
+(work3.7) alexandrecuer@alexandrecuer-PORTEGE-R30-A:~
+```
+If you close your terminal/restart your machine/use the deactivate command, the environment is deactivated.
+
+Just install the missing libraries (do not use the --user option):
 ```
 pip3 install --user numpy scipy matplotlib
 ```
