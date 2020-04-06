@@ -32,11 +32,9 @@ The Ubuntu 18.04 LTS ships with python3.6. you just have to install pip3
 ```
 sudo apt install python3-pip
 ```
-install scipy/matplotlib/numpy = matlab like tools for python
+install [Scipy](https://www.scipy.org/)/matplotlib/numpy = matlab like tools for python, a Python-based ecosystem of open-source software for mathematics, science, and engineering
 
-https://www.scipy.org/install.html
-
-[SciPy](https://www.scipy.org/) is a Python-based ecosystem of open-source software for mathematics, science, and engineering
+cf https://www.scipy.org/install.html
 
 ```
 pip3 install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
