@@ -57,15 +57,6 @@ pip3 list | grep -i keras
 ### upgrading to python 3.7
 
 
-### Atom
-
-```
-wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
-sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
-sudo apt-get update
-sudo apt-get install atom
-```
-
 ### openGym
 
 ```
@@ -77,6 +68,15 @@ pip install gym
 ```
 pip install -U scikit-learn
 pip install statsmodels
+```
+
+## Atom code editor
+
+```
+wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
+sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+sudo apt-get update
+sudo apt-get install atom
 ```
 
 ## install virtualbox on Ubuntu Bionic
