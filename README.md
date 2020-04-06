@@ -103,7 +103,7 @@ sudo apt-get update
 sudo apt-get install atom
 ```
 
-## install virtualbox on Ubuntu Bionic
+## Install virtualbox on Ubuntu Bionic
 
 ```
 sudo nano /etc/apt/sources.list
