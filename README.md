@@ -79,8 +79,9 @@ pip3 install numpy scipy matplotlib ipython jupyter pandas sympy nose
 
 pip3 install requests
 ```
-
 Plus tensorflow if needed....
+
+Nota : the urllib tools are included in the python package (cf https://docs.python.org/3/library/urllib.html)
 
 ### openGym
 
