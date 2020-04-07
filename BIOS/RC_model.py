@@ -195,7 +195,7 @@ def RCpredict_Krank(inputs,CRES,CS,RI,R0,RF,allStates=False):
     """
     to solve dx/dt=A(p).x(p,t)+b.u(p,t)
     with x=(Tint,Tenv) as our problem is a 2 states problem
-    the enveloppe is unobserved, whereas indoor is nomitored by a temperature sensor
+    the enveloppe is unobserved, whereas indoor is monitored by a temperature sensor
     """
     A, B = MatriX(CRES,CS,RI,R0,RF,jac=False)
     nbpts=inputs.shape[0]
@@ -228,10 +228,13 @@ def RCfonc(_p,type="classic"):
         x=RCpredict_Euler(u,CRES,CS,RI,R0,RF)
     elif type=="krank":
         x=RCpredict_Krank(u,CRES,CS,RI,R0,RF)
+    return 0.5*np.sum(np.square(x-truth))/x.shape[0]
+    """
     f=0
     for i in range(len(x)):
         f+=0.5*(x[i]-truth[i])**2
     return f/len(x)
+    """
 
 def RCgrad(_p):
     n_par=len(_p)
@@ -295,9 +298,9 @@ params=[ {"id":1,"name":"outdoor temp","color":"blue","action":"smp"},
          {"id":176,"name":"bedroom","color":"#b6e91f","action":"smp"},
          {"id":145,"name":"hvac power (W)","color":"red","action":"smp"}]
 smpStart=1547121600
-#smpStart=1545902400
+smpStart=1545902400
 tDays=15
-#tDays=30
+tDays=30
 """
 
 house="temoin"
@@ -314,12 +317,12 @@ tDays=14
 truth_id=2
 # algo can be krank with an evaluation of the gradient on the basis of the adjoint state or a classic scheme
 #algo="classic"
-algo="classic"
+algo="krank"
 
 #scaling
 p0=np.array([1e+6,1e+7,1e-2,1e-2,1e-2])
 #initial guess
-x0=np.array([9,9,1,1,1])
+x0=np.array([1,8.95,1,1,1])
 
 # fetching the feeds
 teta=GoToTensor(params,step,smpStart,tDays*24*nbptinh)
