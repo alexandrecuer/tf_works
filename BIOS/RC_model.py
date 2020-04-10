@@ -152,13 +152,13 @@ inputs is a 3 colums tensor which represents the sollicitations :
 T_ext and P_hea are monitored, I_sol is not easy to acquire, so we will use a simulation
 
 2 discretization functions :
-    - RCpredict_Euler(p,x0,inputs,allStates=False)
-    - RCpredict_Krank(p,x0,inputs,allStates=False), which uses the  Krank Nicholson scheme
+    - RCpredict_Euler(step,p,x0,inputs,allStates=False)
+    - RCpredict_Krank(step,p,x0,inputs,allStates=False), which uses the  Krank Nicholson scheme
 
 all other methods rely on setting a truth variable in addition to p,x0 and inputs
-    - RCfonc(p, x0, inputs, truth, type="classic", verbose="true") is the cost function
-    - RCgrad(p, x0, inputs, truth)
-    - RCgrad_Krank(p, x0, inputs, truth)
+    - RCfonc(step,p, x0, inputs, truth, type="classic", verbose="true") is the cost function
+    - RCgrad(step,p, x0, inputs, truth)
+    - RCgrad_Krank(step,p, x0, inputs, truth)
 
 truth represents field reality for indoor temperature
 
@@ -173,6 +173,7 @@ def MatriX(p,jac=True):
     R0: thermal resistance between the envelope and the outdoor (wall external resistance)
     FR: thermal resistance due to air leakage
     """
+    #print(p)
     CRES=p[0]
     CS=p[1]
     RI=p[2]
@@ -245,16 +246,16 @@ def RCpredict_Krank(step, p, x0, inputs, allStates=False):
     else:
         return x
 
-def RCfonc(p, x0, inputs, truth, type="classic", verbose="true"):
+def RCfonc(step, p, x0, inputs, truth, type="classic", verbose="true"):
     if verbose:
         str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(p)
         print("estimating the fonctionnal - p is {}".format(str))
 
     if type=="classic":
-        x=RCpredict_Euler(p,x0,inputs)
+        x=RCpredict_Euler(step,p,x0,inputs)
     elif type=="krank":
-        x=RCpredict_Krank(p,x0,inputs)
-    return 0.5*np.sum(np.square(x-truth))/x0.shape[0]
+        x=RCpredict_Krank(step,p,x0,inputs)
+    return 0.5*np.sum(np.square(x-truth))/x.shape[0]
 
 def RCgrad(step, p, x0, inputs, truth):
     n_par=len(p)
@@ -262,7 +263,7 @@ def RCgrad(step, p, x0, inputs, truth):
     str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(p)
     print("estimating the gradient - p is {}".format(str))
     A, B, dA, dB = MatriX(p,jac=True)
-    x=RCpredict_Euler(p,x0,inputs,truth,allStates=True)
+    x=RCpredict_Euler(step,p,x0,inputs,allStates=True)
 
     z=np.zeros((n,n_par))
     df=np.zeros(n_par)
@@ -280,7 +281,7 @@ def RCgrad_Krank(step, p, x0, inputs, truth):
     str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(p)
     print("estimating the gradient - p is {}".format(str))
     A, B, dA, dB = MatriX(p,jac=True)
-    x=RCpredict_Krank(p,x0,inputs,truth,allStates=True)
+    x=RCpredict_Krank(step,p,x0,inputs,allStates=True)
 
     AS_B=np.linalg.inv(np.eye(n)-step*A/2)
     AS_C=AS_B.dot(np.eye(n)+step*A/2)
@@ -316,8 +317,12 @@ class RC_model():
         self._algo="krank"
         self._exploreMatrix=[]
 
-    def fixAlgo(algo):
+    def algo(self,algo):
         self._algo = algo
+
+    def setWeigths(self,p0,w0):
+        self._p0 = p0
+        self._w0 = w0
 
     def buildSet(self,smpStart,tDays,uid,tid):
         """
@@ -356,6 +361,8 @@ class RC_model():
         and to make a prediction according to the current discretization scheme
         :i: the set number we want to vizualize
         :guess: initial values (ie at the set start) for (T_int,T_env)
+
+        :full: False > only show the truth - True > show all the indoor temperature fields integrated to the set
         """
         if len(self._wopt):
             s=self._wopt*self._p0
@@ -485,6 +492,48 @@ class RC_model():
 
         plt.show()
 
+    def optimize(self,i,guess):
+        """
+        launch an optimization on set i
+        """
+        # we will use array w to store the evolution of the parameters during the iteration process
+        # they will stand as quality indicators for convergence or not
+        w=[]
+
+        # nested functions for regularisation
+        def fonc(_w):
+            return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo)
+
+        def grad(_w):
+            w.append(_w)
+            if self._algo=="krank":
+                return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+            elif self._algo=="classic":
+                return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+
+        res=optimize.minimize(fonc, self._w0, method="BFGS", jac=grad)
+        #bounds=[(0,np.inf),(0,np.inf),(0,1),(0,1),(0,1)]
+        #res=optimize.minimize(fonc, self._w0, method="BFGS", jac=grad, bounds=bounds)
+
+        # SANITY CONVERGENCE CHECK
+        quality=np.array(w)
+        nb=321
+        lib=["cres", "cs", "ri", "r0", "rf"]
+        for z in range(len(lib)):
+            str="%.0E" % (1/self._p0[z])
+            lib[z]="{} x {}".format(lib[z],str)
+        #it is the iteration number
+        for it in range(quality.shape[-1]):
+            plt.subplot(nb)
+            plt.plot(quality[:,it],label=lib[it])
+            plt.legend()
+            nb+=1
+        plt.show()
+
+        print(res)
+        popt=res["x"]*self._p0
+        print(popt)
+        self._wopt = res["x"]
 
 # number of points in an hour
 nbptinh=2
@@ -506,9 +555,10 @@ w0=np.array([1.0,4.0,1.0,1.0,1.0])
 ite=RC_model(house,params,nbptinh,p0,w0)
 ite.buildSet(1547121600,15,[0,5,6],[1,5])
 ite.buildSet(1545902400,30,[0,5,6],[1,5])
-guess = np.array([ite._truth[1][0], ite._inputs[1][0,0]+10])
+guess = np.array([ ite._truth[1][0], ite._truth[1][0] ])
 ite.viewSet(1,guess,full=False)
 
+"""
 # dynamic visual approach to evaluate the influence of each parameter
 plan=[ [ 20  , 25  , 100 , 25   , 50  ,  50 , 60    ,100   ,30   ],
        [ 1   , 0.5 , 0.1 , 0.01 , 0.01,-0.05,-0.0025,-0.025,-0.25],
@@ -517,4 +567,16 @@ plan=[ [ 20  , 25  , 100 , 25   , 50  ,  50 , 60    ,100   ,30   ],
        ]
 
 ite.explorationMatrix(plan,verbose=False)
-ite.explore(0,guess)
+ite.explore(1,guess)
+"""
+
+# scaling
+#_p0=np.array([1e+7,1e+7,1e-2,1e-2,1e-2])
+# weights
+#_w0=np.array([2.0,1.65,6.0,1.25,1.35])
+#ite.setWeigths(_p0,_w0)
+ite.optimize(1,guess)
+ite.viewSet(1,guess,full=False)
+
+ite.buildSet(1540166400,4,[0,5,6],[1,5])
+ite.viewSet(2,guess,full=False)
