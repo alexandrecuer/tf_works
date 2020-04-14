@@ -1,6 +1,23 @@
 from datetime import datetime
 import math
 import struct
+import numpy as np
+import os.path
+
+"""
+this small library uses seek
+Seek can be called one of two ways:
+x.seek(offset)
+x.seek(offset, starting_point)
+
+starting_point can be 0, 1, or 2
+ 0 - Default. Offset relative to beginning of file
+ 1 - Start from the current position in the file
+ 2 - Start from the end of a file (will require a negative offset)
+"""
+
+# if want to work on the active directory, just use dir="."
+dir="phpfina"
 
 # convert a unix time stamp expressed in seconds to something human readable
 def humanDate(uts):
@@ -15,7 +32,7 @@ def readBytes(nb,file):
 
 # for debugging in case
 def checkPoints(nb,position,interval):
-    with open("phpfina/"+str(nb)+".dat", "rb") as ts:
+    with open("{}/{}.dat".format(dir,nb), "rb") as ts:
         for i in range(300):
             nbPtInHour=60*60/interval
             offset=int((position+i)*4)
@@ -27,19 +44,72 @@ def checkPoints(nb,position,interval):
             print(value)
 
 """
-Seek can be called one of two ways:
-x.seek(offset)
-x.seek(offset, starting_point)
-
-starting_point can be 0, 1, or 2
- 0 - Default. Offset relative to beginning of file
- 1 - Start from the current position in the file
- 2 - Start from the end of a file (will require a negative offset)
+a bunch of functions to create a synthetic PHPFina feed from a list or a numpy vector
 """
+def createMeta(nb,start,step,dir=dir):
+    """
+    create meta given :
+    - a feed number
+    - a unixtimestamp as start
+    - a step
+    """
+    f=open("{}/{}.meta".format(dir,nb),"wb")
+    data=np.array([0,0,step,start])
+    format='<'+'I'*len(data)
+    bin=struct.pack(format,*data)
+    f.write(bin)
+    f.close()
+
+def createFeed(nb,data,dir=dir):
+    """
+    create a dat file given :
+    - a feed number
+    - a numpy vector of data
+    """
+    f=open("{}/{}.dat".format(dir,nb),"wb")
+    format='<'+'f'*len(data)
+    bin=struct.pack(format,*data)
+    f.write(bin)
+    f.close()
+
+def getMetas(nb,dir=dir):
+    """
+    read meta given a feed number
+    """
+    f=open("{}/{}.meta".format(dir,nb),"rb")
+    f.seek(8,0)
+    hexa = f.read(8)
+    aa= bytearray(hexa)
+    if len(aa)==8:
+      decoded=struct.unpack('<2I', aa)
+    print(decoded)
+    f.close()
+
+def newPHPFina(nb,start,step,data,dir=dir):
+    """
+    create a PHPFina object, without any reference to any EmonCMS server
+    start : unix time stamp as the starting point
+    step : timestep in s
+    data : data to be injected as a numpy vector
+    """
+    meta="{}/{}.meta".format(dir,nb)
+    if os.path.isfile(meta) and os.path.getsize(meta) != 0:
+        print("meta file exists")
+        getMetas(nb,dir)
+    else:
+        print("creating meta")
+        createMeta(nb,start,step,dir)
+    if os.path.isfile("{}/{}.dat".format(dir,nb)):
+        print("data file exists")
+    else:
+        print("creating data file")
+        createFeed(nb,data,dir)
+
+
 # import and manage emoncms PHPFINA objects
 class PHPFina:
     # the constructor - you give the number of the timeserie (nb) and a step parameter, used for the sampling
-    def __init__(self,nb,step,dir="phpfina"):
+    def __init__(self,nb,step,dir=dir):
         """ initialize the metas """
         #starttime and interval expressed in seconds
         #starttime is a unixtimestamp
@@ -52,31 +122,29 @@ class PHPFina:
         self._step = step
         self._dir = dir
         self._datas = []
-        self._debug = False
 
     # stores and returns the metas
     def getMetas(self):
-        with open(self._dir+"/"+str(self._nb)+".meta", "rb") as metas:
+        with open("{}/{}.meta".format(self._dir,self._nb), "rb") as metas:
             # Seek a specific position in the file and read N bytes
             metas.seek(8, 0)
             interval=readBytes(4,metas)
             metas.seek(12, 0)
             startTime=readBytes(4,metas)
-            if self._debug:
-                print("startTime : {} = {}s".format(humanDate(startTime),startTime))
-                print("interval : {}s".format(interval))
+            print("startTime {} ou {}s en unixtimestamp".format(humanDate(startTime),startTime))
+            print("interval {}s".format(interval))
             self._startTime=startTime
             self._interval=interval
 
     def setStart(self,unixTimeStart):
         self._SamplingPos=int((unixTimeStart-self._startTime)/self._interval)
-        if self._debug:
-            print("Sampling will start on record number {}".format(self._nb,self._SamplingPos))
-            print("\n")
+        print("Timeserie {} sampling will start on record number {}".format(self._nb,self._SamplingPos))
 
-    # stores an array of values extracted from the timeserie
-    # nbSteps datas are sampled from _SamplingPos at a period equal to _step
-    # a PHPFina file is made of 4 bytes float values, with NAN when nothing was recorded from the sensor
+    """
+    stores an array of values extracted from the timeserie
+    nbSteps datas are sampled from _SamplingPos at a period equal to _step
+    a PHPFina file is made of 4 bytes float values, with NAN when nothing was recorded from the sensor
+    """
     def getDatas(self,nbSteps):
         start = self._SamplingPos
         nbPtInStep=self._step//self._interval
@@ -89,7 +157,7 @@ class PHPFina:
             print("offset - we cannot get the datas - check steps/intervals")
             return
         position=int(start*4)
-        with open(self._dir+"/"+str(self._nb)+".dat", "rb") as ts:
+        with open("{}/{}.dat".format(self._dir,self._nb), "rb") as ts:
             for i in range(nbSteps):
                 ts.seek(position, 0)
                 hexa = ts.read(4)
@@ -121,13 +189,15 @@ class PHPFina:
                 else:
                     position+=(nbPtInStep+offset)*4
 
-    # only for "energy" timeseries
-    # accumulates the power for each step and outputs the energy consumption in Kwh within the step to come
+    """
+    only for "energy" timeseries
+    accumulates the power for each step and outputs the energy consumption in Kwh within the step to come
+    """
     def getKwh(self,nbSteps):
         start = self._SamplingPos
         nbPtInStep=self._step//self._interval
         #print("an hour is sectionned in {} parts".format(nbPtInStep))
-        with open(self._dir+"/"+str(self._nb)+".dat", "rb") as ts:
+        with open("{}/{}.dat".format(self._dir,self._nb), "rb") as ts:
             for i in range(nbSteps+1):
                 position=int((start+i*nbPtInStep)*4)
                 acc=0
@@ -148,11 +218,13 @@ class PHPFina:
                 # kwh conversion !!
                 self._datas.append(0.001*acc/3600)
 
-    # EmonCMS can provide the accumulated kwh feed over the whole recording period, like an energy meter.
-    # from the accumulated kwh feed, the kwh consumed per hour can be recalculated
-    # NOTA NOTA NOTA : recalculating from the instantaneous power is a better option
-    # Indeed, there may be missing data in feeds dedicated to the accumulation of Kwh.
-    # Experience shows that only instant power feeds ARE MANUALLY corrected in real time during monitoring.
+    """
+    EmonCMS can provide the accumulated kwh feed over the whole recording period, like an energy meter.
+    from the accumulated kwh feed, the kwh consumed per hour can be recalculated
+    NOTA NOTA NOTA : recalculating from the instantaneous power is a better option
+    Indeed, there may be missing data in feeds dedicated to the accumulation of Kwh.
+    Experience shows that only instant power feeds ARE MANUALLY corrected in real time during monitoring.
+    """
     def unAcc(self):
         unAccvalues=[]
         for i in range(len(self._datas)-1):

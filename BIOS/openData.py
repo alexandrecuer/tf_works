@@ -8,6 +8,16 @@ import copy
 import requests
 # cf https://www.urlencoder.io/python/
 import urllib.parse
+from dateutil import tz
+
+def ODSstrToUTS(str):
+    # removing the last occurence of : in the time string
+    # see https://docs.python.org/fr/3.6/library/datetime.html#strftime-strptime-behavior
+    # and https://stackoverflow.com/questions/12281975/convert-timestamps-with-offset-to-datetime-obj-using-strptime
+    tstr=str[::-1].replace(":","",1)[::-1]
+    _time=datetime.datetime.strptime(tstr, '%Y-%m-%dT%H:%M:%S%z')
+    ts=int(datetime.datetime.timestamp(_time))
+    return ts
 
 class openData():
     """
@@ -98,9 +108,13 @@ class openData():
     code_reg : region (code)
     mois_de_l_annee : mois_de_l_annee
     """
-    def __init__(self,dataset,station,start,stop,fields,tz,step_in_h):
-        # using the API v2 server
-        # API v1 was "https://data.opendatasoft.com/explore/dataset"
+    def __init__(self,dataset,station,start,stop,fields,utz,step_in_h,year=True):
+        """
+        using the API v2 server
+        API v1 was "https://data.opendatasoft.com/explore/dataset"
+        start and stop can be integer if working with years
+        if not, they must be string ODS formatted
+        """
         self._server="https://data.opendatasoft.com/api/v2/opendatasoft/datasets"
         self._dataset=dataset
         self._station=station
@@ -108,15 +122,21 @@ class openData():
         self._stop=stop
         self._nbf=len(fields)
         self._fields=','.join(fields)
-        self._tz=tz
+        self._tz=utz
         self._step_in_h=step_in_h
         self._step_in_s=step_in_h*3600
-        self._nbp=(self._stop-self._start)*365*24//self._step_in_h
+        if year:
+            _time=datetime.datetime(self._start,1,1,tzinfo=tz.gettz(utz))
+            self._uts=int(datetime.datetime.timestamp(_time))
+            self._nbp=(self._stop-self._start)*365*24//self._step_in_h
+        else:
+            self._uts=ODSstrToUTS(start)
+            self._nbp=(ODSstrToUTS(stop)-self._uts)//(3600*self._step_in_h)
         self._full_data=np.zeros((self._nbp,self._nbf))
 
     def retrieve(self,view={'vis':False}):
         params={
-                 'where':['numer_sta="{}"'.format(self._station),'date<{}'.format(self._stop),'date>={}'.format(self._start)],
+                 'where':['numer_sta="{}"'.format(self._station),'date<\'{}\''.format(self._stop),'date>=\'{}\''.format(self._start)],
                  'sort':'date',
                  'select': self._fields,
                  'timezone':self._tz,
@@ -139,12 +159,11 @@ class openData():
         missing=0
         for i,line in enumerate(lines):
             x = line.split(';')
-            # removing the last occurence of : in the time string
-            # see https://docs.python.org/fr/3.6/library/datetime.html#strftime-strptime-behavior
-            # and https://stackoverflow.com/questions/12281975/convert-timestamps-with-offset-to-datetime-obj-using-strptime
-            time_str=x[0][::-1].replace(":","",1)[::-1]
+
+            #time_str=x[0][::-1].replace(":","",1)[::-1]
             # converting to unixtimestamp
-            raw_data[i,0]=time.mktime(datetime.datetime.strptime(time_str, '%Y-%m-%dT%H:%M:%S%z').timetuple())
+            raw_data[i,0]=ODSstrToUTS(x[0])
+            #time.mktime(datetime.datetime.strptime(time_str, '%Y-%m-%dT%H:%M:%S%z').timetuple())
             for j in range(1,self._nbf,1):
                 if x[j]:
                   raw_data[i,j]=float(x[j])
@@ -171,9 +190,17 @@ class openData():
                     float_data[i,j]=float_data[i-1,j]
 
         # last sanity check is to regularize the timestep as some steps can be missing
-        for j in range(self._nbf):
-            self._full_data[0,j]=float_data[0,j]
-        index=1
+        # is the first point missing ?
+        if self._uts < float_data[0,0]:
+            index=(float_data[0,0]-self._uts)//self._step_in_s
+            for k in range(index):
+                for j in range(self._nbf):
+                    self._full_data[k,j]=float_data[k,j]
+        else:
+            index=1
+            for j in range(self._nbf):
+                self._full_data[0,j]=float_data[0,j]
+
         for i in range(1,self._nbp,1):
             self._full_data[i,0]=self._full_data[i-1,0]+self._step_in_s
             # if full_data timestep is greater than or equal to the timestep of float_data at index i,
@@ -219,19 +246,19 @@ class openData():
 
 """
 # example of use case
-# retrieve nebulosity and temperature datas for the year 2018 and for the Clermont-Ferrand station
+# retrieve nebulosity and temperature datas for the year 2018 anf for the Clermont-Ferrand station
 dataset='donnees-synop-essentielles-omm%40public'
 # clermont-ferrand station is number 07460
 # Lyon/Satolas(Colombier-Saugnieu) is number 07481 for example. It is the nearest station close to grenoble
 station="07460"
 start=2018
 stop=2019
-tz="Europe/Paris"
+utz="Europe/Paris"
 fields=["date","nbas","tc"]
 # we fix here the presumed timestep in hour
 # for data coming from météo france, timestep is usually 3 hours
 step_in_h=3
-source=openData(dataset,station,start,stop,fields,tz,step_in_h)
+source=openData(dataset,station,start,stop,fields,utz,step_in_h)
 view={'vis':True,'lib':["nebulosity in Octa","external temperature in°C"]}
 source.retrieve(view=view)
 """

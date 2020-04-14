@@ -174,12 +174,18 @@ class globalSunRadiation():
         # offset with the Universal Time Coordinated
         self._UTCoffset=0
         self._nbptinh=nbptinh
-        #Return the UTC datetime from the unix timestamp
-        human=datetime.utcfromtimestamp(start)
-        # time tuple is tm_year, tm_mon, tm_mday, tm_hour, tm_min, tm_sec, tm_wday, tm_yday, tm_isdst=-1 (day saving time)
-        tt=human.timetuple()
-        print("you have choosen to generate global sun rad. on {} which is day of the year number {}".format(human,tt.tm_yday))
-        self._startday = tt.tm_yday
+
+        # evaluating the starting timestamp = same UTC day at 00:00:00
+        tt=time.gmtime(start)
+        sec_elapsed_since_UTCday_start=tt.tm_hour*3600+tt.tm_min*60+tt.tm_sec
+        utsStart=start-sec_elapsed_since_UTCday_start
+        tts=time.gmtime(utsStart)
+        self._utsStart=utsStart
+        print("you have entered the following start {} UTC".format(time.strftime('%Y-%m-%d %H:%M:%S',tt)))
+        print("sun generation will start at unixtimestamp {} which is {} UTC".format(utsStart,time.strftime('%Y-%m-%d %H:%M:%S',tts)))
+        print("this is UTC day number {} of the year".format(tts.tm_yday))
+
+        self._startday = tts.tm_yday
         self._nbdays = nbdays
         self._indice=0
         self._datas=np.zeros((self._nbdays*24*self._nbptinh, 5))
@@ -268,11 +274,11 @@ class globalSunRadiation():
             day=self._startday+d
             for h in range(24):
                 for m in range(self._nbptinh):
-                    self.globalRadiation(day,h+m/nbptinh)
+                    self.globalRadiation(day,h+m/self._nbptinh)
 
     def energy(self):
         E=[]
-        steps_in_month=30*24*nbptinh
+        steps_in_month=30*24*self._nbptinh
         indice=0
         Emonth=0
         for i in range(self._datas.shape[0]):
@@ -290,103 +296,3 @@ class globalSunRadiation():
             self._E=np.sum(E)
         else:
             self._E=Emonth/(self._nbptinh*1000)
-
-# Escurolles is lat 46°8'39'' long 3°15'58''
-# in decimal deg.
-lat=46.1441667
-# in decimal deg.
-long=3.2661111
-# in meter
-alt=300
-
-# all this is UTC
-# january 10 2019, 12:00
-smpStart=1547121600
-# october 20 2018, 0:00
-#smpStart=1539993600
-tDays=15
-
-#december 2018
-smpStart=1543618740
-tDays=30
-
-#august 2018
-smpStart=1533081600
-tDays=30
-
-#all 2018
-smpStart=1514764800
-tDays=365
-
-nbptinh=12
-
-sun=globalSunRadiation(lat,long,alt,nbptinh,smpStart,tDays)
-"""
-for i in [1,100,200,300]:
-    print("day  duration of day {} is {} h".format(i, sun.sunDuration(i)))
-"""
-sun.generate()
-
-
-
-
-E=np.zeros(365)
-delta=np.zeros(365)
-for j in range(1,366):
-    E[j-1]=deltaT(j,hour=False)
-    delta[j-1]=earthDeclination(j,rad=False)
-
-plt.subplot(111)
-plt.plot(E,label="Time Equation in minutes")
-plt.plot(delta,label="earth declination in degrees")
-plt.xlabel("Time in day")
-plt.legend()
-plt.show()
-
-viewSunPath()
-
-ax1=plt.subplot(211)
-plt.plot(sun._datas[:,0],label="global radiation in W/m2",color="orange")
-plt.legend(loc='upper left')
-ax2 = ax1.twinx()
-plt.plot(sun._datas[:,1],label="Linke trouble",color="green")
-plt.legend(loc='upper right')
-plt.subplot(212,sharex=ax1)
-plt.plot(sun._datas[:,2],label="gamma-height",color="orange")
-plt.plot(sun._datas[:,3],label="alpha-zenith",color="red")
-plt.plot(sun._datas[:,4],label="omega-hour angle",color="pink")
-plt.legend(loc='upper right')
-plt.xlabel("Time - step=h/{}".format(nbptinh))
-plt.show()
-
-from openData import openData
-dataset='donnees-synop-essentielles-omm%40public'
-station="07460"
-start=2018
-stop=2019
-tz="Europe/Paris"
-fields=["date","nbas","tc"]
-# we fix here the presumed timestep in hour
-# for data coming from météo france, timestep is usually 3 hours
-step_in_h=3
-synop=openData(dataset,station,start,stop,fields,tz,step_in_h)
-synop.retrieve()
-
-# cloud attenuation factor
-indice=0
-Kct=np.zeros(sun._datas.shape[0])
-for i in range(sun._datas.shape[0]):
-    if i % (nbptinh*step_in_h) == 0:
-        Kc=(1-0.75*(synop._full_data[indice,1]/9)**3.4)
-        if indice < synop._full_data.shape[0]:
-            indice+=1
-    Kct[i]=Kc
-
-sun._datas[:,0]=Kct*sun._datas[:,0]
-
-sun.energy()
-print(sun._E)
-
-plt.subplot(111)
-plt.plot(sun._datas[:,0])
-plt.show()
