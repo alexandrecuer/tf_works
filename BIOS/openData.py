@@ -246,7 +246,7 @@ class openData():
 
 """
 # example of use case
-# retrieve nebulosity and temperature datas for the year 2018 anf for the Clermont-Ferrand station
+# retrieve nebulosity and temperature datas for the year 2018 and for the Clermont-Ferrand station
 dataset='donnees-synop-essentielles-omm%40public'
 # clermont-ferrand station is number 07460
 # Lyon/Satolas(Colombier-Saugnieu) is number 07481 for example. It is the nearest station close to grenoble
