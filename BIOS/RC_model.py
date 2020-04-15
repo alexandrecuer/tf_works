@@ -63,10 +63,20 @@ def InitializeFeed(nb,step,start):
     feed.setStart(start)
     return feed
 
-# given some PHPFina feeds, a period and a start (as a unix timestamp) both in seconds
-def GoToTensor(params,step,start,nbsteps):
+"""
+CUSTOM GoToTensor method
+given some PHPFina feeds, a period and a start (as a unix timestamp) both in seconds
+"""
+def GoToTensor(params,step,start,nbsteps,FINASun=False):
     #print("going to tensor for {} feeds".format(len(params)))
-    float_data=np.zeros((nbsteps,len(params)+1))
+    """
+    if FINASun is True, we have the sun among the PHPFina feeds
+    if FINASun is False, we will have to add it later, so we extend the matrix with one more column
+    """
+    if FINASun:
+        float_data=np.zeros((nbsteps,len(params)))
+    else:
+        float_data=np.zeros((nbsteps,len(params)+1))
     for i in range(len(params)):
         #print("feed number {}".format(i))
         feed=InitializeFeed(params[i]["id"],step,start)
@@ -302,10 +312,12 @@ class RC_model():
     """
     tiny class to conduct the electrical modelization of a building
     """
-    def __init__(self, house, params, nbptinh, p0, w0):
+    def __init__(self, house, params, nbptinh, p0, w0, FINASun=False):
         self._house = house
         self._params = params
-        self._params.append({"name":"solar power (W)","color":"yellow"})
+        self._FINASun = FINASun
+        if not FINASun:
+            self._params.append({"name":"solar power (W)","color":"yellow"})
         self._step = 3600//nbptinh
         self._nbptinh = nbptinh
         self._p0 = p0
@@ -336,11 +348,15 @@ class RC_model():
         In that case, the truth will be the average (through axis 1) of the corresponding teta columns between the 2 provided indexes
         """
         # fetching the feeds
-        teta=GoToTensor(self._params[:-1],self._step,smpStart,tDays*24*self._nbptinh)
-        # generate some sun
-        # calculating the starting hour for the datarange
-        smpH=datetime.utcfromtimestamp(smpStart).hour
-        teta[:,-1]=generateSunRange(500,self._nbptinh, teta.shape[0], smpH)
+        if self._FINASun:
+            teta=GoToTensor(self._params,self._step,smpStart,tDays*24*self._nbptinh,FINASun=True)
+        else:
+            teta=GoToTensor(self._params[:-1],self._step,smpStart,tDays*24*self._nbptinh)
+            # generate some sun
+            # calculating the starting hour for the datarange
+            smpH=datetime.utcfromtimestamp(smpStart).hour
+            teta[:,-1]=generateSunRange(500,self._nbptinh, teta.shape[0], smpH)
+
         self._teta.append(teta)
 
         # adding a new sollicitations tensor
@@ -544,7 +560,8 @@ params=[ {"id":1,"name":"outdoor temp","color":"blue","action":"smp"},
          {"id":167,"name": "livingroom","color":"orange","action":"smp"},
          {"id":173,"name":"bathroom","color":"green","action":"smp"},
          {"id":176,"name":"bedroom","color":"#b6e91f","action":"smp"},
-         {"id":145,"name":"hvac power (W)","color":"red","action":"smp"}]
+         {"id":145,"name":"hvac power (W)","color":"red","action":"smp"},
+         {"id":296,"name":"solar power (W)","color":"yellow","action":"smp"}]
 
 # initial guess
 # scaling
@@ -552,11 +569,16 @@ p0=np.array([1e+6,1e+6,1e-2,1e-2,1e-2])
 # weights
 w0=np.array([1.0,4.0,1.0,1.0,1.0])
 
-ite=RC_model(house,params,nbptinh,p0,w0)
+ite=RC_model(house,params,nbptinh,p0,w0,FINASun=True)
 ite.buildSet(1547121600,15,[0,5,6],[1,5])
 ite.buildSet(1545902400,30,[0,5,6],[1,5])
-guess = np.array([ ite._truth[1][0], ite._truth[1][0] ])
-ite.viewSet(1,guess,full=False)
+#for testing
+ite.buildSet(1540166400,4,[0,5,6],[1,5])
+ite.buildSet(1540166400,200,[0,5,6],[1,5])
+guess = np.array([ ite._truth[1][0], ite._truth[1][0]-4 ])
+ite.viewSet(2,guess,full=False)
+ite.viewSet(3,guess,full=True)
+input("press any key")
 
 """
 # dynamic visual approach to evaluate the influence of each parameter
@@ -570,13 +592,22 @@ ite.explorationMatrix(plan,verbose=False)
 ite.explore(1,guess)
 """
 
+
 # scaling
 #_p0=np.array([1e+7,1e+7,1e-2,1e-2,1e-2])
 # weights
 #_w0=np.array([2.0,1.65,6.0,1.25,1.35])
 #ite.setWeigths(_p0,_w0)
+
 ite.optimize(1,guess)
 ite.viewSet(1,guess,full=False)
-
-ite.buildSet(1540166400,4,[0,5,6],[1,5])
 ite.viewSet(2,guess,full=False)
+ite.viewSet(3,guess,full=False)
+
+"""
+_p0=np.array([1e+7,1e+12,1e-3,1e-7,1e-2])
+_w0=np.array([1.38,7.08,7.95,4.33,2.26])
+ite.setWeigths(_p0,_w0)
+guess = np.array([ ite._truth[1][0], ite._truth[1][0] ])
+ite.viewSet(3,guess,full=False)
+"""
