@@ -20,11 +20,13 @@ docker --version
 +Docker version 19.03.6, build 369ce74a3c`
 ```
 
-### ajouter l'utilisateur en cours dans le groupe docker
+### ajouter le sudoer en cours dans le groupe docker
 
 quant on lance docker sans sudo, on peut avoir le retour suivant :
 ```
-Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post http://%2Fvar%2Frun%2Fdocker.sock/v1.40/volumes/create: dial unix /var/run/docker.sock: connect: permission denied
++Got permission denied while trying to connect to the Docker daemon socket at 
++unix:///var/run/docker.sock: Post http://%2Fvar%2Frun%2Fdocker.sock/v1.40/volumes/create: 
++dial unix /var/run/docker.sock: connect: permission denied
 ```
 il faut vérifier que l'user est bien dans le groupe docker
 ```
@@ -90,18 +92,11 @@ sudo docker ps --all
 
 ## fenics container
 
-```
+```diff
 curl -s https://get.fenicsproject.org | bash
-```
-le retour devrait être le suivant :
-```
-Successfully installed the fenicsproject script in /home/alexandrecuer/.local/bin/fenicsproject.
-
-To get started, run the command
-
-  fenicsproject run
-
-For more information, see fenicsproject help.
++Successfully installed the fenicsproject script in /home/alexandrecuer/.local/bin/fenicsproject.
++To get started, run the command
++  fenicsproject run
 ```
 
 
