@@ -44,6 +44,8 @@ pour ajouter l'user en cours
 sudo usermod -aG docker ${USER}
 ```
 
+relancer la machine
+
 https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket
 
 ### hello world example
