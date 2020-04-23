@@ -104,6 +104,10 @@ curl -s https://get.fenicsproject.org | bash
 
 On télécharge l'image en lançant la commande `fenicsproject run` ce qui peut être assez long, vu qu'elle est volumineuse....
 
+A noter que cette commande crée en suivant un container et le lance....
+
+On se retrouvera donc à la fin de l'installation dans un environnement différent
+
 On constate que le nom de l'image est quay.io/fenicsproject/stable:current
 ```diff
 fenicsproject run
@@ -284,24 +288,28 @@ Pour sortir du container :
 exit
 ```
 
-Quant on liste les containers :
+Un fois revenu à la machine hôte, on peut lister les containers :
 ```diff
 docker ps --all
 +CONTAINER ID        IMAGE                                  COMMAND                  CREATED             STATUS                     PORTS               NAMES
 +0121eaf771de        quay.io/fenicsproject/stable:current   "/sbin/my_init --qui…"   4 minutes ago       Exited (0) 2 minutes ago                       nifty_sanderson
 +a8f846d82c74        hello-world                            "/hello"                 4 hours ago         Exited (0) 4 hours ago                         practical_banzai
 ```
-pour supprimer un container :
+
+
+Le container `0121eaf771de` crée lors du téléchargement de l'image FENICS n'est pas opérationnel, notamment pour les graphiques, car il aurait fallu le lancer avec certaines options. Nous pouvons donc le supprimer.... 
+
 ```
-docker rm a8f846d82c74
+docker rm 0121eaf771de
 ```
+
 Pour pouvoir afficher des graphiques au sein du container avec matplotlib, avant de lancer le container, il faut autoriser les application X11 :
 ```
 xhost +
 ```
-cf https://fenics.readthedocs.io/projects/containers/en/latest/work_flows.html#use-graphical-applications-on-linux-hosts
+https://fenics.readthedocs.io/projects/containers/en/latest/work_flows.html#use-graphical-applications-on-linux-hosts
 
-Ensuite, on lance la commande suivante, vu que l'on sait que l'on a téléchargé une image du projet Fenics appelée :
+Pour construire un container qui affiche les images au sein d'un serveur web et pouvoir bien tester Fenics, il faut lancer la commande suivante, vu que l'on sait que l'on a téléchargé une image du projet Fenics appelée :
 quay.io/fenicsproject/stable:current :
 ```
 docker run -ti -e DISPLAY=$DISPLAY    -v /tmp/.X11-unix:/tmp/.X11-unix    -p 127.0.0.1:8000:8000 quay.io/fenicsproject/stable:current
