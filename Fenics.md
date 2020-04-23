@@ -331,3 +331,7 @@ Pour avoir des infos sur les containers, où ils sont stockés dans l'arborescen
 ```
 docker info
 ```
+Sur ubuntu, les containers sont dans `/var/lib/docker`. Pour parcourir ce répertoire, il peut être nécessaire de disposer de permissions root :
+```
+sudo nautilus &
+```
