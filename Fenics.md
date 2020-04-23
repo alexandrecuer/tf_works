@@ -11,8 +11,9 @@ sudo apt install docker.io
 sudo systemctl start docker
 sudo systemctl enable docker
 ```
-le système doit répondre quelque chose comme ceci :
+<span style="color: #26B260"> le système doit répondre quelque chose comme ceci :
 `Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service.`
+</span>
 
 test de la version :
 ```
