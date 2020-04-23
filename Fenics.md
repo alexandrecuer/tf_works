@@ -307,10 +307,10 @@ Pour pouvoir afficher des graphiques au sein du container avec matplotlib, avant
 ```
 xhost +
 ```
-https://fenics.readthedocs.io/projects/containers/en/latest/work_flows.html#use-graphical-applications-on-linux-hosts
+C'est expliqué dans la [documentation](https://fenics.readthedocs.io/projects/containers/en/latest/work_flows.html#use-graphical-applications-on-linux-hosts)
 
 Pour construire un container qui affiche les images au sein d'un serveur web et pouvoir bien tester Fenics, il faut lancer la commande suivante, vu que l'on sait que l'on a téléchargé une image du projet Fenics appelée :
-quay.io/fenicsproject/stable:current :
+`quay.io/fenicsproject/stable:current` :
 ```
 docker run -ti -e DISPLAY=$DISPLAY    -v /tmp/.X11-unix:/tmp/.X11-unix    -p 127.0.0.1:8000:8000 quay.io/fenicsproject/stable:current
 ```
