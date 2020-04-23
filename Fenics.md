@@ -275,3 +275,21 @@ fenicsproject run
 
 ```
 
+Pour sortir du container :
+```
+exit
+```
+
+Quant on liste les containers :
+```diff
+docker ps --all
++CONTAINER ID        IMAGE                                  COMMAND                  CREATED             STATUS                     PORTS               NAMES
++0121eaf771de        quay.io/fenicsproject/stable:current   "/sbin/my_init --qui…"   4 minutes ago       Exited (0) 2 minutes ago                       nifty_sanderson
++a8f846d82c74        hello-world                            "/hello"                 4 hours ago         Exited (0) 4 hours ago                         practical_banzai
+```
+
+
+
+
+
+
