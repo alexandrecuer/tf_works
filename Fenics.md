@@ -94,6 +94,7 @@ sudo docker ps --all
 
 ## fenics container
 
+On télécharge le script d'installation
 ```diff
 curl -s https://get.fenicsproject.org | bash
 +Successfully installed the fenicsproject script in /home/alexandrecuer/.local/bin/fenicsproject.
@@ -101,6 +102,9 @@ curl -s https://get.fenicsproject.org | bash
 +  fenicsproject run
 ```
 
+On télécharge l'image en lançant la commande `fenicsproject run` ce qui peut être assez long, vu qu'elle est volumineuse....
+
+On constate que le nom de l'image est quay.io/fenicsproject/stable:current
 ```diff
 fenicsproject run
 +WARNING: No swap limit support
@@ -297,7 +301,8 @@ xhost +
 ```
 cf https://fenics.readthedocs.io/projects/containers/en/latest/work_flows.html#use-graphical-applications-on-linux-hosts
 
-Ensuite, on lance la commande suivante, vu que l'on sait que l'on a téléchargé le container quay.io/fenicsproject/stable:current :
+Ensuite, on lance la commande suivante, vu que l'on sait que l'on a téléchargé une image du projet Fenics appelée :
+quay.io/fenicsproject/stable:current :
 ```
 docker run -ti -e DISPLAY=$DISPLAY    -v /tmp/.X11-unix:/tmp/.X11-unix    -p 127.0.0.1:8000:8000 quay.io/fenicsproject/stable:current
 ```
