@@ -23,7 +23,7 @@ docker --version
 ### ajouter le sudoer en cours dans le groupe docker
 
 quant on lance docker sans sudo, on peut avoir le retour suivant :
-```
+```diff
 +Got permission denied while trying to connect to the Docker daemon socket at 
 +unix:///var/run/docker.sock: Post http://%2Fvar%2Frun%2Fdocker.sock/v1.40/volumes/create: 
 +dial unix /var/run/docker.sock: connect: permission denied
