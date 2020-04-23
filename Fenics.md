@@ -313,6 +313,10 @@ Pour construire un container qui affiche les images au sein d'un serveur web et 
 ```
 docker run -ti -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -p 127.0.0.1:8000:8000 quay.io/fenicsproject/stable:current
 ```
+les graphiques seront alors disponibles à l'adresse :
+
+http://127.0.0.1:8000
+
 Une fois qu'on a arrêté un container, pour le relancer :
 ```
 docker start 0121eaf771de
