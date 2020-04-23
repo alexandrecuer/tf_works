@@ -327,7 +327,7 @@ Pour se connecter à un container :
 ```
 docker attach 0121eaf771de
 ```
-Pour avoir des infos sur les containers, où ils sont stockés dans l'arborescence :
+Pour avoir des infos sur les containers, savoir où ils sont stockés dans l'arborescence :
 ```
 docker info
 ```
