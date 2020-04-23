@@ -287,9 +287,17 @@ docker ps --all
 +0121eaf771de        quay.io/fenicsproject/stable:current   "/sbin/my_init --qui…"   4 minutes ago       Exited (0) 2 minutes ago                       nifty_sanderson
 +a8f846d82c74        hello-world                            "/hello"                 4 hours ago         Exited (0) 4 hours ago                         practical_banzai
 ```
+pour supprimer un container :
+```
+docker rm a8f846d82c74
+```
+Pour pouvoir afficher des graphiques au sein du container avec matplotlib, avant de lancer le container, il faut autoriser les application X11 :
+```
+xhost +
+```
+cf https://fenics.readthedocs.io/projects/containers/en/latest/work_flows.html#use-graphical-applications-on-linux-hosts
 
-
-
-
-
-
+Ensuite, on lance la commande suivante, vu que l'on sait que l'on a téléchargé le container quay.io/fenicsproject/stable:current :
+```
+docker run -ti -e DISPLAY=$DISPLAY    -v /tmp/.X11-unix:/tmp/.X11-unix    -p 127.0.0.1:8000:8000 quay.io/fenicsproject/stable:current
+```
