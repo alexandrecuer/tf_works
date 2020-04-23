@@ -49,3 +49,8 @@ To get started, run the command
 
 For more information, see fenicsproject help.
 ```
+
+```
+mkdir /home/alexandrecuer/fenics
+cd /home/alexandrecuer/fenics
+```
