@@ -12,20 +12,13 @@ sudo systemctl start docker
 sudo systemctl enable docker
 ```
 le système doit répondre quelque chose comme ceci :
-
-```
-Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service.
-
-```
+`Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service.`
 
 test de la version :
 ```
 docker --version
 ```
-le retour devrait être du type :
-```
-Docker version 19.03.6, build 369ce74a3c
-```
+le retour devrait être du type `Docker version 19.03.6, build 369ce74a3c`
 
 pour obtenir la liste des containers:
 ```
@@ -36,7 +29,7 @@ quant il n'y en a pas encore, le retour est le suivant :
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES 
 ```
 
-### s'assurer que l'utilisateur en cours est bien dans le groupe docker
+### ajouter l'utilisateur en cours dans le groupe docker
 
 quant on lance docker sans sudo, on peut avoir le retour suivant :
 ```
