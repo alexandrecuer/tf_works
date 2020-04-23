@@ -54,3 +54,21 @@ For more information, see fenicsproject help.
 mkdir /home/alexandrecuer/fenics
 cd /home/alexandrecuer/fenics
 ```
+
+il faut vérifier que l'user est bien dans le groupe docker
+```
+grep docker /etc/group
+```
+
+pour créer le groupe s'il n'existe pas (peu probable)
+```
+sudo groupadd docker
+```
+
+pour ajouter l'user en cours
+
+```
+sudo usermod -aG docker ${USER}
+```
+
+https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket
