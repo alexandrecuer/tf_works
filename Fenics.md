@@ -13,7 +13,8 @@ sudo systemctl enable docker
 ```
 Output :
 ```diff 
-+Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service.`
++Created symlink /etc/systemd/system/multi-user.target.wants/docker.service 
+→ /lib/systemd/system/docker.service.`
 ```
 
 test de la version :
