@@ -126,149 +126,150 @@ fenicsproject run
 +c5bca2c84e5e: Pulling fs layer
 +6f80705d1d37: Pulling fs layer
 +91e158461d4c: Pulling fs layer
-4b299c049e4f: Pulling fs layer
-4642a6d46aeb: Pulling fs layer
-0526f57f6bb3: Pulling fs layer
-6bda00aab163: Pulling fs layer
-599370ebdfdb: Pulling fs layer
-3debe21df7b8: Pulling fs layer
-bd6da2b7ad00: Pulling fs layer
-3111ae43df8e: Pulling fs layer
-dd2003bd419e: Pulling fs layer
-49e25fdb34c3: Pulling fs layer
-d95fd6a8326e: Pulling fs layer
-65599be66378: Waiting
-04de8bc2d500: Waiting
-abb684b96e3d: Waiting
-5fb302170f66: Waiting
-56d9f5e23832: Waiting
-2362411179ee: Waiting
-f0f1cc16c840: Waiting
-c5bca2c84e5e: Waiting
-3debe21df7b8: Waiting
-6f80705d1d37: Waiting
-bd6da2b7ad00: Waiting
-91e158461d4c: Waiting
-3111ae43df8e: Waiting
-4b299c049e4f: Waiting
-dd2003bd419e: Waiting
-4642a6d46aeb: Waiting
-49e25fdb34c3: Waiting
-0526f57f6bb3: Waiting
-d95fd6a8326e: Waiting
-6bda00aab163: Waiting
-599370ebdfdb: Waiting
-b6b268720157: Waiting
-e12192999ff1: Waiting
-d39ece66b667: Waiting
-c5d85cf7a05f: Verifying Checksum
-c5d85cf7a05f: Download complete
-01b8b12bad90: Verifying Checksum
-01b8b12bad90: Download complete
-e12192999ff1: Verifying Checksum
-e12192999ff1: Download complete
-b6b268720157: Verifying Checksum
-b6b268720157: Download complete
-d39ece66b667: Verifying Checksum
-d39ece66b667: Download complete
-04de8bc2d500: Verifying Checksum
-04de8bc2d500: Download complete
-abb684b96e3d: Verifying Checksum
-abb684b96e3d: Download complete
-5fb302170f66: Verifying Checksum
-5fb302170f66: Download complete
-56d9f5e23832: Verifying Checksum
-56d9f5e23832: Download complete
-c64513b74145: Verifying Checksum
-c64513b74145: Download complete
-2362411179ee: Verifying Checksum
-2362411179ee: Download complete
-c64513b74145: Pull complete
-01b8b12bad90: Pull complete
-c5d85cf7a05f: Pull complete
-b6b268720157: Pull complete
-e12192999ff1: Pull complete
-d39ece66b667: Pull complete
-65599be66378: Verifying Checksum
-65599be66378: Download complete
-65599be66378: Pull complete
-04de8bc2d500: Pull complete
-abb684b96e3d: Pull complete
-5fb302170f66: Pull complete
-56d9f5e23832: Pull complete
-2362411179ee: Pull complete
-6f80705d1d37: Verifying Checksum
-6f80705d1d37: Download complete
-f0f1cc16c840: Retrying in 5 seconds
-91e158461d4c: Retrying in 5 seconds
-f0f1cc16c840: Retrying in 4 seconds
-91e158461d4c: Retrying in 4 seconds
-f0f1cc16c840: Retrying in 3 seconds
-91e158461d4c: Retrying in 3 seconds
-f0f1cc16c840: Retrying in 2 seconds
-91e158461d4c: Retrying in 2 seconds
-f0f1cc16c840: Retrying in 1 second
-91e158461d4c: Retrying in 1 second
-c5bca2c84e5e: Verifying Checksum
-c5bca2c84e5e: Download complete
-4b299c049e4f: Verifying Checksum
-4b299c049e4f: Download complete
-91e158461d4c: Verifying Checksum
-91e158461d4c: Download complete
-0526f57f6bb3: Verifying Checksum
-0526f57f6bb3: Download complete
-6bda00aab163: Verifying Checksum
-6bda00aab163: Download complete
-599370ebdfdb: Download complete
-3debe21df7b8: Verifying Checksum
-3debe21df7b8: Download complete
-bd6da2b7ad00: Download complete
-3111ae43df8e: Verifying Checksum
-3111ae43df8e: Download complete
-4642a6d46aeb: Verifying Checksum
-4642a6d46aeb: Download complete
-dd2003bd419e: Verifying Checksum
-dd2003bd419e: Download complete
-d95fd6a8326e: Verifying Checksum
-d95fd6a8326e: Download complete
-49e25fdb34c3: Verifying Checksum
-f0f1cc16c840: Verifying Checksum
-f0f1cc16c840: Download complete
-f0f1cc16c840: Pull complete
-c5bca2c84e5e: Pull complete
-6f80705d1d37: Pull complete
-91e158461d4c: Pull complete
-4b299c049e4f: Pull complete
-4642a6d46aeb: Pull complete
-0526f57f6bb3: Pull complete
-6bda00aab163: Pull complete
-599370ebdfdb: Pull complete
-3debe21df7b8: Pull complete
-bd6da2b7ad00: Pull complete
-3111ae43df8e: Pull complete
-dd2003bd419e: Pull complete
-49e25fdb34c3: Pull complete
-d95fd6a8326e: Pull complete
-Digest: sha256:7aa3dad185d43fcf3d32abdf62fec86dab31b5159d66b2228275edc702181bb1
-Status: Downloaded newer image for quay.io/fenicsproject/stable:current
-[docker start 58acae9c63901a7fd0dee5170b51d6bfb81917da98430cc67373cfe097ce4960]
++4b299c049e4f: Pulling fs layer
++4642a6d46aeb: Pulling fs layer
++0526f57f6bb3: Pulling fs layer
++6bda00aab163: Pulling fs layer
++599370ebdfdb: Pulling fs layer
++3debe21df7b8: Pulling fs layer
++bd6da2b7ad00: Pulling fs layer
++3111ae43df8e: Pulling fs layer
++dd2003bd419e: Pulling fs layer
++49e25fdb34c3: Pulling fs layer
++d95fd6a8326e: Pulling fs layer
++65599be66378: Waiting
++04de8bc2d500: Waiting
++abb684b96e3d: Waiting
++5fb302170f66: Waiting
++56d9f5e23832: Waiting
++2362411179ee: Waiting
++f0f1cc16c840: Waiting
++c5bca2c84e5e: Waiting
++3debe21df7b8: Waiting
++6f80705d1d37: Waiting
++bd6da2b7ad00: Waiting
++91e158461d4c: Waiting
++3111ae43df8e: Waiting
++4b299c049e4f: Waiting
++dd2003bd419e: Waiting
++4642a6d46aeb: Waiting
++49e25fdb34c3: Waiting
++0526f57f6bb3: Waiting
++d95fd6a8326e: Waiting
++6bda00aab163: Waiting
++599370ebdfdb: Waiting
++b6b268720157: Waiting
++e12192999ff1: Waiting
++d39ece66b667: Waiting
++c5d85cf7a05f: Verifying Checksum
++c5d85cf7a05f: Download complete
++01b8b12bad90: Verifying Checksum
++01b8b12bad90: Download complete
++e12192999ff1: Verifying Checksum
++e12192999ff1: Download complete
++b6b268720157: Verifying Checksum
++b6b268720157: Download complete
++d39ece66b667: Verifying Checksum
++d39ece66b667: Download complete
++04de8bc2d500: Verifying Checksum
++04de8bc2d500: Download complete
++abb684b96e3d: Verifying Checksum
++abb684b96e3d: Download complete
++5fb302170f66: Verifying Checksum
++5fb302170f66: Download complete
++56d9f5e23832: Verifying Checksum
++56d9f5e23832: Download complete
++c64513b74145: Verifying Checksum
++c64513b74145: Download complete
++2362411179ee: Verifying Checksum
++2362411179ee: Download complete
++c64513b74145: Pull complete
++01b8b12bad90: Pull complete
++c5d85cf7a05f: Pull complete
++b6b268720157: Pull complete
++e12192999ff1: Pull complete
++d39ece66b667: Pull complete
++65599be66378: Verifying Checksum
++65599be66378: Download complete
++65599be66378: Pull complete
++04de8bc2d500: Pull complete
++abb684b96e3d: Pull complete
++5fb302170f66: Pull complete
++56d9f5e23832: Pull complete
++2362411179ee: Pull complete
++6f80705d1d37: Verifying Checksum
++6f80705d1d37: Download complete
++f0f1cc16c840: Retrying in 5 seconds
++91e158461d4c: Retrying in 5 seconds
++f0f1cc16c840: Retrying in 4 seconds
++91e158461d4c: Retrying in 4 seconds
++f0f1cc16c840: Retrying in 3 seconds
++91e158461d4c: Retrying in 3 seconds
++f0f1cc16c840: Retrying in 2 seconds
++91e158461d4c: Retrying in 2 seconds
++f0f1cc16c840: Retrying in 1 second
++91e158461d4c: Retrying in 1 second
++c5bca2c84e5e: Verifying Checksum
++c5bca2c84e5e: Download complete
++4b299c049e4f: Verifying Checksum
++4b299c049e4f: Download complete
++91e158461d4c: Verifying Checksum
++91e158461d4c: Download complete
++0526f57f6bb3: Verifying Checksum
++0526f57f6bb3: Download complete
++6bda00aab163: Verifying Checksum
++6bda00aab163: Download complete
++599370ebdfdb: Download complete
++3debe21df7b8: Verifying Checksum
++3debe21df7b8: Download complete
++bd6da2b7ad00: Download complete
++3111ae43df8e: Verifying Checksum
++3111ae43df8e: Download complete
++4642a6d46aeb: Verifying Checksum
++4642a6d46aeb: Download complete
++dd2003bd419e: Verifying Checksum
++dd2003bd419e: Download complete
++d95fd6a8326e: Verifying Checksum
++d95fd6a8326e: Download complete
++49e25fdb34c3: Verifying Checksum
++f0f1cc16c840: Verifying Checksum
++f0f1cc16c840: Download complete
++f0f1cc16c840: Pull complete
++c5bca2c84e5e: Pull complete
++6f80705d1d37: Pull complete
++91e158461d4c: Pull complete
++4b299c049e4f: Pull complete
++4642a6d46aeb: Pull complete
++0526f57f6bb3: Pull complete
++6bda00aab163: Pull complete
++599370ebdfdb: Pull complete
++3debe21df7b8: Pull complete
++bd6da2b7ad00: Pull complete
++3111ae43df8e: Pull complete
++dd2003bd419e: Pull complete
++49e25fdb34c3: Pull complete
++d95fd6a8326e: Pull complete
++Digest: sha256:7aa3dad185d43fcf3d32abdf62fec86dab31b5159d66b2228275edc702181bb1
++Status: Downloaded newer image for quay.io/fenicsproject/stable:current
++[docker start 58acae9c63901a7fd0dee5170b51d6bfb81917da98430cc67373cfe097ce4960]
 
-58acae9c63901a7fd0dee5170b51d6bfb81917da98430cc67373cfe097ce4960
-After calling 'plt.show()' you can access matplotlib plots at http://localhost:3000
-[docker attach 58acae9c63901a7fd0dee5170b51d6bfb81917da98430cc67373cfe097ce4960]
++58acae9c63901a7fd0dee5170b51d6bfb81917da98430cc67373cfe097ce4960
++After calling 'plt.show()' you can access matplotlib plots at http://localhost:3000
++[docker attach 58acae9c63901a7fd0dee5170b51d6bfb81917da98430cc67373cfe097ce4960]
 
-# FEniCS stable version image
++# FEniCS stable version image
 
-Welcome to FEniCS/stable!
++Welcome to FEniCS/stable!
 
-This image provides a full-featured and optimized build of the stable
-release of FEniCS.
++This image provides a full-featured and optimized build of the stable
++release of FEniCS.
 
-To help you get started this image contains a number of demo
-programs. Explore the demos by entering the 'demo' directory, for
-example:
++To help you get started this image contains a number of demo
++programs. Explore the demos by entering the 'demo' directory, for
++example:
 
-    cd ~/demo/python/documented/poisson
-    python3 demo_poisson.py
+ +   cd ~/demo/python/documented/poisson
+ +   python3 demo_poisson.py
 
+```
 
