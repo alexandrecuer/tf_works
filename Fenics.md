@@ -270,8 +270,8 @@ fenicsproject run
 +programs. Explore the demos by entering the 'demo' directory, for
 +example:
 
- +   cd ~/demo/python/documented/poisson
- +   python3 demo_poisson.py
++   cd ~/demo/python/documented/poisson
++   python3 demo_poisson.py
 
 ```
 
