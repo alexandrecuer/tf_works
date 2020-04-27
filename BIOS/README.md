@@ -21,6 +21,12 @@ to install the src module
 
 ```
 cd ..
+python3 setup.py develop
+```
+This will create a link in `/usr/local/lib/python3.x`
+
+Right now, classic install will not work...no need to run :
+```
 pip3 install .
 ```
 
