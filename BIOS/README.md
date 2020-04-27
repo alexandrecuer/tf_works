@@ -1,5 +1,15 @@
 Status : work in progress
 
+to install the src module
+
+```
+python3 setup.py install
+```
+
+documentation for module src is available at : http://alexandrecuer.github.io/tf_works
+
+
+
 # BIOS : Building Intelligent Operating System
 
 the problem : Regarding comfort and energy savings, would it be possible to improve the operation of HVAC systems, in the field of **tertiary buildings**, using reinforcement learning (RL) techniques ? Could it be possible to train an intelligent agent in a sandbox running an appropriate model and then to drop it on the field ?
@@ -81,7 +91,7 @@ the datasets are constructed by slicing the tensor at a specified index, on a sp
 How to use :
 
 ```
-from building import BuildingZone, GoToTensor
+from src.tools import BuildingZone, GoToTensor
 import numpy as np
 ```
 define some sizing parameters
