@@ -30,6 +30,7 @@ generated with pdoc
 ```
 pip3 install pdoc3
 ```
+Once datasets and module are installed, you can play with the examples
 
 
 # BIOS : Building Intelligent Operating System
