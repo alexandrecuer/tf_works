@@ -1,0 +1,974 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>src.tools.sunmodel API documentation</title>
+<meta name="description" content="KASTEN MODEL FOR GLOBAL SUN RADIATION MODELISATION …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>src.tools.sunmodel</code></h1>
+</header>
+<section id="section-intro">
+<p>KASTEN MODEL FOR GLOBAL SUN RADIATION MODELISATION</p>
+<p>CLEAR SKY ONLY</p>
+<p>online ressources on solar irradiation : <a href="https://ec.europa.eu/jrc/en/pvgis">https://ec.europa.eu/jrc/en/pvgis</a></p>
+<p>for all the following methods :</p>
+<p>n day number - 1th of january &gt; n=1 ....</p>
+<p>h : local time in hour</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+KASTEN MODEL FOR GLOBAL SUN RADIATION MODELISATION
+
+CLEAR SKY ONLY
+
+online ressources on solar irradiation : https://ec.europa.eu/jrc/en/pvgis
+
+for all the following methods :
+
+n day number - 1th of january &gt; n=1 ....
+
+h : local time in hour
+&#34;&#34;&#34;
+
+import math
+import numpy as np
+import matplotlib.pylab as plt
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib as mpl
+mpl.rcParams[&#39;mathtext.fontset&#39;] = &#39;cm&#39;
+mpl.rcParams[&#39;mathtext.rm&#39;] = &#39;serif&#39;
+from datetime import datetime
+import time
+#print(&#34;your computer is UTC+{} but we are going to work in UTC&#34;.format(-time.timezone//3600))
+
+def viewSunPath():
+    &#34;&#34;&#34;
+    visualize the sun path for a classic day on planet earth
+    &#34;&#34;&#34;
+    # observation point
+    px = 4
+    py = 3
+    pz = 0
+    r = 3
+
+    # parallel or circle of latitude
+    x0 = [px, px]
+    y0 = [0, 6]
+    z0 = [0, 0]
+
+    # meridian
+    x1 = [0, 6]
+    y1 = [py, py]
+    z1 = [0, 0]
+
+    # sun&#39;s path during the day
+    theta=np.linspace(-np.pi/2,np.pi/4,600)
+    c1x=r/2+np.zeros(600)
+    c1y=py+r*np.sin(theta)
+    c1z=r*np.cos(theta)
+
+    xw = r/2
+    yw = py
+    zw = r+0.15
+
+    theta2=np.linspace(np.pi/4,np.pi/2,200)
+    c2x=r/2+np.zeros(200)
+    c2y=py+r*np.sin(theta2)
+    c2z=r*np.cos(theta2)
+
+    # sun position
+    sunx=r/2
+    suny=py+r*np.cos(np.pi/4)
+    sunz=r*np.sin(np.pi/4)
+
+    # sun ray
+    rayx=[px,sunx]
+    rayy=[py,suny]
+    rayz=[pz,sunz]
+
+    # gamma
+    d=((sunx-px)**2+(suny-py)**2+(sunz-pz)**2)**0.5
+    dsina=sunz
+    gamma=math.asin(dsina/d)
+    u = np.linspace(0, gamma, 50)
+    p = ((sunx-px)**2 + (suny-py)**2)**0.5
+    v = math.acos((px-sunx)/p)
+    zarcg = pz + d/4 * np.sin(u)
+    xarcg = px - d/4 * np.cos(u) * np.cos(v)
+    yarcg = py + d/4 * np.cos(u) * np.sin(v)
+
+    zg = pz + d/4 * np.sin(gamma/2)
+    xg = px - d/4 * np.cos(gamma/2) * np.cos(v)
+    yg = py + d/4 * np.cos(gamma/2) * np.sin(v)
+
+    # alpha
+    alpha=np.linspace(0, v, 50)
+    xarca = px - (px - r/2) * np.cos(alpha)
+    yarca = py + (px - r/2) * np.sin(alpha)
+    zarca = np.zeros(50)
+
+    xa = px - (px - r/2 + 0.15) * np.cos(v/2)
+    ya = py + (px - r/2 + 0.15) * np.sin(v/2)
+    za = 0
+
+    # Plotting....
+    fig = plt.figure()
+    ax = fig.gca(projection=&#39;3d&#39;)
+    plt.title(&#34;vizualisation of the sun&#39;s path&#34;)
+    ax.plot(xarca, yarca, zarca, color=&#34;blue&#34;)
+    ax.text(xa,ya,za,&#34;α&#34;, fontsize=18, color=&#34;blue&#34;)
+    ax.plot(xarcg, yarcg, zarcg, color=&#34;blue&#34;)
+    ax.text(xg,yg,zg,&#34;$\gamma$&#34;, fontsize=18, color=&#34;blue&#34;)
+
+    ax.text(px, 0, 0.1 , &#34;E&#34;, fontsize=12, color=&#34;gray&#34;)
+    ax.text(px, 6, 0.1 , &#34;W&#34;, fontsize=12, color=&#34;gray&#34;)
+    ax.plot(x0, y0, z0, &#39;--&#39;, color=&#34;gray&#34;, label = &#34;circle of latitude&#34;)
+    ax.text(0, py, 0.1 , &#34;S&#34;, fontsize=12, color=&#34;green&#34;)
+    ax.text(6, py, 0.1 , &#34;N&#34;, fontsize=12, color=&#34;green&#34;)
+    ax.plot(x1, y1, z1, &#39;--&#39;, color=&#34;green&#34;, label = &#34;meridian&#34;)
+
+    ax.plot(c1x, c1y, c1z, color=&#34;blue&#34;)
+    ax.plot(c2x, c2y, c2z, &#39;--&#39;, color=&#34;blue&#34;)
+    ax.text(xw,yw,zw,&#34;w ($\omega$)&#34;, fontsize=12, color=&#34;blue&#34;)
+
+    ax.plot(rayx, rayy, rayz, color=&#34;orange&#34;)
+
+    # observation point
+    ax.scatter(px,py,pz,marker=&#39;o&#39;,color=&#34;black&#34;)
+    ax.text(px, py, 0.1 , &#34;P&#34;, fontsize=10)
+
+    # sun at sunrise and sunset
+    ax.scatter(sunx,0,0,marker=&#39;o&#39;,s=56,color=&#34;orange&#34;,label=&#34;sunrise&#34;,alpha=0.4)
+    ax.scatter(sunx,2*py,0,marker=&#39;o&#39;,s=56,color=&#34;red&#34;,label=&#34;sunrset&#34;,alpha=0.4)
+    # sun at actual position
+    ax.scatter(sunx,suny,sunz,marker=&#39;o&#39;,s=56,color=&#34;yellow&#34;)
+    #projections for gamma vizualisation
+    ax.plot([sunx,sunx],[suny,suny],[sunz,0], &#39;--&#39;, color=&#34;orange&#34;)
+    ax.plot([px,sunx],[py,suny],[pz,0], &#39;--&#39;, color=&#34;orange&#34;)
+
+    ax.legend(loc=&#39;lower left&#39;)
+
+    plt.show()
+
+def extraRadiation(n):
+    &#34;&#34;&#34;
+    calculates the extraterrestrial radiative flux in W/m2
+    &#34;&#34;&#34;
+    # solar constant in W/m2
+    I0=1367
+    return I0*(1+0.0334*math.cos(2*math.pi*n/365))
+
+def deltaT(n,hour=True):
+    &#34;&#34;&#34;
+    time variation for day n in hour
+
+    related to the earth orbit disturbance
+
+    result in hour or minutes
+    &#34;&#34;&#34;
+    B=2*math.pi*(n-1)/365
+    E=229.2*(0.000075+0.001868*math.cos(B)-0.032077*math.sin(B)-0.014615*math.cos(2*B)-0.04089*math.sin(2*B))
+    if hour==True:
+        return E/60
+    else:
+        return E
+
+def earthDeclination(n,rad=True):
+    &#34;&#34;&#34;
+    angle between the equatorial plane and the line connecting earth and sun centres
+
+    result in degrees or radians
+    &#34;&#34;&#34;
+    ed=23.45*math.sin(2*math.pi*(284+n)/365)
+    if rad==True:
+        return math.radians(ed)
+    else:
+        return ed
+
+class globalSunRadiation():
+    def __init__(self,lat,long,alt,nbptinh,start,nbdays):
+        &#34;&#34;&#34;
+        latitude and longitude in decimal deg.
+
+        altitude in meter
+
+        start : a unix time stamp
+
+        the starting timestamp of the synthetic sun = same UTC day at 00:00:00
+        &#34;&#34;&#34;
+        self._lat=lat
+        self._radlat=math.radians(self._lat)
+        self._long=long
+        self._alt=alt
+        # offset with the Universal Time Coordinated
+        self._UTCoffset=0
+        self._nbptinh=nbptinh
+
+        # evaluating the starting timestamp = same UTC day at 00:00:00
+        tt=time.gmtime(start)
+        sec_elapsed_since_UTCday_start=tt.tm_hour*3600+tt.tm_min*60+tt.tm_sec
+        utsStart=start-sec_elapsed_since_UTCday_start
+        tts=time.gmtime(utsStart)
+        self._utsStart=utsStart
+        print(&#34;you have entered the following start {} UTC&#34;.format(time.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;,tt)))
+        print(&#34;sun generation will start at unixtimestamp {} which is {} UTC&#34;.format(utsStart,time.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;,tts)))
+        print(&#34;this is UTC day number {} of the year&#34;.format(tts.tm_yday))
+
+        self._startday = tts.tm_yday
+        self._nbdays = nbdays
+        self._indice=0
+        self._datas=np.zeros((self._nbdays*24*self._nbptinh, 5))
+        # Energy received on the period
+        self._E=0
+
+    def hourAngle(self,n,h,rad=True):
+        &#34;&#34;&#34;
+        angle between the sun and the local meridian
+
+        result in degrees or radians
+        &#34;&#34;&#34;
+        w = 15*(h-self._UTCoffset+deltaT(n)-12) + self._long
+
+        if rad==True:
+            return math.radians(w)
+        else:
+            return w
+
+    def sunDuration(self,n):
+        &#34;&#34;&#34;
+        calculates the sun duration for the day n
+
+        result in hour
+        &#34;&#34;&#34;
+        return 2*math.degrees(math.acos(-math.tan(self._radlat)*math.tan(earthDeclination(n))))/15
+
+    def solarAngles(self,n,h,rad=True):
+        &#34;&#34;&#34;
+        calculates the solar angles :
+
+        - (gamma)solar/angular height or solar altitude = angle between the local horizontal plane and the sun direction
+
+        - (alpha)azimuth = angle between the local meridian and the vertical plane including the observed point and the sun
+
+        results in degrees or radians
+        &#34;&#34;&#34;
+        decl=earthDeclination(n)
+        w=self.hourAngle(n,h)
+        #hauteur du soleil - sun height : sh
+        sh = math.sin(self._radlat)*math.sin(decl) + math.cos(self._radlat)*math.cos(decl)*math.cos(w)
+        gamma=math.asin(sh)
+        #trace du soleil dans le plan horizontal
+        alpha=math.asin(math.cos(decl)*math.sin(w)/math.cos(gamma))
+        if gamma &lt; 0:
+            gamma=0
+
+        if rad==True:
+            return gamma, alpha, w
+        else:
+            return math.degrees(gamma), math.degrees(alpha), math.degrees(w)
+
+    def Linke(self,n,h):
+        &#34;&#34;&#34;
+        gas absorption disorder (02, CO2, O3 ozone, water vapor, aerosols)
+
+        Capderou ?
+        &#34;&#34;&#34;
+        sinphi = math.sin(self._radlat)
+        A=math.sin(2*math.pi*(n-121)/365)
+        z=self._alt/1000
+        angles=self.solarAngles(n,h)
+        T1 = 2.4 - 0.9*sinphi + 0.1*(2 + sinphi*A - 0.2*z - (1.22+0.14*A)*(1-math.sin(angles[0])))
+        T2 = 0.89**z
+        T3 = (0.9 + 0.4*A)*0.63**z
+        return T1+T2+T3
+
+    def globalRadiation(self,n,h):
+        &#34;&#34;&#34;
+        in W/m2
+
+        cf OMM
+
+        https://hal.archives-ouvertes.fr/jpa-00246138/document
+        &#34;&#34;&#34;
+        angles=self.solarAngles(n,h)
+        TL=self.Linke(n,h)
+        z=self._alt/1000
+        # solar gain / coefficient d&#39;atténuation tenant compte des variations de la nébulosité
+        fs=0.65
+        fs=1
+        mod1=fs*(1300-57*TL)*math.exp(0.22*z/7.8)*math.sin(angles[0])**((TL+36)/33)
+        mod2=fs*extraRadiation(n)*math.sin(angles[0])
+        self._datas[self._indice]=np.array([mod1,TL,math.degrees(angles[0]),math.degrees(angles[1]),math.degrees(angles[2])])
+        self._indice+=1
+        return mod1, mod2
+
+    def generate(self):
+        &#34;&#34;&#34;
+        generate and store datas
+
+        global radiation in W/m2, linke trouble, gamma, alpha, omega
+        &#34;&#34;&#34;
+        for d in range(self._nbdays):
+            day=self._startday+d
+            for h in range(24):
+                for m in range(self._nbptinh):
+                    self.globalRadiation(day,h+m/self._nbptinh)
+
+    def energy(self):
+        &#34;&#34;&#34;
+        ouputs energy balance per month
+        &#34;&#34;&#34;
+        E=[]
+        steps_in_month=30*24*self._nbptinh
+        indice=0
+        Emonth=0
+        for i in range(self._datas.shape[0]):
+            if indice &gt; steps_in_month:
+                indice=0
+                E.append(Emonth)
+                Emonth=0
+            Emonth+=self._datas[i,0]
+            indice+=1
+        if len(E):
+            print(&#34;Kwh not integrated in the mensual estimation : {}&#34;.format(Emonth/(self._nbptinh*1000)))
+            E=np.array(E)/(self._nbptinh*1000)
+            print(&#34;the following array synthetises mensual estimations on the choosen period&#34;)
+            print(E)
+            self._E=np.sum(E)
+        else:
+            self._E=Emonth/(self._nbptinh*1000)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="src.tools.sunmodel.deltaT"><code class="name flex">
+<span>def <span class="ident">deltaT</span></span>(<span>n, hour=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>time variation for day n in hour</p>
+<p>related to the earth orbit disturbance</p>
+<p>result in hour or minutes</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def deltaT(n,hour=True):
+    &#34;&#34;&#34;
+    time variation for day n in hour
+
+    related to the earth orbit disturbance
+
+    result in hour or minutes
+    &#34;&#34;&#34;
+    B=2*math.pi*(n-1)/365
+    E=229.2*(0.000075+0.001868*math.cos(B)-0.032077*math.sin(B)-0.014615*math.cos(2*B)-0.04089*math.sin(2*B))
+    if hour==True:
+        return E/60
+    else:
+        return E</code></pre>
+</details>
+</dd>
+<dt id="src.tools.sunmodel.earthDeclination"><code class="name flex">
+<span>def <span class="ident">earthDeclination</span></span>(<span>n, rad=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>angle between the equatorial plane and the line connecting earth and sun centres</p>
+<p>result in degrees or radians</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def earthDeclination(n,rad=True):
+    &#34;&#34;&#34;
+    angle between the equatorial plane and the line connecting earth and sun centres
+
+    result in degrees or radians
+    &#34;&#34;&#34;
+    ed=23.45*math.sin(2*math.pi*(284+n)/365)
+    if rad==True:
+        return math.radians(ed)
+    else:
+        return ed</code></pre>
+</details>
+</dd>
+<dt id="src.tools.sunmodel.extraRadiation"><code class="name flex">
+<span>def <span class="ident">extraRadiation</span></span>(<span>n)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>calculates the extraterrestrial radiative flux in W/m2</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def extraRadiation(n):
+    &#34;&#34;&#34;
+    calculates the extraterrestrial radiative flux in W/m2
+    &#34;&#34;&#34;
+    # solar constant in W/m2
+    I0=1367
+    return I0*(1+0.0334*math.cos(2*math.pi*n/365))</code></pre>
+</details>
+</dd>
+<dt id="src.tools.sunmodel.viewSunPath"><code class="name flex">
+<span>def <span class="ident">viewSunPath</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>visualize the sun path for a classic day on planet earth</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def viewSunPath():
+    &#34;&#34;&#34;
+    visualize the sun path for a classic day on planet earth
+    &#34;&#34;&#34;
+    # observation point
+    px = 4
+    py = 3
+    pz = 0
+    r = 3
+
+    # parallel or circle of latitude
+    x0 = [px, px]
+    y0 = [0, 6]
+    z0 = [0, 0]
+
+    # meridian
+    x1 = [0, 6]
+    y1 = [py, py]
+    z1 = [0, 0]
+
+    # sun&#39;s path during the day
+    theta=np.linspace(-np.pi/2,np.pi/4,600)
+    c1x=r/2+np.zeros(600)
+    c1y=py+r*np.sin(theta)
+    c1z=r*np.cos(theta)
+
+    xw = r/2
+    yw = py
+    zw = r+0.15
+
+    theta2=np.linspace(np.pi/4,np.pi/2,200)
+    c2x=r/2+np.zeros(200)
+    c2y=py+r*np.sin(theta2)
+    c2z=r*np.cos(theta2)
+
+    # sun position
+    sunx=r/2
+    suny=py+r*np.cos(np.pi/4)
+    sunz=r*np.sin(np.pi/4)
+
+    # sun ray
+    rayx=[px,sunx]
+    rayy=[py,suny]
+    rayz=[pz,sunz]
+
+    # gamma
+    d=((sunx-px)**2+(suny-py)**2+(sunz-pz)**2)**0.5
+    dsina=sunz
+    gamma=math.asin(dsina/d)
+    u = np.linspace(0, gamma, 50)
+    p = ((sunx-px)**2 + (suny-py)**2)**0.5
+    v = math.acos((px-sunx)/p)
+    zarcg = pz + d/4 * np.sin(u)
+    xarcg = px - d/4 * np.cos(u) * np.cos(v)
+    yarcg = py + d/4 * np.cos(u) * np.sin(v)
+
+    zg = pz + d/4 * np.sin(gamma/2)
+    xg = px - d/4 * np.cos(gamma/2) * np.cos(v)
+    yg = py + d/4 * np.cos(gamma/2) * np.sin(v)
+
+    # alpha
+    alpha=np.linspace(0, v, 50)
+    xarca = px - (px - r/2) * np.cos(alpha)
+    yarca = py + (px - r/2) * np.sin(alpha)
+    zarca = np.zeros(50)
+
+    xa = px - (px - r/2 + 0.15) * np.cos(v/2)
+    ya = py + (px - r/2 + 0.15) * np.sin(v/2)
+    za = 0
+
+    # Plotting....
+    fig = plt.figure()
+    ax = fig.gca(projection=&#39;3d&#39;)
+    plt.title(&#34;vizualisation of the sun&#39;s path&#34;)
+    ax.plot(xarca, yarca, zarca, color=&#34;blue&#34;)
+    ax.text(xa,ya,za,&#34;α&#34;, fontsize=18, color=&#34;blue&#34;)
+    ax.plot(xarcg, yarcg, zarcg, color=&#34;blue&#34;)
+    ax.text(xg,yg,zg,&#34;$\gamma$&#34;, fontsize=18, color=&#34;blue&#34;)
+
+    ax.text(px, 0, 0.1 , &#34;E&#34;, fontsize=12, color=&#34;gray&#34;)
+    ax.text(px, 6, 0.1 , &#34;W&#34;, fontsize=12, color=&#34;gray&#34;)
+    ax.plot(x0, y0, z0, &#39;--&#39;, color=&#34;gray&#34;, label = &#34;circle of latitude&#34;)
+    ax.text(0, py, 0.1 , &#34;S&#34;, fontsize=12, color=&#34;green&#34;)
+    ax.text(6, py, 0.1 , &#34;N&#34;, fontsize=12, color=&#34;green&#34;)
+    ax.plot(x1, y1, z1, &#39;--&#39;, color=&#34;green&#34;, label = &#34;meridian&#34;)
+
+    ax.plot(c1x, c1y, c1z, color=&#34;blue&#34;)
+    ax.plot(c2x, c2y, c2z, &#39;--&#39;, color=&#34;blue&#34;)
+    ax.text(xw,yw,zw,&#34;w ($\omega$)&#34;, fontsize=12, color=&#34;blue&#34;)
+
+    ax.plot(rayx, rayy, rayz, color=&#34;orange&#34;)
+
+    # observation point
+    ax.scatter(px,py,pz,marker=&#39;o&#39;,color=&#34;black&#34;)
+    ax.text(px, py, 0.1 , &#34;P&#34;, fontsize=10)
+
+    # sun at sunrise and sunset
+    ax.scatter(sunx,0,0,marker=&#39;o&#39;,s=56,color=&#34;orange&#34;,label=&#34;sunrise&#34;,alpha=0.4)
+    ax.scatter(sunx,2*py,0,marker=&#39;o&#39;,s=56,color=&#34;red&#34;,label=&#34;sunrset&#34;,alpha=0.4)
+    # sun at actual position
+    ax.scatter(sunx,suny,sunz,marker=&#39;o&#39;,s=56,color=&#34;yellow&#34;)
+    #projections for gamma vizualisation
+    ax.plot([sunx,sunx],[suny,suny],[sunz,0], &#39;--&#39;, color=&#34;orange&#34;)
+    ax.plot([px,sunx],[py,suny],[pz,0], &#39;--&#39;, color=&#34;orange&#34;)
+
+    ax.legend(loc=&#39;lower left&#39;)
+
+    plt.show()</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="src.tools.sunmodel.globalSunRadiation"><code class="flex name class">
+<span>class <span class="ident">globalSunRadiation</span></span>
+<span>(</span><span>lat, long, alt, nbptinh, start, nbdays)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>latitude and longitude in decimal deg.</p>
+<p>altitude in meter</p>
+<p>start : a unix time stamp</p>
+<p>the starting timestamp of the synthetic sun = same UTC day at 00:00:00</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class globalSunRadiation():
+    def __init__(self,lat,long,alt,nbptinh,start,nbdays):
+        &#34;&#34;&#34;
+        latitude and longitude in decimal deg.
+
+        altitude in meter
+
+        start : a unix time stamp
+
+        the starting timestamp of the synthetic sun = same UTC day at 00:00:00
+        &#34;&#34;&#34;
+        self._lat=lat
+        self._radlat=math.radians(self._lat)
+        self._long=long
+        self._alt=alt
+        # offset with the Universal Time Coordinated
+        self._UTCoffset=0
+        self._nbptinh=nbptinh
+
+        # evaluating the starting timestamp = same UTC day at 00:00:00
+        tt=time.gmtime(start)
+        sec_elapsed_since_UTCday_start=tt.tm_hour*3600+tt.tm_min*60+tt.tm_sec
+        utsStart=start-sec_elapsed_since_UTCday_start
+        tts=time.gmtime(utsStart)
+        self._utsStart=utsStart
+        print(&#34;you have entered the following start {} UTC&#34;.format(time.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;,tt)))
+        print(&#34;sun generation will start at unixtimestamp {} which is {} UTC&#34;.format(utsStart,time.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;,tts)))
+        print(&#34;this is UTC day number {} of the year&#34;.format(tts.tm_yday))
+
+        self._startday = tts.tm_yday
+        self._nbdays = nbdays
+        self._indice=0
+        self._datas=np.zeros((self._nbdays*24*self._nbptinh, 5))
+        # Energy received on the period
+        self._E=0
+
+    def hourAngle(self,n,h,rad=True):
+        &#34;&#34;&#34;
+        angle between the sun and the local meridian
+
+        result in degrees or radians
+        &#34;&#34;&#34;
+        w = 15*(h-self._UTCoffset+deltaT(n)-12) + self._long
+
+        if rad==True:
+            return math.radians(w)
+        else:
+            return w
+
+    def sunDuration(self,n):
+        &#34;&#34;&#34;
+        calculates the sun duration for the day n
+
+        result in hour
+        &#34;&#34;&#34;
+        return 2*math.degrees(math.acos(-math.tan(self._radlat)*math.tan(earthDeclination(n))))/15
+
+    def solarAngles(self,n,h,rad=True):
+        &#34;&#34;&#34;
+        calculates the solar angles :
+
+        - (gamma)solar/angular height or solar altitude = angle between the local horizontal plane and the sun direction
+
+        - (alpha)azimuth = angle between the local meridian and the vertical plane including the observed point and the sun
+
+        results in degrees or radians
+        &#34;&#34;&#34;
+        decl=earthDeclination(n)
+        w=self.hourAngle(n,h)
+        #hauteur du soleil - sun height : sh
+        sh = math.sin(self._radlat)*math.sin(decl) + math.cos(self._radlat)*math.cos(decl)*math.cos(w)
+        gamma=math.asin(sh)
+        #trace du soleil dans le plan horizontal
+        alpha=math.asin(math.cos(decl)*math.sin(w)/math.cos(gamma))
+        if gamma &lt; 0:
+            gamma=0
+
+        if rad==True:
+            return gamma, alpha, w
+        else:
+            return math.degrees(gamma), math.degrees(alpha), math.degrees(w)
+
+    def Linke(self,n,h):
+        &#34;&#34;&#34;
+        gas absorption disorder (02, CO2, O3 ozone, water vapor, aerosols)
+
+        Capderou ?
+        &#34;&#34;&#34;
+        sinphi = math.sin(self._radlat)
+        A=math.sin(2*math.pi*(n-121)/365)
+        z=self._alt/1000
+        angles=self.solarAngles(n,h)
+        T1 = 2.4 - 0.9*sinphi + 0.1*(2 + sinphi*A - 0.2*z - (1.22+0.14*A)*(1-math.sin(angles[0])))
+        T2 = 0.89**z
+        T3 = (0.9 + 0.4*A)*0.63**z
+        return T1+T2+T3
+
+    def globalRadiation(self,n,h):
+        &#34;&#34;&#34;
+        in W/m2
+
+        cf OMM
+
+        https://hal.archives-ouvertes.fr/jpa-00246138/document
+        &#34;&#34;&#34;
+        angles=self.solarAngles(n,h)
+        TL=self.Linke(n,h)
+        z=self._alt/1000
+        # solar gain / coefficient d&#39;atténuation tenant compte des variations de la nébulosité
+        fs=0.65
+        fs=1
+        mod1=fs*(1300-57*TL)*math.exp(0.22*z/7.8)*math.sin(angles[0])**((TL+36)/33)
+        mod2=fs*extraRadiation(n)*math.sin(angles[0])
+        self._datas[self._indice]=np.array([mod1,TL,math.degrees(angles[0]),math.degrees(angles[1]),math.degrees(angles[2])])
+        self._indice+=1
+        return mod1, mod2
+
+    def generate(self):
+        &#34;&#34;&#34;
+        generate and store datas
+
+        global radiation in W/m2, linke trouble, gamma, alpha, omega
+        &#34;&#34;&#34;
+        for d in range(self._nbdays):
+            day=self._startday+d
+            for h in range(24):
+                for m in range(self._nbptinh):
+                    self.globalRadiation(day,h+m/self._nbptinh)
+
+    def energy(self):
+        &#34;&#34;&#34;
+        ouputs energy balance per month
+        &#34;&#34;&#34;
+        E=[]
+        steps_in_month=30*24*self._nbptinh
+        indice=0
+        Emonth=0
+        for i in range(self._datas.shape[0]):
+            if indice &gt; steps_in_month:
+                indice=0
+                E.append(Emonth)
+                Emonth=0
+            Emonth+=self._datas[i,0]
+            indice+=1
+        if len(E):
+            print(&#34;Kwh not integrated in the mensual estimation : {}&#34;.format(Emonth/(self._nbptinh*1000)))
+            E=np.array(E)/(self._nbptinh*1000)
+            print(&#34;the following array synthetises mensual estimations on the choosen period&#34;)
+            print(E)
+            self._E=np.sum(E)
+        else:
+            self._E=Emonth/(self._nbptinh*1000)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="src.tools.sunmodel.globalSunRadiation.Linke"><code class="name flex">
+<span>def <span class="ident">Linke</span></span>(<span>self, n, h)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>gas absorption disorder (02, CO2, O3 ozone, water vapor, aerosols)</p>
+<p>Capderou ?</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Linke(self,n,h):
+    &#34;&#34;&#34;
+    gas absorption disorder (02, CO2, O3 ozone, water vapor, aerosols)
+
+    Capderou ?
+    &#34;&#34;&#34;
+    sinphi = math.sin(self._radlat)
+    A=math.sin(2*math.pi*(n-121)/365)
+    z=self._alt/1000
+    angles=self.solarAngles(n,h)
+    T1 = 2.4 - 0.9*sinphi + 0.1*(2 + sinphi*A - 0.2*z - (1.22+0.14*A)*(1-math.sin(angles[0])))
+    T2 = 0.89**z
+    T3 = (0.9 + 0.4*A)*0.63**z
+    return T1+T2+T3</code></pre>
+</details>
+</dd>
+<dt id="src.tools.sunmodel.globalSunRadiation.energy"><code class="name flex">
+<span>def <span class="ident">energy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ouputs energy balance per month</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def energy(self):
+    &#34;&#34;&#34;
+    ouputs energy balance per month
+    &#34;&#34;&#34;
+    E=[]
+    steps_in_month=30*24*self._nbptinh
+    indice=0
+    Emonth=0
+    for i in range(self._datas.shape[0]):
+        if indice &gt; steps_in_month:
+            indice=0
+            E.append(Emonth)
+            Emonth=0
+        Emonth+=self._datas[i,0]
+        indice+=1
+    if len(E):
+        print(&#34;Kwh not integrated in the mensual estimation : {}&#34;.format(Emonth/(self._nbptinh*1000)))
+        E=np.array(E)/(self._nbptinh*1000)
+        print(&#34;the following array synthetises mensual estimations on the choosen period&#34;)
+        print(E)
+        self._E=np.sum(E)
+    else:
+        self._E=Emonth/(self._nbptinh*1000)</code></pre>
+</details>
+</dd>
+<dt id="src.tools.sunmodel.globalSunRadiation.generate"><code class="name flex">
+<span>def <span class="ident">generate</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>generate and store datas</p>
+<p>global radiation in W/m2, linke trouble, gamma, alpha, omega</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate(self):
+    &#34;&#34;&#34;
+    generate and store datas
+
+    global radiation in W/m2, linke trouble, gamma, alpha, omega
+    &#34;&#34;&#34;
+    for d in range(self._nbdays):
+        day=self._startday+d
+        for h in range(24):
+            for m in range(self._nbptinh):
+                self.globalRadiation(day,h+m/self._nbptinh)</code></pre>
+</details>
+</dd>
+<dt id="src.tools.sunmodel.globalSunRadiation.globalRadiation"><code class="name flex">
+<span>def <span class="ident">globalRadiation</span></span>(<span>self, n, h)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>in W/m2</p>
+<p>cf OMM</p>
+<p><a href="https://hal.archives-ouvertes.fr/jpa-00246138/document">https://hal.archives-ouvertes.fr/jpa-00246138/document</a></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def globalRadiation(self,n,h):
+    &#34;&#34;&#34;
+    in W/m2
+
+    cf OMM
+
+    https://hal.archives-ouvertes.fr/jpa-00246138/document
+    &#34;&#34;&#34;
+    angles=self.solarAngles(n,h)
+    TL=self.Linke(n,h)
+    z=self._alt/1000
+    # solar gain / coefficient d&#39;atténuation tenant compte des variations de la nébulosité
+    fs=0.65
+    fs=1
+    mod1=fs*(1300-57*TL)*math.exp(0.22*z/7.8)*math.sin(angles[0])**((TL+36)/33)
+    mod2=fs*extraRadiation(n)*math.sin(angles[0])
+    self._datas[self._indice]=np.array([mod1,TL,math.degrees(angles[0]),math.degrees(angles[1]),math.degrees(angles[2])])
+    self._indice+=1
+    return mod1, mod2</code></pre>
+</details>
+</dd>
+<dt id="src.tools.sunmodel.globalSunRadiation.hourAngle"><code class="name flex">
+<span>def <span class="ident">hourAngle</span></span>(<span>self, n, h, rad=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>angle between the sun and the local meridian</p>
+<p>result in degrees or radians</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def hourAngle(self,n,h,rad=True):
+    &#34;&#34;&#34;
+    angle between the sun and the local meridian
+
+    result in degrees or radians
+    &#34;&#34;&#34;
+    w = 15*(h-self._UTCoffset+deltaT(n)-12) + self._long
+
+    if rad==True:
+        return math.radians(w)
+    else:
+        return w</code></pre>
+</details>
+</dd>
+<dt id="src.tools.sunmodel.globalSunRadiation.solarAngles"><code class="name flex">
+<span>def <span class="ident">solarAngles</span></span>(<span>self, n, h, rad=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>calculates the solar angles :</p>
+<ul>
+<li>
+<p>(gamma)solar/angular height or solar altitude = angle between the local horizontal plane and the sun direction</p>
+</li>
+<li>
+<p>(alpha)azimuth = angle between the local meridian and the vertical plane including the observed point and the sun</p>
+</li>
+</ul>
+<p>results in degrees or radians</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def solarAngles(self,n,h,rad=True):
+    &#34;&#34;&#34;
+    calculates the solar angles :
+
+    - (gamma)solar/angular height or solar altitude = angle between the local horizontal plane and the sun direction
+
+    - (alpha)azimuth = angle between the local meridian and the vertical plane including the observed point and the sun
+
+    results in degrees or radians
+    &#34;&#34;&#34;
+    decl=earthDeclination(n)
+    w=self.hourAngle(n,h)
+    #hauteur du soleil - sun height : sh
+    sh = math.sin(self._radlat)*math.sin(decl) + math.cos(self._radlat)*math.cos(decl)*math.cos(w)
+    gamma=math.asin(sh)
+    #trace du soleil dans le plan horizontal
+    alpha=math.asin(math.cos(decl)*math.sin(w)/math.cos(gamma))
+    if gamma &lt; 0:
+        gamma=0
+
+    if rad==True:
+        return gamma, alpha, w
+    else:
+        return math.degrees(gamma), math.degrees(alpha), math.degrees(w)</code></pre>
+</details>
+</dd>
+<dt id="src.tools.sunmodel.globalSunRadiation.sunDuration"><code class="name flex">
+<span>def <span class="ident">sunDuration</span></span>(<span>self, n)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>calculates the sun duration for the day n</p>
+<p>result in hour</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sunDuration(self,n):
+    &#34;&#34;&#34;
+    calculates the sun duration for the day n
+
+    result in hour
+    &#34;&#34;&#34;
+    return 2*math.degrees(math.acos(-math.tan(self._radlat)*math.tan(earthDeclination(n))))/15</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="src.tools" href="index.html">src.tools</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="src.tools.sunmodel.deltaT" href="#src.tools.sunmodel.deltaT">deltaT</a></code></li>
+<li><code><a title="src.tools.sunmodel.earthDeclination" href="#src.tools.sunmodel.earthDeclination">earthDeclination</a></code></li>
+<li><code><a title="src.tools.sunmodel.extraRadiation" href="#src.tools.sunmodel.extraRadiation">extraRadiation</a></code></li>
+<li><code><a title="src.tools.sunmodel.viewSunPath" href="#src.tools.sunmodel.viewSunPath">viewSunPath</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="src.tools.sunmodel.globalSunRadiation" href="#src.tools.sunmodel.globalSunRadiation">globalSunRadiation</a></code></h4>
+<ul class="two-column">
+<li><code><a title="src.tools.sunmodel.globalSunRadiation.Linke" href="#src.tools.sunmodel.globalSunRadiation.Linke">Linke</a></code></li>
+<li><code><a title="src.tools.sunmodel.globalSunRadiation.energy" href="#src.tools.sunmodel.globalSunRadiation.energy">energy</a></code></li>
+<li><code><a title="src.tools.sunmodel.globalSunRadiation.generate" href="#src.tools.sunmodel.globalSunRadiation.generate">generate</a></code></li>
+<li><code><a title="src.tools.sunmodel.globalSunRadiation.globalRadiation" href="#src.tools.sunmodel.globalSunRadiation.globalRadiation">globalRadiation</a></code></li>
+<li><code><a title="src.tools.sunmodel.globalSunRadiation.hourAngle" href="#src.tools.sunmodel.globalSunRadiation.hourAngle">hourAngle</a></code></li>
+<li><code><a title="src.tools.sunmodel.globalSunRadiation.solarAngles" href="#src.tools.sunmodel.globalSunRadiation.solarAngles">solarAngles</a></code></li>
+<li><code><a title="src.tools.sunmodel.globalSunRadiation.sunDuration" href="#src.tools.sunmodel.globalSunRadiation.sunDuration">sunDuration</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

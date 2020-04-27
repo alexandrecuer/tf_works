@@ -1,25 +1,35 @@
+"""
+tools to manage (open/create) PHPFina feeds
+
+Fina = Fixed Interval No Averaging
+
+this small library uses seek
+
+Seek can be called one of two ways:
+
+x.seek(offset)
+
+x.seek(offset, starting_point)
+
+starting_point can be 0, 1, or 2
+
+ 0 - Default. Offset relative to beginning of file
+
+ 1 - Start from the current position in the file
+
+ 2 - Start from the end of a file (will require a negative offset)
+"""
+
 from datetime import datetime
 import math
 import struct
 import numpy as np
 import os.path
 
-"""
-this small library uses seek
-Seek can be called one of two ways:
-x.seek(offset)
-x.seek(offset, starting_point)
-
-starting_point can be 0, 1, or 2
- 0 - Default. Offset relative to beginning of file
- 1 - Start from the current position in the file
- 2 - Start from the end of a file (will require a negative offset)
-"""
-
 # if want to work on the active directory, just use dir="."
 dir="phpfina"
 
-# convert a unix time stamp expressed in seconds to something human readable
+# convert a unix time stamp to a UTC expression
 def humanDate(uts):
     human=datetime.utcfromtimestamp(uts).strftime('%Y-%m-%d %H:%M:%S')
     return human
@@ -49,8 +59,11 @@ a bunch of functions to create a synthetic PHPFina feed from a list or a numpy v
 def createMeta(nb,start,step,dir=dir):
     """
     create meta given :
+
     - a feed number
+
     - a unixtimestamp as start
+
     - a step
     """
     f=open("{}/{}.meta".format(dir,nb),"wb")
@@ -63,7 +76,9 @@ def createMeta(nb,start,step,dir=dir):
 def createFeed(nb,data,dir=dir):
     """
     create a dat file given :
+
     - a feed number
+
     - a numpy vector of data
     """
     f=open("{}/{}.dat".format(dir,nb),"wb")
@@ -88,8 +103,11 @@ def getMetas(nb,dir=dir):
 def newPHPFina(nb,start,step,data,dir=dir):
     """
     create a PHPFina object, without any reference to any EmonCMS server
-    start : unix time stamp as the starting point
-    step : timestep in s
+
+    start : unix time stamp of the starting point
+
+    step : timestep/interval in s
+
     data : data to be injected as a numpy vector
     """
     meta="{}/{}.meta".format(dir,nb)
@@ -106,11 +124,16 @@ def newPHPFina(nb,start,step,data,dir=dir):
         createFeed(nb,data,dir)
 
 
-# import and manage emoncms PHPFINA objects
+"""
+import and manage emoncms PHPFINA objects
+"""
 class PHPFina:
-    # the constructor - you give the number of the timeserie (nb) and a step parameter, used for the sampling
     def __init__(self,nb,step,dir=dir):
-        """ initialize the metas """
+        """
+        nb : feed number
+
+        step : the period in second at which you sample from the timeseries
+        """
         #starttime and interval expressed in seconds
         #starttime is a unixtimestamp
         self._startTime = 0
@@ -118,34 +141,44 @@ class PHPFina:
         self._nb = nb
         # the unixtimestamp in seconds at which you decide to start sampling
         self._SamplingPos = 0
-        # the period in second at which you sample from the timeseries
         self._step = step
         self._dir = dir
         self._datas = []
 
-    # stores and returns the metas
     def getMetas(self):
+        """
+        gets the metas from the meta file and stores them
+
+        unix timestamp of the feed's first point (_startTime)
+
+        interval in s (_interval)
+        """
         with open("{}/{}.meta".format(self._dir,self._nb), "rb") as metas:
             # Seek a specific position in the file and read N bytes
             metas.seek(8, 0)
             interval=readBytes(4,metas)
             metas.seek(12, 0)
             startTime=readBytes(4,metas)
-            print("startTime {} ou {}s en unixtimestamp".format(humanDate(startTime),startTime))
-            print("interval {}s".format(interval))
+            #print("startTime {} UTC / {}".format(humanDate(startTime),startTime))
+            #print("interval {}s".format(interval))
             self._startTime=startTime
             self._interval=interval
 
     def setStart(self,unixTimeStart):
+        """
+        set the sampling starting point given a unix time stamp (_SamplingPos)
+        """
         self._SamplingPos=int((unixTimeStart-self._startTime)/self._interval)
-        print("Timeserie {} sampling will start on record number {}".format(self._nb,self._SamplingPos))
+        #print("Timeserie {} sampling will start on record number {}".format(self._nb,self._SamplingPos))
 
-    """
-    stores an array of values extracted from the timeserie
-    nbSteps datas are sampled from _SamplingPos at a period equal to _step
-    a PHPFina file is made of 4 bytes float values, with NAN when nothing was recorded from the sensor
-    """
     def getDatas(self,nbSteps):
+        """
+        stores an array of values extracted from the timeserie
+
+        nbSteps datas are sampled from _SamplingPos at a period equal to _step
+
+        a PHPFina file is made of 4 bytes float values, with NAN when nothing was recorded from the sensor
+        """
         start = self._SamplingPos
         nbPtInStep=self._step//self._interval
         if self._step/self._interval - nbPtInStep == 0:
@@ -189,11 +222,12 @@ class PHPFina:
                 else:
                     position+=(nbPtInStep+offset)*4
 
-    """
-    only for "energy" timeseries
-    accumulates the power for each step and outputs the energy consumption in Kwh within the step to come
-    """
     def getKwh(self,nbSteps):
+        """
+        only for "energy" timeseries
+
+        accumulates the power for each step and outputs the energy consumption in Kwh within the step to come
+        """
         start = self._SamplingPos
         nbPtInStep=self._step//self._interval
         #print("an hour is sectionned in {} parts".format(nbPtInStep))
@@ -218,14 +252,18 @@ class PHPFina:
                 # kwh conversion !!
                 self._datas.append(0.001*acc/3600)
 
-    """
-    EmonCMS can provide the accumulated kwh feed over the whole recording period, like an energy meter.
-    from the accumulated kwh feed, the kwh consumed per hour can be recalculated
-    NOTA NOTA NOTA : recalculating from the instantaneous power is a better option
-    Indeed, there may be missing data in feeds dedicated to the accumulation of Kwh.
-    Experience shows that only instant power feeds ARE MANUALLY corrected in real time during monitoring.
-    """
     def unAcc(self):
+        """
+        EmonCMS can provide the accumulated kwh feed over the whole recording period, like an energy meter.
+
+        from the accumulated kwh feed, the kwh consumed per hour can be recalculated
+
+        NOTA NOTA NOTA : recalculating from the instantaneous power is a better option
+
+        Indeed, there may be missing data in feeds dedicated to the accumulation of Kwh.
+
+        Experience shows that only instant power feeds ARE MANUALLY corrected in real time during monitoring.
+        """
         unAccvalues=[]
         for i in range(len(self._datas)-1):
             if self._datas[i+1]-self._datas[i] <0:

@@ -1,3 +1,17 @@
+"""
+KASTEN MODEL FOR GLOBAL SUN RADIATION MODELISATION
+
+CLEAR SKY ONLY
+
+online ressources on solar irradiation : https://ec.europa.eu/jrc/en/pvgis
+
+for all the following methods :
+
+n day number - 1th of january > n=1 ....
+
+h : local time in hour
+"""
+
 import math
 import numpy as np
 import matplotlib.pylab as plt
@@ -7,20 +21,7 @@ mpl.rcParams['mathtext.fontset'] = 'cm'
 mpl.rcParams['mathtext.rm'] = 'serif'
 from datetime import datetime
 import time
-print("your computer is UTC+{} but we are going to work in UTC".format(-time.timezone//3600))
-
-"""
-KASTEN MODEL FOR GLOBAL SUN RADIARION MODELISATION
-CLEAR SKY ONLY
-
-online ressources on solar irradiation : https://ec.europa.eu/jrc/en/pvgis
-
-work in progress
-
-for all the following methods :
-n day number - 1th of january > n=1 ....
-h : local time in hour
-"""
+#print("your computer is UTC+{} but we are going to work in UTC".format(-time.timezone//3600))
 
 def viewSunPath():
     """
@@ -142,7 +143,9 @@ def extraRadiation(n):
 def deltaT(n,hour=True):
     """
     time variation for day n in hour
+
     related to the earth orbit disturbance
+
     result in hour or minutes
     """
     B=2*math.pi*(n-1)/365
@@ -155,6 +158,7 @@ def deltaT(n,hour=True):
 def earthDeclination(n,rad=True):
     """
     angle between the equatorial plane and the line connecting earth and sun centres
+
     result in degrees or radians
     """
     ed=23.45*math.sin(2*math.pi*(284+n)/365)
@@ -165,11 +169,18 @@ def earthDeclination(n,rad=True):
 
 class globalSunRadiation():
     def __init__(self,lat,long,alt,nbptinh,start,nbdays):
-        # latitude and longitude in decimal deg.
+        """
+        latitude and longitude in decimal deg.
+
+        altitude in meter
+
+        start : a unix time stamp
+
+        the starting timestamp of the synthetic sun = same UTC day at 00:00:00
+        """
         self._lat=lat
         self._radlat=math.radians(self._lat)
         self._long=long
-        # altitude in meter
         self._alt=alt
         # offset with the Universal Time Coordinated
         self._UTCoffset=0
@@ -195,6 +206,7 @@ class globalSunRadiation():
     def hourAngle(self,n,h,rad=True):
         """
         angle between the sun and the local meridian
+
         result in degrees or radians
         """
         w = 15*(h-self._UTCoffset+deltaT(n)-12) + self._long
@@ -207,6 +219,7 @@ class globalSunRadiation():
     def sunDuration(self,n):
         """
         calculates the sun duration for the day n
+
         result in hour
         """
         return 2*math.degrees(math.acos(-math.tan(self._radlat)*math.tan(earthDeclination(n))))/15
@@ -214,8 +227,11 @@ class globalSunRadiation():
     def solarAngles(self,n,h,rad=True):
         """
         calculates the solar angles :
+
         - (gamma)solar/angular height or solar altitude = angle between the local horizontal plane and the sun direction
+
         - (alpha)azimuth = angle between the local meridian and the vertical plane including the observed point and the sun
+
         results in degrees or radians
         """
         decl=earthDeclination(n)
@@ -236,6 +252,7 @@ class globalSunRadiation():
     def Linke(self,n,h):
         """
         gas absorption disorder (02, CO2, O3 ozone, water vapor, aerosols)
+
         Capderou ?
         """
         sinphi = math.sin(self._radlat)
@@ -250,7 +267,9 @@ class globalSunRadiation():
     def globalRadiation(self,n,h):
         """
         in W/m2
+
         cf OMM
+
         https://hal.archives-ouvertes.fr/jpa-00246138/document
         """
         angles=self.solarAngles(n,h)
@@ -268,6 +287,7 @@ class globalSunRadiation():
     def generate(self):
         """
         generate and store datas
+
         global radiation in W/m2, linke trouble, gamma, alpha, omega
         """
         for d in range(self._nbdays):
@@ -277,6 +297,9 @@ class globalSunRadiation():
                     self.globalRadiation(day,h+m/self._nbptinh)
 
     def energy(self):
+        """
+        ouputs energy balance per month
+        """
         E=[]
         steps_in_month=30*24*self._nbptinh
         indice=0

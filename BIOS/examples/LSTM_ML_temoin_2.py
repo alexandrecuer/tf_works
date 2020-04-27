@@ -1,6 +1,8 @@
-from building import BuildingZone, GoToTensor
+from src.modelstats import BuildingZone, GoToTensor
 import numpy as np
 import matplotlib.pylab as plt
+
+dir="../phpfina"
 
 """
 pavillon temoin
@@ -14,12 +16,10 @@ history_size=10
 target_size=1
 # how many hours in the future are we going to simulate ?
 goto=200
-#***********************************************************************************
-#***********************************************************************************
 
 params=[{"id":1,"action":"smp"},{"id":191,"action":"smp"},{"id":139,"action":"acc"}]
-zone1=GoToTensor(params,step,1537876800,148*24*nbptinh)
-zone2=GoToTensor(params,step,1550664000,83*24*nbptinh)
+zone1=GoToTensor(params,step,1537876800,148*24*nbptinh,dir)
+zone2=GoToTensor(params,step,1550664000,83*24*nbptinh,dir)
 temoin=BuildingZone(step,history_size,target_size)
 
 plt.subplot(211)

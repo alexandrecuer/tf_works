@@ -1,32 +1,15 @@
-from sunModel import globalSunRadiation
+from src.tools import *
 import numpy as np
 import matplotlib.pylab as plt
 import time
-import struct
-from PHPFina import PHPFina, newPHPFina
 
-def InitializeFeed(nb,step,start):
-    feed=PHPFina(nb,step)
-    feed.getMetas()
-    feed.setStart(start)
-    return feed
-
-# given some PHPFina feeds, a period and a start (as a unix timestamp) both in seconds
-def GoToTensor(params,step,start,nbsteps):
-    #print("going to tensor for {} feeds".format(len(params)))
-    float_data=np.zeros((nbsteps,len(params)+1))
-    for i in range(len(params)):
-        #print("feed number {}".format(i))
-        feed=InitializeFeed(params[i]["id"],step,start)
-        if params[i]["action"]=="smp":
-            feed.getDatas(nbsteps)
-        elif params[i]["action"]=="acc":
-            feed.getKwh(nbsteps)
-        if len(feed._datas):
-            float_data[:,i]=feed._datas[0:nbsteps]
-        else:
-            return False
-    return float_data
+"""
+simulates 2 years of sun for a point on the earth defined by its geographical coordinates (lat, long, alt)
+the simulated radiation is for an open sky, without any cloud
+connects to opendata and retrieves nebulosity on the same period, given the id of the closest meteofrance weather station
+modulates the simulated radiation, given the nebulosity datas
+save the datas to a PHPFina feed in a specified dir
+"""
 
 def strForODS(ts):
     """
@@ -75,7 +58,6 @@ print(ts)
 ts_end=ts+tDays*3600*24
 print(ts_end)
 
-from openData import openData
 dataset='donnees-synop-essentielles-omm%40public'
 station="07460"
 start=strForODS(ts)
@@ -90,29 +72,45 @@ synop=openData(dataset,station,start,stop,fields,tz,step_in_h,year=False)
 
 synop.retrieve()
 
-# cloud attenuation factor
-indice=0
-Kct=np.zeros(sun._datas.shape[0])
-for i in range(sun._datas.shape[0]):
-    if i % (nbptinh*step_in_h) == 0:
-        Kc=(1-0.75*(synop._full_data[indice,1]/9)**3.4)
-        if indice < synop._full_data.shape[0]:
-            indice+=1
-    Kct[i]=Kc
+if (synop._uts==ts):
+    # cloud attenuation factor
+    indice=0
+    Kct=np.zeros(sun._datas.shape[0])
+    for i in range(sun._datas.shape[0]):
+        if i % (nbptinh*step_in_h) == 0:
+            Kc=(1-0.75*(synop._full_data[indice,1]/9)**3.4)
+            if indice < synop._full_data.shape[0]:
+                indice+=1
+        Kct[i]=Kc
 
-sun._datas[:,0]=Kct*sun._datas[:,0]
+    sun._datas[:,0]=Kct*sun._datas[:,0]
 
-sun.energy()
-print(sun._E)
+    sun.energy()
+    print(sun._E)
 
-nb=296
-step=3600//nbptinh
-newPHPFina(nb,ts,step,sun._datas[:,0])
+    dir="../phpfina"
+    # find the feed with the highest number
+    import os
+    files=os.listdir(dir)
+    feeds=np.zeros(len(files))
+    for i,file in enumerate(files):
+        if file.endswith(".dat"):
+            feeds[i]=file.split(".dat")[0]
+    # by adding 1 we are sure to create a new feed
+    nb=int(np.max(feeds))+1
 
-params=[ {"id":nb,"name":"sun radiation","color":"yellow","action":"smp"} ]
-nbsteps=tDays*24*nbptinh
-feed=GoToTensor(params,step,ts,nbsteps)
+    step=3600//nbptinh
+    newPHPFina(nb,ts,step,sun._datas[:,0],dir)
 
-plt.subplot(111)
-plt.plot(feed[:,0])
-plt.show()
+    nbsteps=tDays*24*nbptinh
+
+    feed=PHPFina(nb,step,dir)
+    feed.getMetas()
+    feed.setStart(ts)
+    feed.getDatas(nbsteps)
+
+    plt.subplot(111)
+    plt.plot(feed._datas)
+    plt.show()
+else:
+    print("cannot synchronise synthetic sun with clear sky and nebulosity feed")

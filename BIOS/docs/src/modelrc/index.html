@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>src.modelrc API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>src.modelrc</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from .modelrc import RC_model, CsvExport
+
+__all__=[&#34;RC_model&#34;, &#34;CsvExport&#34;]</code></pre>
+</details>
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="src.modelrc.modelrc" href="modelrc.html">src.modelrc.modelrc</a></code></dt>
+<dd>
+<div class="desc"><p>RC modelization toolkit</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="src.modelrc.CsvExport"><code class="name flex">
+<span>def <span class="ident">CsvExport</span></span>(<span>name, step, sample, header='Time,T_ext,P_hea,I_sol,T_int')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>can be used to produce a csv in a timeserie fashion</p>
+<p>with the default header, sample has to be a 4 columns tensor :</p>
+<ul>
+<li>
+<p>the 3 sollicitations (outdoor Temp(°C), hvac power(W), sun power(°C),</p>
+</li>
+<li>
+<p>the indoor temp to simulate(°C)</p>
+</li>
+</ul>
+<p>:step: interval in seconds</p>
+<p>:sample: data tensor</p>
+<p>:header: colums names separated by comma</p>
+<p>example : CsvExport("test_export",1800,teta,"Time,outdoor temp,kitchen,livingroom,bathroom,bedroom,hvacpower,sunpower")</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CsvExport(name,step,sample,header=&#39;Time,T_ext,P_hea,I_sol,T_int&#39;):
+    &#34;&#34;&#34;
+    can be used to produce a csv in a timeserie fashion
+
+    with the default header, sample has to be a 4 columns tensor :
+
+    - the 3 sollicitations (outdoor Temp(°C), hvac power(W), sun power(°C),
+
+    - the indoor temp to simulate(°C)
+
+    :step: interval in seconds
+
+    :sample: data tensor
+
+    :header: colums names separated by comma
+
+    example : CsvExport(&#34;test_export&#34;,1800,teta,&#34;Time,outdoor temp,kitchen,livingroom,bathroom,bedroom,hvacpower,sunpower&#34;)
+    &#34;&#34;&#34;
+    datas=np.zeros((sample.shape[0],sample.shape[1]+1))
+    datas[:,0]=np.arange(0,sample.shape[0]*step,step)
+    for j in range(sample.shape[1]):
+        datas[:,j+1]=sample[:,j]
+    np.savetxt(&#34;{}_{}_step{}s.csv&#34;.format(name,house,step),datas,delimiter=&#39;,&#39;,header=header, comments=&#39;&#39;)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="src.modelrc.RC_model"><code class="flex name class">
+<span>class <span class="ident">RC_model</span></span>
+<span>(</span><span>house, params, nbptinh, p0, w0, FINASun=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>tiny class to conduct the electrical modelization of a building</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RC_model():
+    &#34;&#34;&#34;
+    tiny class to conduct the electrical modelization of a building
+    &#34;&#34;&#34;
+    def __init__(self, house, params, nbptinh, p0, w0, FINASun=False):
+        self._house = house
+        self._params = params
+        self._FINASun = FINASun
+        if not FINASun:
+            self._params.append({&#34;name&#34;:&#34;solar power (W)&#34;,&#34;color&#34;:&#34;yellow&#34;})
+        self._step = 3600//nbptinh
+        self._nbptinh = nbptinh
+        self._p0 = p0
+        self._w0 = w0
+        self._wopt = []
+        self._teta = []
+        self._inputs = []
+        self._truth = []
+        self._algo=&#34;krank&#34;
+        self._exploreMatrix=[]
+
+    def algo(self,algo):
+        &#34;&#34;&#34;
+        krank or classic
+
+        default is krank
+        &#34;&#34;&#34;
+        self._algo = algo
+
+    def setWeigths(self,p0,w0):
+        self._p0 = p0
+        self._w0 = w0
+
+    def buildSet(self,smpStart,tDays,uid,tid,dir=dir):
+        &#34;&#34;&#34;
+        :smpStart: unixtimestamp at which the sampling must start
+
+        :tDays: number of days of sampling to consider
+
+        the method will create a teta tensor gathering all the PHPFina feeds
+
+        each column is a feed
+
+        :uid: array of column indexes to construct the sollicitations tensor from teta
+
+        :tid: column index to construct the truth vector from teta
+
+        tid can be an array of 2 column indexes.
+
+        In that case, the truth will be the average (through axis 1) of the corresponding teta columns between the 2 provided indexes
+        &#34;&#34;&#34;
+        # fetching the feeds
+        if self._FINASun:
+            teta=GoToTensor(self._params,self._step,smpStart,tDays*24*self._nbptinh,dir=dir,FINASun=True)
+        else:
+            teta=GoToTensor(self._params[:-1],self._step,smpStart,tDays*24*self._nbptinh,dir=dir)
+            # generate some sun
+            # calculating the starting hour for the datarange
+            smpH=datetime.utcfromtimestamp(smpStart).hour
+            teta[:,-1]=generateSunRange(500,self._nbptinh, teta.shape[0], smpH)
+
+        self._teta.append(teta)
+
+        # adding a new sollicitations tensor
+        inputs=[]
+        for i in range(len(uid)):
+            inputs.append(teta[:,uid[i]])
+        self._inputs.append(np.vstack(inputs).T)
+
+        # adding a new truth vector
+        if isinstance(tid,list):
+            self._truth.append(np.mean(teta[:,tid[0]:tid[1]],axis=1))
+        if isinstance(tid,int):
+            self._truth.append(teta[:,tid])
+
+    def viewSet(self,i,guess,full=True):
+        &#34;&#34;&#34;
+        this method will permit us to visualize a specific set
+         and to make a prediction according to the current discretization scheme
+
+        :i: the set number we want to vizualize
+
+        :guess: initial values (ie at the set start) for (T_int,T_env)
+
+        :full: False &gt; only show the truth - True &gt; show all the indoor temperature fields integrated to the set
+        &#34;&#34;&#34;
+        if len(self._wopt):
+            s=self._wopt*self._p0
+        else:
+            s=self._w0*self._p0
+
+        if self._algo==&#34;classic&#34;:
+            T_sim=RCpredict_Euler(self._step, s, guess, self._inputs[i], allStates=True)
+        if self._algo==&#34;krank&#34;:
+            T_sim=RCpredict_Krank(self._step, s, guess, self._inputs[i], allStates=True)
+
+        if full:
+            visualize(self._teta[i],self._params,self._house,Tint_sim=T_sim[:,0],TS_sim=T_sim[:,1],truth=self._truth[i])
+        else:
+            visualize(self._inputs[i],self._params,self._house,Tint_sim=T_sim[:,0],TS_sim=T_sim[:,1],truth=self._truth[i])
+
+
+    def explorationMatrix(self,plan,verbose=True):
+        &#34;&#34;&#34;
+        this method produces an exploration matrix for the parameters
+
+        each line of the matrix is a parameters set
+
+        :plan: array of the scenarios
+
+        a scenario focuses on varying a single parameter only
+
+        to define a scenario, you have to fix :
+
+        - size
+
+        - increment st
+
+        - method (go, gof, no, rst)
+
+        - parameter number
+
+        go/rst : the parameter varies from st, 2*st, ..... size*st
+
+        gof : same but the variation starts at snapshot[parameter_number]+st, NOT at st
+
+        no : the parameter does not vary
+
+        for go and gof, the snapshot is updated at the end of the scenario with last parameter value
+
+        nothing is updated with the rst method
+
+        &#34;&#34;&#34;
+        size=plan[0]
+        st=plan[1]
+        scenarios=plan[2]
+        nb_par=plan[3]
+
+        snapshot=copy.deepcopy(self._w0)
+
+        n_par=self._w0.shape[0]
+        n_li=np.sum(np.array(size))
+        if verbose:
+          print(&#34;total simulations to be achieved: {}&#34;.format(n_li))
+        w=np.zeros((n_li,n_par))
+
+        index=0
+        # we loop on the scenarios
+        for scenario in range(len(size)):
+            # we fetch the parameter number to be explored
+            j=nb_par[scenario]
+            if verbose:
+                print(&#34;going to simulate {} curves&#34;.format(size[scenario]))
+            for i in range(size[scenario]):
+                for k in range(n_par):
+                    # the scenario has to explore the parameter
+                    # unless the scenario explicitly says no
+                    if k==j:
+                        if scenarios[scenario]==&#34;no&#34;:
+                            w[index,k]=snapshot[k]
+                        elif scenarios[scenario]==&#34;gof&#34;:
+                            w[index,k]=snapshot[k]+(i+1)*st[scenario]
+                        else:
+                            w[index,k]=(i+1)*st[scenario]
+                    # the parameters are not supposed to evolve in the scenario
+                    else:
+                        if index==0:
+                            w[index,k]=snapshot[k]
+                        elif scenarios[scenario] in [&#34;rst&#34;,&#34;no&#34;] :
+                            w[index,k]=snapshot[k]
+                        else:
+                            w[index,k]=w[index-1,k]
+                if verbose:
+                    print(&#34;index {} we have {}&#34;.format(index,w[index,:]))
+                if index &lt; n_li-1 :
+                    index+=1
+            if verbose:
+                str=&#34;%.2E, %.2E, %.2E, %.2E, %.2E&#34; % tuple(w[index-1,:])
+                print(&#34;we have reached {}&#34;.format(str))
+            # we take a snapshot of the explored parameter unless the scenario is no or reset
+            if scenarios[scenario] not in [&#34;rst&#34;,&#34;no&#34;]:
+                snapshot[j]=w[index-1,j]
+                #snapshot=w[index-1,:]
+        self._exploreMatrix=w
+        return w
+
+    def explore(self,j,guess):
+        &#34;&#34;&#34;
+        animation viewer
+
+        :j: the set number - in order to work on _inputs[j] and _truth[j]
+
+        :guess: initial values (ie at the set start) for (T_int,T_env)
+        &#34;&#34;&#34;
+        # a small nested function to sequence the animation
+        def animate(i):
+            s=self._exploreMatrix[i,:]*self._p0
+            str=&#34;%.2E, %.2E, %.2E, %.2E, %.2E&#34; % tuple(s)
+            T_sim=RCpredict_Krank(self._step, s, guess, self._inputs[j], allStates=True)
+            xrange=np.arange(self._inputs[j].shape[0])
+            tint.set_data(xrange,T_sim[:,0])
+            #tint.set_color(&#34;yellow&#34;)
+            tenv.set_data(xrange,T_sim[:,1])
+            #tenv.set_color(&#34;gray&#34;)
+            time_text.set_text(str)
+            return tint, tenv, time_text
+
+        xrange=np.arange(self._inputs[j].shape[0])
+        fig = plt.figure()
+        tint, = plt.plot(xrange,np.zeros(xrange.shape[0]),label=&#34;simulated indoor&#34;,color=&#34;red&#34;)
+        tenv, = plt.plot(xrange,np.zeros(xrange.shape[0]),label=&#34;simulated envelope&#34;,color=&#34;gray&#34;)
+
+        plt.plot(self._truth[j],label=&#34;truth&#34;,color=&#34;orange&#34;)
+        plt.plot(self._inputs[j][:,0],label=&#34;outdoor&#34;,color=&#34;blue&#34;)
+        plt.legend(loc=&#39;upper right&#39;)
+
+        ymin, ymax = plt.gca().get_ylim()
+        print(&#39;ymin is {} and ymax is {}&#39;.format(ymin,ymax))
+        time_text = plt.text(0, ymin+1, &#39;&#39;, fontsize=10)
+
+        frames=self._exploreMatrix.shape[0]
+
+        ani = animation.FuncAnimation(fig, animate, frames=frames, blit=True, interval=100, repeat=False)
+
+        plt.show()
+
+    def optimize(self,i,guess):
+        &#34;&#34;&#34;
+        launch a BFGS optimization on set i
+        &#34;&#34;&#34;
+        # we will use array w to store the evolution of the parameters during the iteration process
+        # they will stand as quality indicators for convergence or not
+        w=[]
+
+        # nested functions for regularisation
+        def fonc(_w):
+            return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo)
+
+        def grad(_w):
+            w.append(_w)
+            if self._algo==&#34;krank&#34;:
+                return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+            elif self._algo==&#34;classic&#34;:
+                return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+
+        res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad)
+        #bounds=[(0,np.inf),(0,np.inf),(0,1),(0,1),(0,1)]
+        #res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad, bounds=bounds)
+
+        # SANITY CONVERGENCE CHECK
+        quality=np.array(w)
+        nb=321
+        lib=[&#34;cres&#34;, &#34;cs&#34;, &#34;ri&#34;, &#34;r0&#34;, &#34;rf&#34;]
+        for z in range(len(lib)):
+            str=&#34;%.0E&#34; % (1/self._p0[z])
+            lib[z]=&#34;{} x {}&#34;.format(lib[z],str)
+        #it is the iteration number
+        for it in range(quality.shape[-1]):
+            plt.subplot(nb)
+            plt.plot(quality[:,it],label=lib[it])
+            plt.legend()
+            nb+=1
+        plt.show()
+
+        print(res)
+        popt=res[&#34;x&#34;]*self._p0
+        print(popt)
+        self._wopt = res[&#34;x&#34;]</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="src.modelrc.RC_model.algo"><code class="name flex">
+<span>def <span class="ident">algo</span></span>(<span>self, algo)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>krank or classic</p>
+<p>default is krank</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def algo(self,algo):
+    &#34;&#34;&#34;
+    krank or classic
+
+    default is krank
+    &#34;&#34;&#34;
+    self._algo = algo</code></pre>
+</details>
+</dd>
+<dt id="src.modelrc.RC_model.buildSet"><code class="name flex">
+<span>def <span class="ident">buildSet</span></span>(<span>self, smpStart, tDays, uid, tid, dir='phpfina')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>:smpStart: unixtimestamp at which the sampling must start</p>
+<p>:tDays: number of days of sampling to consider</p>
+<p>the method will create a teta tensor gathering all the PHPFina feeds</p>
+<p>each column is a feed</p>
+<p>:uid: array of column indexes to construct the sollicitations tensor from teta</p>
+<p>:tid: column index to construct the truth vector from teta</p>
+<p>tid can be an array of 2 column indexes.</p>
+<p>In that case, the truth will be the average (through axis 1) of the corresponding teta columns between the 2 provided indexes</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def buildSet(self,smpStart,tDays,uid,tid,dir=dir):
+    &#34;&#34;&#34;
+    :smpStart: unixtimestamp at which the sampling must start
+
+    :tDays: number of days of sampling to consider
+
+    the method will create a teta tensor gathering all the PHPFina feeds
+
+    each column is a feed
+
+    :uid: array of column indexes to construct the sollicitations tensor from teta
+
+    :tid: column index to construct the truth vector from teta
+
+    tid can be an array of 2 column indexes.
+
+    In that case, the truth will be the average (through axis 1) of the corresponding teta columns between the 2 provided indexes
+    &#34;&#34;&#34;
+    # fetching the feeds
+    if self._FINASun:
+        teta=GoToTensor(self._params,self._step,smpStart,tDays*24*self._nbptinh,dir=dir,FINASun=True)
+    else:
+        teta=GoToTensor(self._params[:-1],self._step,smpStart,tDays*24*self._nbptinh,dir=dir)
+        # generate some sun
+        # calculating the starting hour for the datarange
+        smpH=datetime.utcfromtimestamp(smpStart).hour
+        teta[:,-1]=generateSunRange(500,self._nbptinh, teta.shape[0], smpH)
+
+    self._teta.append(teta)
+
+    # adding a new sollicitations tensor
+    inputs=[]
+    for i in range(len(uid)):
+        inputs.append(teta[:,uid[i]])
+    self._inputs.append(np.vstack(inputs).T)
+
+    # adding a new truth vector
+    if isinstance(tid,list):
+        self._truth.append(np.mean(teta[:,tid[0]:tid[1]],axis=1))
+    if isinstance(tid,int):
+        self._truth.append(teta[:,tid])</code></pre>
+</details>
+</dd>
+<dt id="src.modelrc.RC_model.explorationMatrix"><code class="name flex">
+<span>def <span class="ident">explorationMatrix</span></span>(<span>self, plan, verbose=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>this method produces an exploration matrix for the parameters</p>
+<p>each line of the matrix is a parameters set</p>
+<p>:plan: array of the scenarios</p>
+<p>a scenario focuses on varying a single parameter only</p>
+<p>to define a scenario, you have to fix :</p>
+<ul>
+<li>
+<p>size</p>
+</li>
+<li>
+<p>increment st</p>
+</li>
+<li>
+<p>method (go, gof, no, rst)</p>
+</li>
+<li>
+<p>parameter number</p>
+</li>
+</ul>
+<p>go/rst : the parameter varies from st, 2<em>st, ..... size</em>st</p>
+<p>gof : same but the variation starts at snapshot[parameter_number]+st, NOT at st</p>
+<p>no : the parameter does not vary</p>
+<p>for go and gof, the snapshot is updated at the end of the scenario with last parameter value</p>
+<p>nothing is updated with the rst method</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def explorationMatrix(self,plan,verbose=True):
+    &#34;&#34;&#34;
+    this method produces an exploration matrix for the parameters
+
+    each line of the matrix is a parameters set
+
+    :plan: array of the scenarios
+
+    a scenario focuses on varying a single parameter only
+
+    to define a scenario, you have to fix :
+
+    - size
+
+    - increment st
+
+    - method (go, gof, no, rst)
+
+    - parameter number
+
+    go/rst : the parameter varies from st, 2*st, ..... size*st
+
+    gof : same but the variation starts at snapshot[parameter_number]+st, NOT at st
+
+    no : the parameter does not vary
+
+    for go and gof, the snapshot is updated at the end of the scenario with last parameter value
+
+    nothing is updated with the rst method
+
+    &#34;&#34;&#34;
+    size=plan[0]
+    st=plan[1]
+    scenarios=plan[2]
+    nb_par=plan[3]
+
+    snapshot=copy.deepcopy(self._w0)
+
+    n_par=self._w0.shape[0]
+    n_li=np.sum(np.array(size))
+    if verbose:
+      print(&#34;total simulations to be achieved: {}&#34;.format(n_li))
+    w=np.zeros((n_li,n_par))
+
+    index=0
+    # we loop on the scenarios
+    for scenario in range(len(size)):
+        # we fetch the parameter number to be explored
+        j=nb_par[scenario]
+        if verbose:
+            print(&#34;going to simulate {} curves&#34;.format(size[scenario]))
+        for i in range(size[scenario]):
+            for k in range(n_par):
+                # the scenario has to explore the parameter
+                # unless the scenario explicitly says no
+                if k==j:
+                    if scenarios[scenario]==&#34;no&#34;:
+                        w[index,k]=snapshot[k]
+                    elif scenarios[scenario]==&#34;gof&#34;:
+                        w[index,k]=snapshot[k]+(i+1)*st[scenario]
+                    else:
+                        w[index,k]=(i+1)*st[scenario]
+                # the parameters are not supposed to evolve in the scenario
+                else:
+                    if index==0:
+                        w[index,k]=snapshot[k]
+                    elif scenarios[scenario] in [&#34;rst&#34;,&#34;no&#34;] :
+                        w[index,k]=snapshot[k]
+                    else:
+                        w[index,k]=w[index-1,k]
+            if verbose:
+                print(&#34;index {} we have {}&#34;.format(index,w[index,:]))
+            if index &lt; n_li-1 :
+                index+=1
+        if verbose:
+            str=&#34;%.2E, %.2E, %.2E, %.2E, %.2E&#34; % tuple(w[index-1,:])
+            print(&#34;we have reached {}&#34;.format(str))
+        # we take a snapshot of the explored parameter unless the scenario is no or reset
+        if scenarios[scenario] not in [&#34;rst&#34;,&#34;no&#34;]:
+            snapshot[j]=w[index-1,j]
+            #snapshot=w[index-1,:]
+    self._exploreMatrix=w
+    return w</code></pre>
+</details>
+</dd>
+<dt id="src.modelrc.RC_model.explore"><code class="name flex">
+<span>def <span class="ident">explore</span></span>(<span>self, j, guess)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>animation viewer</p>
+<p>:j: the set number - in order to work on _inputs[j] and _truth[j]</p>
+<p>:guess: initial values (ie at the set start) for (T_int,T_env)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def explore(self,j,guess):
+    &#34;&#34;&#34;
+    animation viewer
+
+    :j: the set number - in order to work on _inputs[j] and _truth[j]
+
+    :guess: initial values (ie at the set start) for (T_int,T_env)
+    &#34;&#34;&#34;
+    # a small nested function to sequence the animation
+    def animate(i):
+        s=self._exploreMatrix[i,:]*self._p0
+        str=&#34;%.2E, %.2E, %.2E, %.2E, %.2E&#34; % tuple(s)
+        T_sim=RCpredict_Krank(self._step, s, guess, self._inputs[j], allStates=True)
+        xrange=np.arange(self._inputs[j].shape[0])
+        tint.set_data(xrange,T_sim[:,0])
+        #tint.set_color(&#34;yellow&#34;)
+        tenv.set_data(xrange,T_sim[:,1])
+        #tenv.set_color(&#34;gray&#34;)
+        time_text.set_text(str)
+        return tint, tenv, time_text
+
+    xrange=np.arange(self._inputs[j].shape[0])
+    fig = plt.figure()
+    tint, = plt.plot(xrange,np.zeros(xrange.shape[0]),label=&#34;simulated indoor&#34;,color=&#34;red&#34;)
+    tenv, = plt.plot(xrange,np.zeros(xrange.shape[0]),label=&#34;simulated envelope&#34;,color=&#34;gray&#34;)
+
+    plt.plot(self._truth[j],label=&#34;truth&#34;,color=&#34;orange&#34;)
+    plt.plot(self._inputs[j][:,0],label=&#34;outdoor&#34;,color=&#34;blue&#34;)
+    plt.legend(loc=&#39;upper right&#39;)
+
+    ymin, ymax = plt.gca().get_ylim()
+    print(&#39;ymin is {} and ymax is {}&#39;.format(ymin,ymax))
+    time_text = plt.text(0, ymin+1, &#39;&#39;, fontsize=10)
+
+    frames=self._exploreMatrix.shape[0]
+
+    ani = animation.FuncAnimation(fig, animate, frames=frames, blit=True, interval=100, repeat=False)
+
+    plt.show()</code></pre>
+</details>
+</dd>
+<dt id="src.modelrc.RC_model.optimize"><code class="name flex">
+<span>def <span class="ident">optimize</span></span>(<span>self, i, guess)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>launch a BFGS optimization on set i</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def optimize(self,i,guess):
+    &#34;&#34;&#34;
+    launch a BFGS optimization on set i
+    &#34;&#34;&#34;
+    # we will use array w to store the evolution of the parameters during the iteration process
+    # they will stand as quality indicators for convergence or not
+    w=[]
+
+    # nested functions for regularisation
+    def fonc(_w):
+        return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo)
+
+    def grad(_w):
+        w.append(_w)
+        if self._algo==&#34;krank&#34;:
+            return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+        elif self._algo==&#34;classic&#34;:
+            return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+
+    res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad)
+    #bounds=[(0,np.inf),(0,np.inf),(0,1),(0,1),(0,1)]
+    #res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad, bounds=bounds)
+
+    # SANITY CONVERGENCE CHECK
+    quality=np.array(w)
+    nb=321
+    lib=[&#34;cres&#34;, &#34;cs&#34;, &#34;ri&#34;, &#34;r0&#34;, &#34;rf&#34;]
+    for z in range(len(lib)):
+        str=&#34;%.0E&#34; % (1/self._p0[z])
+        lib[z]=&#34;{} x {}&#34;.format(lib[z],str)
+    #it is the iteration number
+    for it in range(quality.shape[-1]):
+        plt.subplot(nb)
+        plt.plot(quality[:,it],label=lib[it])
+        plt.legend()
+        nb+=1
+    plt.show()
+
+    print(res)
+    popt=res[&#34;x&#34;]*self._p0
+    print(popt)
+    self._wopt = res[&#34;x&#34;]</code></pre>
+</details>
+</dd>
+<dt id="src.modelrc.RC_model.setWeigths"><code class="name flex">
+<span>def <span class="ident">setWeigths</span></span>(<span>self, p0, w0)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setWeigths(self,p0,w0):
+    self._p0 = p0
+    self._w0 = w0</code></pre>
+</details>
+</dd>
+<dt id="src.modelrc.RC_model.viewSet"><code class="name flex">
+<span>def <span class="ident">viewSet</span></span>(<span>self, i, guess, full=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>this method will permit us to visualize a specific set
+and to make a prediction according to the current discretization scheme</p>
+<p>:i: the set number we want to vizualize</p>
+<p>:guess: initial values (ie at the set start) for (T_int,T_env)</p>
+<p>:full: False &gt; only show the truth - True &gt; show all the indoor temperature fields integrated to the set</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def viewSet(self,i,guess,full=True):
+    &#34;&#34;&#34;
+    this method will permit us to visualize a specific set
+     and to make a prediction according to the current discretization scheme
+
+    :i: the set number we want to vizualize
+
+    :guess: initial values (ie at the set start) for (T_int,T_env)
+
+    :full: False &gt; only show the truth - True &gt; show all the indoor temperature fields integrated to the set
+    &#34;&#34;&#34;
+    if len(self._wopt):
+        s=self._wopt*self._p0
+    else:
+        s=self._w0*self._p0
+
+    if self._algo==&#34;classic&#34;:
+        T_sim=RCpredict_Euler(self._step, s, guess, self._inputs[i], allStates=True)
+    if self._algo==&#34;krank&#34;:
+        T_sim=RCpredict_Krank(self._step, s, guess, self._inputs[i], allStates=True)
+
+    if full:
+        visualize(self._teta[i],self._params,self._house,Tint_sim=T_sim[:,0],TS_sim=T_sim[:,1],truth=self._truth[i])
+    else:
+        visualize(self._inputs[i],self._params,self._house,Tint_sim=T_sim[:,0],TS_sim=T_sim[:,1],truth=self._truth[i])</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="src" href="../index.html">src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="src.modelrc.modelrc" href="modelrc.html">src.modelrc.modelrc</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="src.modelrc.CsvExport" href="#src.modelrc.CsvExport">CsvExport</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="src.modelrc.RC_model" href="#src.modelrc.RC_model">RC_model</a></code></h4>
+<ul class="two-column">
+<li><code><a title="src.modelrc.RC_model.algo" href="#src.modelrc.RC_model.algo">algo</a></code></li>
+<li><code><a title="src.modelrc.RC_model.buildSet" href="#src.modelrc.RC_model.buildSet">buildSet</a></code></li>
+<li><code><a title="src.modelrc.RC_model.explorationMatrix" href="#src.modelrc.RC_model.explorationMatrix">explorationMatrix</a></code></li>
+<li><code><a title="src.modelrc.RC_model.explore" href="#src.modelrc.RC_model.explore">explore</a></code></li>
+<li><code><a title="src.modelrc.RC_model.optimize" href="#src.modelrc.RC_model.optimize">optimize</a></code></li>
+<li><code><a title="src.modelrc.RC_model.setWeigths" href="#src.modelrc.RC_model.setWeigths">setWeigths</a></code></li>
+<li><code><a title="src.modelrc.RC_model.viewSet" href="#src.modelrc.RC_model.viewSet">viewSet</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

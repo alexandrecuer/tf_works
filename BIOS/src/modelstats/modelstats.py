@@ -1,29 +1,37 @@
+"""
+some modelisation tools using statistical approaches (multilinear vs LSTM)
+"""
+
 import numpy as np
 import random
 import math
 import time
 import struct
 import matplotlib.pylab as plt
-from PHPFina import PHPFina,humanDate
+from src.tools import PHPFina
 import tensorflow as tf
 import sys
 import copy
 from pandas import DataFrame
 from sklearn import linear_model
 
-def InitializeFeed(nb,step,start):
-    feed=PHPFina(nb,step)
+dir="phpfina"
+
+def InitializeFeed(nb,step,start,dir=dir):
+    feed=PHPFina(nb,step,dir)
     feed.getMetas()
     feed.setStart(start)
     return feed
 
-# given some PHPFina feeds, a period and a start (as a unix timestamp) both in seconds
-def GoToTensor(params,step,start,nbsteps):
+def GoToTensor(params,step,start,nbsteps,dir=dir):
+    """
+    create a tensor, given some PHPFina feeds, a period and a start (as a unix timestamp) both in seconds
+    """
     #print("going to tensor for {} feeds".format(len(params)))
     float_data=np.zeros((nbsteps,len(params)))
     for i in range(len(params)):
         #print("feed number {}".format(i))
-        feed=InitializeFeed(params[i]["id"],step,start)
+        feed=InitializeFeed(params[i]["id"],step,start,dir=dir)
         if params[i]["action"]=="smp":
             feed.getDatas(nbsteps)
         elif params[i]["action"]=="acc":
@@ -46,14 +54,27 @@ def plot_train_history(history, title):
     plt.show()
 
 class BuildingZone():
-    # history_size and target_size are integers
-    # we want history_size steps of history
-    # we want target_size steps in a single prediction
-    # if target_size is 1, prediction is the next point
-    # if target_size > 1, there is target_size points in the prediction
-    # CAUTION - developments are needed to make the part of the code related to prediction work with target_size > 1
-    # anyway single size prediction is enough and multi size prediction is not really a target
+
     def __init__(self,step,history_size,target_size):
+        '''
+        history_size and target_size are integers
+
+        we want history_size steps of history
+
+        we want target_size steps in a single prediction
+
+        if target_size is 1, prediction is the next point
+
+        if target_size > 1, there is target_size points in the prediction
+
+        CAUTION - developments are needed to make the part of the code related to prediction work with target_size > 1
+
+        anyway single size prediction is enough and multi size prediction is not really a target
+
+        initializes 4 lists to host datasets'tensors for the neural network, 2 for training and 2 for validation
+        _train_datas, _train_labels
+        _val_datas, _val_labels
+        '''
         self._step=step
         self._history_size=history_size
         self._target_size=target_size
@@ -75,6 +96,7 @@ class BuildingZone():
     def CalcMeanStd(self, datas):
         """
         calculate and store mean and standard deviation on the population
+
         :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
         """
         self._mean = datas.mean(axis=0)
@@ -87,17 +109,29 @@ class BuildingZone():
         prepare datas for multilinear Regression
 
         :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
-        :return: 2 numpy arrays
+
+        returns :
+
+        - numpy array of (scaled) datas
+
+        - numpy array of (rescaled) labels
 
         Only the results of the ml regression are stored in the class
+
         you have to prepare AND to transmit the result of preparation to the predict method
+
         MLA_datas, MLA_labels = MLAprepare(datas)
+
         MLApredict(MLA_datas,nbset,goto)
 
         each line of the returned MLA_datas array is a sample, we find :
+
         - the outdoor temperature values (at the step) from index 0 to history_size-1
+
         - the indoor temperature values (at the step) from index history_size to 2*history_size-1
+
         - the energy consumptions (for the step to come) in kwh from 2*history_size to 3*history_size-1
+
         """
         clone=copy.deepcopy(datas)
         if self._MLAregularize:
@@ -117,7 +151,9 @@ class BuildingZone():
     def MLAfit(self, datas, regularize=True):
         """
         multilinear regression
+
         :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+
         :param regularize: boolean - if true datas are regularized with the mean/std technique
         """
         self._MLAregularize=regularize
@@ -135,18 +171,28 @@ class BuildingZone():
     def MLApredict(self,datas,nbset,goto):
         """
         executes prediction(s) step by step with the multilinear method
+
         for example, prediction 11 is made using all 10 previous predictions, if history_size is 10
 
         :param datas: an array with the samples to use, as produced by the MLAprepare method
+
         :param nbset: the first sample to use for prediction
+
         :param goto: the number of prediction(s) to realize
+
         if goto is set to 1, the method will realize only one prediction
 
         pred is an array to store the predictions step by step
+
         l is the size of the pred array
+
         to make the predictions step by step :
+
           - if l < history_size, we have to replace the last l temperature values by the predicted ones
+
           - if l >= history_size, we have to replace the whole history_size values in the sample by the predicted ones
+
+        returns numpy array of (rescaled) predictions
         """
         pred=[]
         for k in range(goto):
@@ -172,6 +218,9 @@ class BuildingZone():
         return pred
 
     def MLAviewWeights(self):
+        """
+        plot the weights after the multilinear fitting
+        """
         plt.subplot(111)
         plt.title("Multilinear regression - coefficient {}".format(self._MLAintercept))
         plt.plot(self._MLAcoef)
@@ -190,21 +239,34 @@ class BuildingZone():
 
     def regularizeSets(self, regularize=True):
         """
-        :param regularize: boolean - if set to True, all datasets processed will be regularized with the mean/std technique
+        :param regularize: boolean
+
+        if set to True, all datasets processed will be regularized with the mean/std technique
+
+        ONLY applies to LSTM optimization
         """
         self._regularize=regularize
 
-    def AddSets(self, datas, regularize=True, forTrain=True, shuffle=True):
+    def AddSets(self, datas, forTrain=True, shuffle=True):
         """
-        feed the datas and labels array
+        feed the datas and labels array for the LSTM optimization
+
         :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries - shape (x,y)
+
         :param forTrain: boolean - if set to True, datasets constructed are injected into train_datas and train_labels
-        :param shuffle: boolean - if set to True with fortrain=True, randomize the training datasets
+
+        :param shuffle: boolean - if set to True with fortrain=True, randomize the **TRAINING** datasets
+
+        shuffle does not have any effect on validation datasets which are always in chronological order
 
         GENERAL CASE - 3 physical parameters monitored : external temperature, indoor temperature and instant power converted to energy (accumulation)
+
         each dataset sample is structured as a tensor of shape (history_size,3) :
+
         - the outdoor temperature values (at the step) = dataset[0:history_size,0]
+
         - the indoor temperature values (at the step) = dataset[0:history_size,1]
+
         - the energy consumptions (for the step to come) in kwh = dataset[0:history_size,2]
         """
         clone=copy.deepcopy(datas)
@@ -231,7 +293,14 @@ class BuildingZone():
     def LSTMfit(self, name, verbose=0):
         """
         fit an LTSM model using train and val datas/labels defined by the method AddSets()
+
         :param name: filename to save the model
+
+        :param verbose: 0 for silent mode, 1 to get some information from tensorflow
+
+        default is verbose=0
+
+        save fitted model as an h5 file
         """
         tdat=np.array(self._train_datas)
         tlab=np.array(self._train_labels)
@@ -247,24 +316,39 @@ class BuildingZone():
 
     def LSTMload(self, name):
         """
-        load an existing model
+        load a model (from an existing h5 file)
         """
         self._LSTMmodel = tf.keras.models.load_model('{}.h5'.format(name))
 
     def LSTMpredict(self, nbset, goto, **kwargs):
         """
         executes prediction(s) step by step with the LSTM fitted model
+
         for example, prediction 11 is made using all 10 previous predictions, if history_size is 10
 
         :param nbset: the first sample to use for prediction
+
         :param goto: the number of prediction(s) to realize
+
         if goto is set to 1, the method will realize only one prediction
 
         t = tensor created by GoToTensor on the basis of some PHPFina timeseries
+
         by defaut, uses with the _val_datas and _val_labels recorded by the method AddSets(t)
+
         we assume that t.shape = (x,y)
+
         :param datas: (optional) array of datasets - shape (history_size,y)
+
         :param labels: (optional) array of labels
+
+        to be used if you dont want to use datasets and labels recorded in the BuildingZone object
+
+        returns :
+
+        - numpy array of (rescaled) predictions
+
+        - numpy array of (rescaled) labels
         """
         pred=[]
         truth=[]
@@ -309,13 +393,21 @@ class BuildingZone():
             truth=np.array(truth)*self._std[1]+self._mean[1]
         return pred, truth
 
+
     def view(self, physics, nbset, nbpreds, **kwargs):
         """
         datasets vizualisation
+
+        uses the val datas as train datas can be shuffled
+
         :param physics : the original unregularized tensor, as produced by GoToTensor, in order not to recalculate things for nothing
+
         :param nbset : the starting index (which will be at x=0 on the window)
+
         :param nbpreds : the vizu window will go from x=-history_size to x=nbpreds
+
         :param **pred** : (optional) array of nbpreds predictions with a model
+
         :param **truth** : (optional) array of truths
         """
         history_range=list(range(-self._history_size, 0))
@@ -329,8 +421,7 @@ class BuildingZone():
         truefuture=self._val_labels[nbset]*self._std[1]+self._mean[1]
         plt.plot(0,truefuture, 'o', label='true future', color=self._col[1])
         if len(kwargs):
-            #icons=['+','*','o','*']
-            icons=[':','--','o','*']
+            icons=['+','*','o','*']
             indice=0
             for key, vals in kwargs.items():
                 if "pred" in key.lower() :

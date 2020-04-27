@@ -1,5 +1,9 @@
+"""
+RC modelization toolkit
+"""
 import numpy as np
-from PHPFina import PHPFina,humanDate
+from src.tools import PHPFina
+#from .phpfina import PHPFina
 import matplotlib.pylab as plt
 import matplotlib.animation as animation
 from datetime import datetime
@@ -10,10 +14,14 @@ from scipy import optimize
 
 def generateSunDay(qs_max, nb):
     """
+    **TO USE ONLY IF YOU CANNOT GENERATE A SYNTHETIC SUN FEED**
+
     generate one day of sun given a qs_max power
 
     :qs_max: maximum power in W that the sun can deliver during the day
+
     :nb: number of points in a hour (determine the precision of the discretisation)
+
     :return: numpy vector of length 24*nb
     """
     # number of steps in a day
@@ -34,12 +42,18 @@ def generateSunDay(qs_max, nb):
 
 def generateSunRange(qs_max, nb, size, offset):
     """
+    **TO USE ONLY IF YOU CANNOT GENERATE A SYNTHETIC SUN FEED**
+
     generate sun power over a full sampling period
 
     :qs_max: maximum power in W that the sun can deliver during the day
+
     :nb: number of points in a hour (determine the precision of the discretisation)
+
     :size: number of points of the synthetized sun sample
+
     :offset: hour of the day to start with the synthesis
+
     :return: numpy vector of length size
     """
     #print("offset is {}".format(offset))
@@ -57,20 +71,22 @@ def generateSunRange(qs_max, nb, size, offset):
         sunrange[-offset*nb:]=generateSunDay(qs_max,nb)[0:offset*nb]
     return sunrange
 
-def InitializeFeed(nb,step,start):
-    feed=PHPFina(nb,step)
+dir="phpfina"
+
+def InitializeFeed(nb,step,start,dir=dir):
+    feed=PHPFina(nb,step,dir)
     feed.getMetas()
     feed.setStart(start)
     return feed
 
-"""
-CUSTOM GoToTensor method
-given some PHPFina feeds, a period and a start (as a unix timestamp) both in seconds
-"""
-def GoToTensor(params,step,start,nbsteps,FINASun=False):
-    #print("going to tensor for {} feeds".format(len(params)))
+def GoToTensor(params,step,start,nbsteps,dir=dir, FINASun=False):
     """
+    CUSTOM GoToTensor method
+
+    given some PHPFina feeds, a period and a start (as a unix timestamp) both in seconds
+
     if FINASun is True, we have the sun among the PHPFina feeds
+
     if FINASun is False, we will have to add it later, so we extend the matrix with one more column
     """
     if FINASun:
@@ -79,7 +95,7 @@ def GoToTensor(params,step,start,nbsteps,FINASun=False):
         float_data=np.zeros((nbsteps,len(params)+1))
     for i in range(len(params)):
         #print("feed number {}".format(i))
-        feed=InitializeFeed(params[i]["id"],step,start)
+        feed=InitializeFeed(params[i]["id"],step,start,dir)
         if params[i]["action"]=="smp":
             feed.getDatas(nbsteps)
         elif params[i]["action"]=="acc":
@@ -95,9 +111,17 @@ def visualize(sample,meta,lib,**kwargs):
     visualization tool
 
     :sample: tensor with the datas recorded from the field - one column = one monitored parameter
-             the 2 last colums are hvac power and sun power in W
-             all other columns are temperature fields
-    :meta: metadatas list - the minimal infos are name and color, eg [{"name":"first curve","color":"green"},....]
+
+     - the 2 last colums are hvac power and sun power in W
+
+     - all other columns are temperature fields
+
+    :meta: metadatas list - the minimal infos are name and color :
+
+    ```
+    [{"name":"first curve","color":"green"},....]
+    ```
+
     :lib: title of the graph
 
     you can add 4 numpy vectors to plot results from simulation
@@ -127,14 +151,20 @@ def visualize(sample,meta,lib,**kwargs):
 def CsvExport(name,step,sample,header='Time,T_ext,P_hea,I_sol,T_int'):
     """
     can be used to produce a csv in a timeserie fashion
+
     with the default header, sample has to be a 4 columns tensor :
+
     - the 3 sollicitations (outdoor Temp(°C), hvac power(W), sun power(°C),
+
     - the indoor temp to simulate(°C)
 
+    :step: interval in seconds
+
     :sample: data tensor
+
     :header: colums names separated by comma
 
-    example : CsvExport("test_export",teta,"Time,outdoor temp,kitchen,livingroom,bathroom,bedroom,hvacpower,sunpower")
+    example : CsvExport("test_export",1800,teta,"Time,outdoor temp,kitchen,livingroom,bathroom,bedroom,hvacpower,sunpower")
     """
     datas=np.zeros((sample.shape[0],sample.shape[1]+1))
     datas[:,0]=np.arange(0,sample.shape[0]*step,step)
@@ -143,45 +173,19 @@ def CsvExport(name,step,sample,header='Time,T_ext,P_hea,I_sol,T_int'):
     np.savetxt("{}_{}_step{}s.csv".format(name,house,step),datas,delimiter=',',header=header, comments='')
 
 
-"""
-
-DIFFERENTIAL SYSTEM TOOLKIT
-
-dx/dt=A(p).x(p,t)+B.inputs(p,t)
-
-p is the parameter vector we want to optimize
-
-x=(T_int,T_env) as our problem is a 2 states problem
-The enveloppe is unobserved, whereas indoor is monitored by a temperature sensor
-x0 is the initial guess
-
-inputs is a 3 colums tensor which represents the sollicitations :
-    - column1:T_ext / outdoor temp (°C),
-    - column2:P_hea / hvac power(W),
-    - column3:I_sol / solar power(W)
-T_ext and P_hea are monitored, I_sol is not easy to acquire, so we will use a simulation
-
-2 discretization functions :
-    - RCpredict_Euler(step,p,x0,inputs,allStates=False)
-    - RCpredict_Krank(step,p,x0,inputs,allStates=False), which uses the  Krank Nicholson scheme
-
-all other methods rely on setting a truth variable in addition to p,x0 and inputs
-    - RCfonc(step,p, x0, inputs, truth, type="classic", verbose="true") is the cost function
-    - RCgrad(step,p, x0, inputs, truth)
-    - RCgrad_Krank(step,p, x0, inputs, truth)
-
-truth represents field reality for indoor temperature
-
-"""
-
 def MatriX(p,jac=True):
     """
     The RC matrix associated to a R3C2 electric model of a Building
+
     CRES: thermal capacity of the indoor (the air inside the building)
+
     CS: thermal capacity of the envelope
+
     RI: thermal resistance between the envelope and the indoor (wall internal resistance)
+
     R0: thermal resistance between the envelope and the outdoor (wall external resistance)
-    FR: thermal resistance due to air leakage
+
+    RF: thermal resistance due to air leakage
     """
     #print(p)
     CRES=p[0]
@@ -216,6 +220,50 @@ def MatriX(p,jac=True):
         return A, B
 
 def RCpredict_Euler(step, p, x0, inputs, allStates=False):
+    """
+    make predictions with the Euler explicit scheme
+
+    ### DIFFERENTIAL SYSTEM TOOLKIT
+
+    dx/dt=A(p).x(p,t)+B.inputs(p,t)
+
+    p is the parameter vector we want to optimize
+
+    x=(T_int,T_env) as our problem is a 2 states problem
+
+    The enveloppe is unobserved, whereas indoor is monitored by a temperature sensor
+
+    *if allStates is False (default) only return the observed state !*
+
+    x0 is the initial guess
+
+    inputs is a 3 colums tensor which represents the sollicitations :
+
+     - column1:T_ext / outdoor temp (°C),
+
+     - column2:P_hea / hvac power(W),
+
+     - column3:I_sol / solar power(W)
+
+    T_ext and P_hea are monitored, I_sol is not easy to acquire, so we will use a simulation
+
+    2 discretization functions :
+
+     - RCpredict_Euler(step,p,x0,inputs,allStates=False)
+
+     - RCpredict_Krank(step,p,x0,inputs,allStates=False), which uses the  Krank Nicholson scheme
+
+    all other methods rely on setting a truth variable in addition to p,x0 and inputs
+
+     - RCfonc(step,p, x0, inputs, truth, type="classic", verbose="true") is the cost function
+
+     - RCgrad(step,p, x0, inputs, truth)
+
+     - RCgrad_Krank(step,p, x0, inputs, truth)
+
+    truth represents field reality for indoor temperature
+
+    """
 
     A, B = MatriX(p,jac=False)
     nbpts=inputs.shape[0]
@@ -235,7 +283,9 @@ def RCpredict_Euler(step, p, x0, inputs, allStates=False):
         return x
 
 def RCpredict_Krank(step, p, x0, inputs, allStates=False):
-
+    """
+    make predictions with the krank nichoson scheme
+    """
     A, B = MatriX(p,jac=False)
     nbpts=inputs.shape[0]
     n=x0.shape[0]
@@ -257,6 +307,9 @@ def RCpredict_Krank(step, p, x0, inputs, allStates=False):
         return x
 
 def RCfonc(step, p, x0, inputs, truth, type="classic", verbose="true"):
+    """
+    estimate the cost function
+    """
     if verbose:
         str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(p)
         print("estimating the fonctionnal - p is {}".format(str))
@@ -268,6 +321,9 @@ def RCfonc(step, p, x0, inputs, truth, type="classic", verbose="true"):
     return 0.5*np.sum(np.square(x-truth))/x.shape[0]
 
 def RCgrad(step, p, x0, inputs, truth):
+    """
+    estimate the gradient with the Euler explicit scheme
+    """
     n_par=len(p)
     n=x0.shape[0]
     str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(p)
@@ -286,6 +342,9 @@ def RCgrad(step, p, x0, inputs, truth):
     return df/len(x)
 
 def RCgrad_Krank(step, p, x0, inputs, truth):
+    """
+    estimate the gradient with the krank nicholson scheme
+    """
     n_par=len(p)
     n=x0.shape[0]
     str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(p)
@@ -330,28 +389,40 @@ class RC_model():
         self._exploreMatrix=[]
 
     def algo(self,algo):
+        """
+        krank or classic
+
+        default is krank
+        """
         self._algo = algo
 
     def setWeigths(self,p0,w0):
         self._p0 = p0
         self._w0 = w0
 
-    def buildSet(self,smpStart,tDays,uid,tid):
+    def buildSet(self,smpStart,tDays,uid,tid,dir=dir):
         """
         :smpStart: unixtimestamp at which the sampling must start
+
         :tDays: number of days of sampling to consider
+
         the method will create a teta tensor gathering all the PHPFina feeds
+
         each column is a feed
+
         :uid: array of column indexes to construct the sollicitations tensor from teta
+
         :tid: column index to construct the truth vector from teta
+
         tid can be an array of 2 column indexes.
+
         In that case, the truth will be the average (through axis 1) of the corresponding teta columns between the 2 provided indexes
         """
         # fetching the feeds
         if self._FINASun:
-            teta=GoToTensor(self._params,self._step,smpStart,tDays*24*self._nbptinh,FINASun=True)
+            teta=GoToTensor(self._params,self._step,smpStart,tDays*24*self._nbptinh,dir=dir,FINASun=True)
         else:
-            teta=GoToTensor(self._params[:-1],self._step,smpStart,tDays*24*self._nbptinh)
+            teta=GoToTensor(self._params[:-1],self._step,smpStart,tDays*24*self._nbptinh,dir=dir)
             # generate some sun
             # calculating the starting hour for the datarange
             smpH=datetime.utcfromtimestamp(smpStart).hour
@@ -374,8 +445,10 @@ class RC_model():
     def viewSet(self,i,guess,full=True):
         """
         this method will permit us to visualize a specific set
-        and to make a prediction according to the current discretization scheme
+         and to make a prediction according to the current discretization scheme
+
         :i: the set number we want to vizualize
+
         :guess: initial values (ie at the set start) for (T_int,T_env)
 
         :full: False > only show the truth - True > show all the indoor temperature fields integrated to the set
@@ -399,21 +472,31 @@ class RC_model():
     def explorationMatrix(self,plan,verbose=True):
         """
         this method produces an exploration matrix for the parameters
+
         each line of the matrix is a parameters set
 
         :plan: array of the scenarios
+
         a scenario focuses on varying a single parameter only
+
         to define a scenario, you have to fix :
+
         - size
+
         - increment st
+
         - method (go, gof, no, rst)
+
         - parameter number
 
         go/rst : the parameter varies from st, 2*st, ..... size*st
+
         gof : same but the variation starts at snapshot[parameter_number]+st, NOT at st
+
         no : the parameter does not vary
 
         for go and gof, the snapshot is updated at the end of the scenario with last parameter value
+
         nothing is updated with the rst method
 
         """
@@ -473,7 +556,9 @@ class RC_model():
     def explore(self,j,guess):
         """
         animation viewer
+
         :j: the set number - in order to work on _inputs[j] and _truth[j]
+
         :guess: initial values (ie at the set start) for (T_int,T_env)
         """
         # a small nested function to sequence the animation
@@ -510,7 +595,7 @@ class RC_model():
 
     def optimize(self,i,guess):
         """
-        launch an optimization on set i
+        launch a BFGS optimization on set i
         """
         # we will use array w to store the evolution of the parameters during the iteration process
         # they will stand as quality indicators for convergence or not
@@ -550,64 +635,3 @@ class RC_model():
         popt=res["x"]*self._p0
         print(popt)
         self._wopt = res["x"]
-
-# number of points in an hour
-nbptinh=2
-
-house="ite"
-params=[ {"id":1,"name":"outdoor temp","color":"blue","action":"smp"},
-         {"id":170,"name": "kitchen","color":"purple","action":"smp"},
-         {"id":167,"name": "livingroom","color":"orange","action":"smp"},
-         {"id":173,"name":"bathroom","color":"green","action":"smp"},
-         {"id":176,"name":"bedroom","color":"#b6e91f","action":"smp"},
-         {"id":145,"name":"hvac power (W)","color":"red","action":"smp"},
-         {"id":296,"name":"solar power (W)","color":"yellow","action":"smp"}]
-
-# initial guess
-# scaling
-p0=np.array([1e+6,1e+6,1e-2,1e-2,1e-2])
-# weights
-w0=np.array([1.0,4.0,1.0,1.0,1.0])
-
-ite=RC_model(house,params,nbptinh,p0,w0,FINASun=True)
-ite.buildSet(1547121600,15,[0,5,6],[1,5])
-ite.buildSet(1545902400,30,[0,5,6],[1,5])
-#for testing
-ite.buildSet(1540166400,4,[0,5,6],[1,5])
-ite.buildSet(1540166400,200,[0,5,6],[1,5])
-guess = np.array([ ite._truth[1][0], ite._truth[1][0]-4 ])
-ite.viewSet(2,guess,full=False)
-ite.viewSet(3,guess,full=True)
-input("press any key")
-
-"""
-# dynamic visual approach to evaluate the influence of each parameter
-plan=[ [ 20  , 25  , 100 , 25   , 50  ,  50 , 60    ,100   ,30   ],
-       [ 1   , 0.5 , 0.1 , 0.01 , 0.01,-0.05,-0.0025,-0.025,-0.25],
-       ["go" ,"gof","gof","gof" ,"gof","gof","gof"  ,"gof" ,"gof"],
-       [ 0   , 1   , 2   , 3    , 4   , 2   , 4     , 2   , 0    ]
-       ]
-
-ite.explorationMatrix(plan,verbose=False)
-ite.explore(1,guess)
-"""
-
-
-# scaling
-#_p0=np.array([1e+7,1e+7,1e-2,1e-2,1e-2])
-# weights
-#_w0=np.array([2.0,1.65,6.0,1.25,1.35])
-#ite.setWeigths(_p0,_w0)
-
-ite.optimize(1,guess)
-ite.viewSet(1,guess,full=False)
-ite.viewSet(2,guess,full=False)
-ite.viewSet(3,guess,full=False)
-
-"""
-_p0=np.array([1e+7,1e+12,1e-3,1e-7,1e-2])
-_w0=np.array([1.38,7.08,7.95,4.33,2.26])
-ite.setWeigths(_p0,_w0)
-guess = np.array([ ite._truth[1][0], ite._truth[1][0] ])
-ite.viewSet(3,guess,full=False)
-"""

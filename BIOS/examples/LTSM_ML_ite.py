@@ -1,6 +1,8 @@
-from building import BuildingZone, GoToTensor
+from src.modelstats import BuildingZone, GoToTensor
 import numpy as np
 import matplotlib.pylab as plt
+
+dir="../phpfina"
 
 """
 pavillon ITE
@@ -26,9 +28,9 @@ the tenants left the house for something like 300 hours at the beginning of janu
 zone 2 is therefore more complete as far as the phenomena we want to study is concerned : we can say it contains a real diversity of datas
 so we are going to train on zone2 and evaluate on zone1
 """
-zone1=GoToTensor(params,step,1538640000,65*24*nbptinh)
+zone1=GoToTensor(params,step,1538640000,65*24*nbptinh,dir)
 print(zone1.shape)
-zone2=GoToTensor(params,step,1544184000,51*24*nbptinh)
+zone2=GoToTensor(params,step,1544184000,51*24*nbptinh,dir)
 print(zone2.shape)
 
 plt.subplot(211)
@@ -45,8 +47,7 @@ ite=BuildingZone(step,history_size,target_size)
 ite.CalcMeanStd(zone2)
 ite.AddSets(zone2, forTrain=True, shuffle=False)
 ite.AddSets(zone1, forTrain=False)
-ite.LSTMfit("ite_no_shuffle_approach2_ter")
-#ite.LSTMload("ite_no_shuffle_approach2")
+ite.LSTMfit("ite_no_shuffle")
 
 ite.MLAfit(zone2, regularize=False)
 ite.MLAviewWeights()
@@ -59,7 +60,7 @@ for i in samples:
     ite.view(zone1, i, goto, MLApreds=MLA_preds, LSTMpreds=LSTM_preds,
                                                 MLAtruths=MLA_labels[i:i+goto], LSTMtruths=LSTM_labels)
 
-zone3=GoToTensor(params,step,1538640000,150*24*nbptinh)
+zone3=GoToTensor(params,step,1538640000,150*24*nbptinh,dir)
 ite.ClearSets(train=False)
 ite.AddSets(zone3, forTrain=False)
 MLA_datas, MLA_labels = ite.MLAprepare(zone3,labelsToPhysicsValue=True)

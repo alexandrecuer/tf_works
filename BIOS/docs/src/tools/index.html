@@ -1,0 +1,1349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>src.tools API documentation</title>
+<meta name="description" content="the tools module" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>src.tools</code></h1>
+</header>
+<section id="section-intro">
+<p>the tools module</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+the tools module
+&#34;&#34;&#34;
+
+from .phpfina import PHPFina, newPHPFina
+from .sunmodel import deltaT, earthDeclination, globalSunRadiation, viewSunPath
+from .opendata import openData
+
+__all__ = [&#34;PHPFina&#34;, &#34;newPHPFina&#34;,
+           &#34;deltaT&#34;, &#34;earthDeclination&#34;,&#34;globalSunRadiation&#34;, &#34;viewSunPath&#34;,
+           &#34;openData&#34;]</code></pre>
+</details>
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="src.tools.opendata" href="opendata.html">src.tools.opendata</a></code></dt>
+<dd>
+<div class="desc"><p>requests the opendatasoft API …</p></div>
+</dd>
+<dt><code class="name"><a title="src.tools.phpfina" href="phpfina.html">src.tools.phpfina</a></code></dt>
+<dd>
+<div class="desc"><p>tools to manage (open/create) PHPFina feeds …</p></div>
+</dd>
+<dt><code class="name"><a title="src.tools.sunmodel" href="sunmodel.html">src.tools.sunmodel</a></code></dt>
+<dd>
+<div class="desc"><p>KASTEN MODEL FOR GLOBAL SUN RADIATION MODELISATION …</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="src.tools.deltaT"><code class="name flex">
+<span>def <span class="ident">deltaT</span></span>(<span>n, hour=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>time variation for day n in hour</p>
+<p>related to the earth orbit disturbance</p>
+<p>result in hour or minutes</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def deltaT(n,hour=True):
+    &#34;&#34;&#34;
+    time variation for day n in hour
+
+    related to the earth orbit disturbance
+
+    result in hour or minutes
+    &#34;&#34;&#34;
+    B=2*math.pi*(n-1)/365
+    E=229.2*(0.000075+0.001868*math.cos(B)-0.032077*math.sin(B)-0.014615*math.cos(2*B)-0.04089*math.sin(2*B))
+    if hour==True:
+        return E/60
+    else:
+        return E</code></pre>
+</details>
+</dd>
+<dt id="src.tools.earthDeclination"><code class="name flex">
+<span>def <span class="ident">earthDeclination</span></span>(<span>n, rad=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>angle between the equatorial plane and the line connecting earth and sun centres</p>
+<p>result in degrees or radians</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def earthDeclination(n,rad=True):
+    &#34;&#34;&#34;
+    angle between the equatorial plane and the line connecting earth and sun centres
+
+    result in degrees or radians
+    &#34;&#34;&#34;
+    ed=23.45*math.sin(2*math.pi*(284+n)/365)
+    if rad==True:
+        return math.radians(ed)
+    else:
+        return ed</code></pre>
+</details>
+</dd>
+<dt id="src.tools.newPHPFina"><code class="name flex">
+<span>def <span class="ident">newPHPFina</span></span>(<span>nb, start, step, data, dir='phpfina')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>create a PHPFina object, without any reference to any EmonCMS server</p>
+<p>start : unix time stamp of the starting point</p>
+<p>step : timestep/interval in s</p>
+<p>data : data to be injected as a numpy vector</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def newPHPFina(nb,start,step,data,dir=dir):
+    &#34;&#34;&#34;
+    create a PHPFina object, without any reference to any EmonCMS server
+
+    start : unix time stamp of the starting point
+
+    step : timestep/interval in s
+
+    data : data to be injected as a numpy vector
+    &#34;&#34;&#34;
+    meta=&#34;{}/{}.meta&#34;.format(dir,nb)
+    if os.path.isfile(meta) and os.path.getsize(meta) != 0:
+        print(&#34;meta file exists&#34;)
+        getMetas(nb,dir)
+    else:
+        print(&#34;creating meta&#34;)
+        createMeta(nb,start,step,dir)
+    if os.path.isfile(&#34;{}/{}.dat&#34;.format(dir,nb)):
+        print(&#34;data file exists&#34;)
+    else:
+        print(&#34;creating data file&#34;)
+        createFeed(nb,data,dir)</code></pre>
+</details>
+</dd>
+<dt id="src.tools.viewSunPath"><code class="name flex">
+<span>def <span class="ident">viewSunPath</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>visualize the sun path for a classic day on planet earth</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def viewSunPath():
+    &#34;&#34;&#34;
+    visualize the sun path for a classic day on planet earth
+    &#34;&#34;&#34;
+    # observation point
+    px = 4
+    py = 3
+    pz = 0
+    r = 3
+
+    # parallel or circle of latitude
+    x0 = [px, px]
+    y0 = [0, 6]
+    z0 = [0, 0]
+
+    # meridian
+    x1 = [0, 6]
+    y1 = [py, py]
+    z1 = [0, 0]
+
+    # sun&#39;s path during the day
+    theta=np.linspace(-np.pi/2,np.pi/4,600)
+    c1x=r/2+np.zeros(600)
+    c1y=py+r*np.sin(theta)
+    c1z=r*np.cos(theta)
+
+    xw = r/2
+    yw = py
+    zw = r+0.15
+
+    theta2=np.linspace(np.pi/4,np.pi/2,200)
+    c2x=r/2+np.zeros(200)
+    c2y=py+r*np.sin(theta2)
+    c2z=r*np.cos(theta2)
+
+    # sun position
+    sunx=r/2
+    suny=py+r*np.cos(np.pi/4)
+    sunz=r*np.sin(np.pi/4)
+
+    # sun ray
+    rayx=[px,sunx]
+    rayy=[py,suny]
+    rayz=[pz,sunz]
+
+    # gamma
+    d=((sunx-px)**2+(suny-py)**2+(sunz-pz)**2)**0.5
+    dsina=sunz
+    gamma=math.asin(dsina/d)
+    u = np.linspace(0, gamma, 50)
+    p = ((sunx-px)**2 + (suny-py)**2)**0.5
+    v = math.acos((px-sunx)/p)
+    zarcg = pz + d/4 * np.sin(u)
+    xarcg = px - d/4 * np.cos(u) * np.cos(v)
+    yarcg = py + d/4 * np.cos(u) * np.sin(v)
+
+    zg = pz + d/4 * np.sin(gamma/2)
+    xg = px - d/4 * np.cos(gamma/2) * np.cos(v)
+    yg = py + d/4 * np.cos(gamma/2) * np.sin(v)
+
+    # alpha
+    alpha=np.linspace(0, v, 50)
+    xarca = px - (px - r/2) * np.cos(alpha)
+    yarca = py + (px - r/2) * np.sin(alpha)
+    zarca = np.zeros(50)
+
+    xa = px - (px - r/2 + 0.15) * np.cos(v/2)
+    ya = py + (px - r/2 + 0.15) * np.sin(v/2)
+    za = 0
+
+    # Plotting....
+    fig = plt.figure()
+    ax = fig.gca(projection=&#39;3d&#39;)
+    plt.title(&#34;vizualisation of the sun&#39;s path&#34;)
+    ax.plot(xarca, yarca, zarca, color=&#34;blue&#34;)
+    ax.text(xa,ya,za,&#34;α&#34;, fontsize=18, color=&#34;blue&#34;)
+    ax.plot(xarcg, yarcg, zarcg, color=&#34;blue&#34;)
+    ax.text(xg,yg,zg,&#34;$\gamma$&#34;, fontsize=18, color=&#34;blue&#34;)
+
+    ax.text(px, 0, 0.1 , &#34;E&#34;, fontsize=12, color=&#34;gray&#34;)
+    ax.text(px, 6, 0.1 , &#34;W&#34;, fontsize=12, color=&#34;gray&#34;)
+    ax.plot(x0, y0, z0, &#39;--&#39;, color=&#34;gray&#34;, label = &#34;circle of latitude&#34;)
+    ax.text(0, py, 0.1 , &#34;S&#34;, fontsize=12, color=&#34;green&#34;)
+    ax.text(6, py, 0.1 , &#34;N&#34;, fontsize=12, color=&#34;green&#34;)
+    ax.plot(x1, y1, z1, &#39;--&#39;, color=&#34;green&#34;, label = &#34;meridian&#34;)
+
+    ax.plot(c1x, c1y, c1z, color=&#34;blue&#34;)
+    ax.plot(c2x, c2y, c2z, &#39;--&#39;, color=&#34;blue&#34;)
+    ax.text(xw,yw,zw,&#34;w ($\omega$)&#34;, fontsize=12, color=&#34;blue&#34;)
+
+    ax.plot(rayx, rayy, rayz, color=&#34;orange&#34;)
+
+    # observation point
+    ax.scatter(px,py,pz,marker=&#39;o&#39;,color=&#34;black&#34;)
+    ax.text(px, py, 0.1 , &#34;P&#34;, fontsize=10)
+
+    # sun at sunrise and sunset
+    ax.scatter(sunx,0,0,marker=&#39;o&#39;,s=56,color=&#34;orange&#34;,label=&#34;sunrise&#34;,alpha=0.4)
+    ax.scatter(sunx,2*py,0,marker=&#39;o&#39;,s=56,color=&#34;red&#34;,label=&#34;sunrset&#34;,alpha=0.4)
+    # sun at actual position
+    ax.scatter(sunx,suny,sunz,marker=&#39;o&#39;,s=56,color=&#34;yellow&#34;)
+    #projections for gamma vizualisation
+    ax.plot([sunx,sunx],[suny,suny],[sunz,0], &#39;--&#39;, color=&#34;orange&#34;)
+    ax.plot([px,sunx],[py,suny],[pz,0], &#39;--&#39;, color=&#34;orange&#34;)
+
+    ax.legend(loc=&#39;lower left&#39;)
+
+    plt.show()</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="src.tools.PHPFina"><code class="flex name class">
+<span>class <span class="ident">PHPFina</span></span>
+<span>(</span><span>nb, step, dir='phpfina')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>nb : feed number</p>
+<p>step : the period in second at which you sample from the timeseries</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PHPFina:
+    def __init__(self,nb,step,dir=dir):
+        &#34;&#34;&#34;
+        nb : feed number
+
+        step : the period in second at which you sample from the timeseries
+        &#34;&#34;&#34;
+        #starttime and interval expressed in seconds
+        #starttime is a unixtimestamp
+        self._startTime = 0
+        self._interval = 0
+        self._nb = nb
+        # the unixtimestamp in seconds at which you decide to start sampling
+        self._SamplingPos = 0
+        self._step = step
+        self._dir = dir
+        self._datas = []
+
+    def getMetas(self):
+        &#34;&#34;&#34;
+        gets the metas from the meta file and stores them
+
+        unix timestamp of the feed&#39;s first point (_startTime)
+
+        interval in s (_interval)
+        &#34;&#34;&#34;
+        with open(&#34;{}/{}.meta&#34;.format(self._dir,self._nb), &#34;rb&#34;) as metas:
+            # Seek a specific position in the file and read N bytes
+            metas.seek(8, 0)
+            interval=readBytes(4,metas)
+            metas.seek(12, 0)
+            startTime=readBytes(4,metas)
+            #print(&#34;startTime {} UTC / {}&#34;.format(humanDate(startTime),startTime))
+            #print(&#34;interval {}s&#34;.format(interval))
+            self._startTime=startTime
+            self._interval=interval
+
+    def setStart(self,unixTimeStart):
+        &#34;&#34;&#34;
+        set the sampling starting point given a unix time stamp (_SamplingPos)
+        &#34;&#34;&#34;
+        self._SamplingPos=int((unixTimeStart-self._startTime)/self._interval)
+        #print(&#34;Timeserie {} sampling will start on record number {}&#34;.format(self._nb,self._SamplingPos))
+
+    def getDatas(self,nbSteps):
+        &#34;&#34;&#34;
+        stores an array of values extracted from the timeserie
+
+        nbSteps datas are sampled from _SamplingPos at a period equal to _step
+
+        a PHPFina file is made of 4 bytes float values, with NAN when nothing was recorded from the sensor
+        &#34;&#34;&#34;
+        start = self._SamplingPos
+        nbPtInStep=self._step//self._interval
+        if self._step/self._interval - nbPtInStep == 0:
+            offset=0
+        elif self._step/self._interval - nbPtInStep == 0.5:
+            print(&#34;we have an half step offset&#34;)
+            offset=1
+        else:
+            print(&#34;offset - we cannot get the datas - check steps/intervals&#34;)
+            return
+        position=int(start*4)
+        with open(&#34;{}/{}.dat&#34;.format(self._dir,self._nb), &#34;rb&#34;) as ts:
+            for i in range(nbSteps):
+                ts.seek(position, 0)
+                hexa = ts.read(4)
+                aa= bytearray(hexa)
+                if len(aa)==4:
+                  value=struct.unpack(&#39;&lt;f&#39;, aa)[0]
+                else:
+                  print(&#34;unpacking problem {} len is {} position is {}&#34;.format(i,len(aa),position))
+                if math.isnan(value):
+                    #print(&#34;timeseries {} - there is a NAN at position {} in the timeserie or point number {}&#34;.format(self._nb,position,i))
+                    j=1
+                    while True:
+                        ramble=position+j*4
+                        ts.seek(ramble, 0)
+                        hexa = ts.read(4)
+                        aa= bytearray(hexa)
+                        value=struct.unpack(&#39;&lt;f&#39;, aa)[0]
+                        if math.isnan(value):
+                            j+=1
+                        else:
+                            break
+                    #print(&#34;we found a value {} {}s after the NAN&#34;.format(value,self._interval*j))
+                #print(position)
+                #print(value)
+                #input(&#34;press key&#34;)
+                self._datas.append(value)
+                if (i % 2) == 0:
+                    position+=nbPtInStep*4
+                else:
+                    position+=(nbPtInStep+offset)*4
+
+    def getKwh(self,nbSteps):
+        &#34;&#34;&#34;
+        only for &#34;energy&#34; timeseries
+
+        accumulates the power for each step and outputs the energy consumption in Kwh within the step to come
+        &#34;&#34;&#34;
+        start = self._SamplingPos
+        nbPtInStep=self._step//self._interval
+        #print(&#34;an hour is sectionned in {} parts&#34;.format(nbPtInStep))
+        with open(&#34;{}/{}.dat&#34;.format(self._dir,self._nb), &#34;rb&#34;) as ts:
+            for i in range(nbSteps+1):
+                position=int((start+i*nbPtInStep)*4)
+                acc=0
+                ts.seek(position, 0)
+                hexa = ts.read(4*nbPtInStep)
+                aa= bytearray(hexa)
+                if len(aa)==4*nbPtInStep:
+                    values=struct.unpack(&#39;&lt;{}f&#39;.format(nbPtInStep), aa)
+                for j in range(len(values)):
+                    if math.isnan(values[j]):
+                        val=0
+                    else:
+                        val=values[j]
+                    acc+=val*self._interval
+                if math.isnan(acc):
+                    acc=0
+                    print(&#34;BUG : consumption for full step is NAN !&#34;)
+                # kwh conversion !!
+                self._datas.append(0.001*acc/3600)
+
+    def unAcc(self):
+        &#34;&#34;&#34;
+        EmonCMS can provide the accumulated kwh feed over the whole recording period, like an energy meter.
+
+        from the accumulated kwh feed, the kwh consumed per hour can be recalculated
+
+        NOTA NOTA NOTA : recalculating from the instantaneous power is a better option
+
+        Indeed, there may be missing data in feeds dedicated to the accumulation of Kwh.
+
+        Experience shows that only instant power feeds ARE MANUALLY corrected in real time during monitoring.
+        &#34;&#34;&#34;
+        unAccvalues=[]
+        for i in range(len(self._datas)-1):
+            if self._datas[i+1]-self._datas[i] &lt;0:
+                print(&#34;bug&#34;)
+                print(i)
+                print(&#34;values are {} and {}&#34;.format(self._datas[i+1],self._datas[i]))
+            unAccvalues.append(self._datas[i+1]-self._datas[i])
+        self._datas=unAccvalues</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="src.tools.PHPFina.getDatas"><code class="name flex">
+<span>def <span class="ident">getDatas</span></span>(<span>self, nbSteps)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>stores an array of values extracted from the timeserie</p>
+<p>nbSteps datas are sampled from _SamplingPos at a period equal to _step</p>
+<p>a PHPFina file is made of 4 bytes float values, with NAN when nothing was recorded from the sensor</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getDatas(self,nbSteps):
+    &#34;&#34;&#34;
+    stores an array of values extracted from the timeserie
+
+    nbSteps datas are sampled from _SamplingPos at a period equal to _step
+
+    a PHPFina file is made of 4 bytes float values, with NAN when nothing was recorded from the sensor
+    &#34;&#34;&#34;
+    start = self._SamplingPos
+    nbPtInStep=self._step//self._interval
+    if self._step/self._interval - nbPtInStep == 0:
+        offset=0
+    elif self._step/self._interval - nbPtInStep == 0.5:
+        print(&#34;we have an half step offset&#34;)
+        offset=1
+    else:
+        print(&#34;offset - we cannot get the datas - check steps/intervals&#34;)
+        return
+    position=int(start*4)
+    with open(&#34;{}/{}.dat&#34;.format(self._dir,self._nb), &#34;rb&#34;) as ts:
+        for i in range(nbSteps):
+            ts.seek(position, 0)
+            hexa = ts.read(4)
+            aa= bytearray(hexa)
+            if len(aa)==4:
+              value=struct.unpack(&#39;&lt;f&#39;, aa)[0]
+            else:
+              print(&#34;unpacking problem {} len is {} position is {}&#34;.format(i,len(aa),position))
+            if math.isnan(value):
+                #print(&#34;timeseries {} - there is a NAN at position {} in the timeserie or point number {}&#34;.format(self._nb,position,i))
+                j=1
+                while True:
+                    ramble=position+j*4
+                    ts.seek(ramble, 0)
+                    hexa = ts.read(4)
+                    aa= bytearray(hexa)
+                    value=struct.unpack(&#39;&lt;f&#39;, aa)[0]
+                    if math.isnan(value):
+                        j+=1
+                    else:
+                        break
+                #print(&#34;we found a value {} {}s after the NAN&#34;.format(value,self._interval*j))
+            #print(position)
+            #print(value)
+            #input(&#34;press key&#34;)
+            self._datas.append(value)
+            if (i % 2) == 0:
+                position+=nbPtInStep*4
+            else:
+                position+=(nbPtInStep+offset)*4</code></pre>
+</details>
+</dd>
+<dt id="src.tools.PHPFina.getKwh"><code class="name flex">
+<span>def <span class="ident">getKwh</span></span>(<span>self, nbSteps)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>only for "energy" timeseries</p>
+<p>accumulates the power for each step and outputs the energy consumption in Kwh within the step to come</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getKwh(self,nbSteps):
+    &#34;&#34;&#34;
+    only for &#34;energy&#34; timeseries
+
+    accumulates the power for each step and outputs the energy consumption in Kwh within the step to come
+    &#34;&#34;&#34;
+    start = self._SamplingPos
+    nbPtInStep=self._step//self._interval
+    #print(&#34;an hour is sectionned in {} parts&#34;.format(nbPtInStep))
+    with open(&#34;{}/{}.dat&#34;.format(self._dir,self._nb), &#34;rb&#34;) as ts:
+        for i in range(nbSteps+1):
+            position=int((start+i*nbPtInStep)*4)
+            acc=0
+            ts.seek(position, 0)
+            hexa = ts.read(4*nbPtInStep)
+            aa= bytearray(hexa)
+            if len(aa)==4*nbPtInStep:
+                values=struct.unpack(&#39;&lt;{}f&#39;.format(nbPtInStep), aa)
+            for j in range(len(values)):
+                if math.isnan(values[j]):
+                    val=0
+                else:
+                    val=values[j]
+                acc+=val*self._interval
+            if math.isnan(acc):
+                acc=0
+                print(&#34;BUG : consumption for full step is NAN !&#34;)
+            # kwh conversion !!
+            self._datas.append(0.001*acc/3600)</code></pre>
+</details>
+</dd>
+<dt id="src.tools.PHPFina.getMetas"><code class="name flex">
+<span>def <span class="ident">getMetas</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>gets the metas from the meta file and stores them</p>
+<p>unix timestamp of the feed's first point (_startTime)</p>
+<p>interval in s (_interval)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getMetas(self):
+    &#34;&#34;&#34;
+    gets the metas from the meta file and stores them
+
+    unix timestamp of the feed&#39;s first point (_startTime)
+
+    interval in s (_interval)
+    &#34;&#34;&#34;
+    with open(&#34;{}/{}.meta&#34;.format(self._dir,self._nb), &#34;rb&#34;) as metas:
+        # Seek a specific position in the file and read N bytes
+        metas.seek(8, 0)
+        interval=readBytes(4,metas)
+        metas.seek(12, 0)
+        startTime=readBytes(4,metas)
+        #print(&#34;startTime {} UTC / {}&#34;.format(humanDate(startTime),startTime))
+        #print(&#34;interval {}s&#34;.format(interval))
+        self._startTime=startTime
+        self._interval=interval</code></pre>
+</details>
+</dd>
+<dt id="src.tools.PHPFina.setStart"><code class="name flex">
+<span>def <span class="ident">setStart</span></span>(<span>self, unixTimeStart)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>set the sampling starting point given a unix time stamp (_SamplingPos)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setStart(self,unixTimeStart):
+    &#34;&#34;&#34;
+    set the sampling starting point given a unix time stamp (_SamplingPos)
+    &#34;&#34;&#34;
+    self._SamplingPos=int((unixTimeStart-self._startTime)/self._interval)</code></pre>
+</details>
+</dd>
+<dt id="src.tools.PHPFina.unAcc"><code class="name flex">
+<span>def <span class="ident">unAcc</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>EmonCMS can provide the accumulated kwh feed over the whole recording period, like an energy meter.</p>
+<p>from the accumulated kwh feed, the kwh consumed per hour can be recalculated</p>
+<p>NOTA NOTA NOTA : recalculating from the instantaneous power is a better option</p>
+<p>Indeed, there may be missing data in feeds dedicated to the accumulation of Kwh.</p>
+<p>Experience shows that only instant power feeds ARE MANUALLY corrected in real time during monitoring.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unAcc(self):
+    &#34;&#34;&#34;
+    EmonCMS can provide the accumulated kwh feed over the whole recording period, like an energy meter.
+
+    from the accumulated kwh feed, the kwh consumed per hour can be recalculated
+
+    NOTA NOTA NOTA : recalculating from the instantaneous power is a better option
+
+    Indeed, there may be missing data in feeds dedicated to the accumulation of Kwh.
+
+    Experience shows that only instant power feeds ARE MANUALLY corrected in real time during monitoring.
+    &#34;&#34;&#34;
+    unAccvalues=[]
+    for i in range(len(self._datas)-1):
+        if self._datas[i+1]-self._datas[i] &lt;0:
+            print(&#34;bug&#34;)
+            print(i)
+            print(&#34;values are {} and {}&#34;.format(self._datas[i+1],self._datas[i]))
+        unAccvalues.append(self._datas[i+1]-self._datas[i])
+    self._datas=unAccvalues</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="src.tools.globalSunRadiation"><code class="flex name class">
+<span>class <span class="ident">globalSunRadiation</span></span>
+<span>(</span><span>lat, long, alt, nbptinh, start, nbdays)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>latitude and longitude in decimal deg.</p>
+<p>altitude in meter</p>
+<p>start : a unix time stamp</p>
+<p>the starting timestamp of the synthetic sun = same UTC day at 00:00:00</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class globalSunRadiation():
+    def __init__(self,lat,long,alt,nbptinh,start,nbdays):
+        &#34;&#34;&#34;
+        latitude and longitude in decimal deg.
+
+        altitude in meter
+
+        start : a unix time stamp
+
+        the starting timestamp of the synthetic sun = same UTC day at 00:00:00
+        &#34;&#34;&#34;
+        self._lat=lat
+        self._radlat=math.radians(self._lat)
+        self._long=long
+        self._alt=alt
+        # offset with the Universal Time Coordinated
+        self._UTCoffset=0
+        self._nbptinh=nbptinh
+
+        # evaluating the starting timestamp = same UTC day at 00:00:00
+        tt=time.gmtime(start)
+        sec_elapsed_since_UTCday_start=tt.tm_hour*3600+tt.tm_min*60+tt.tm_sec
+        utsStart=start-sec_elapsed_since_UTCday_start
+        tts=time.gmtime(utsStart)
+        self._utsStart=utsStart
+        print(&#34;you have entered the following start {} UTC&#34;.format(time.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;,tt)))
+        print(&#34;sun generation will start at unixtimestamp {} which is {} UTC&#34;.format(utsStart,time.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;,tts)))
+        print(&#34;this is UTC day number {} of the year&#34;.format(tts.tm_yday))
+
+        self._startday = tts.tm_yday
+        self._nbdays = nbdays
+        self._indice=0
+        self._datas=np.zeros((self._nbdays*24*self._nbptinh, 5))
+        # Energy received on the period
+        self._E=0
+
+    def hourAngle(self,n,h,rad=True):
+        &#34;&#34;&#34;
+        angle between the sun and the local meridian
+
+        result in degrees or radians
+        &#34;&#34;&#34;
+        w = 15*(h-self._UTCoffset+deltaT(n)-12) + self._long
+
+        if rad==True:
+            return math.radians(w)
+        else:
+            return w
+
+    def sunDuration(self,n):
+        &#34;&#34;&#34;
+        calculates the sun duration for the day n
+
+        result in hour
+        &#34;&#34;&#34;
+        return 2*math.degrees(math.acos(-math.tan(self._radlat)*math.tan(earthDeclination(n))))/15
+
+    def solarAngles(self,n,h,rad=True):
+        &#34;&#34;&#34;
+        calculates the solar angles :
+
+        - (gamma)solar/angular height or solar altitude = angle between the local horizontal plane and the sun direction
+
+        - (alpha)azimuth = angle between the local meridian and the vertical plane including the observed point and the sun
+
+        results in degrees or radians
+        &#34;&#34;&#34;
+        decl=earthDeclination(n)
+        w=self.hourAngle(n,h)
+        #hauteur du soleil - sun height : sh
+        sh = math.sin(self._radlat)*math.sin(decl) + math.cos(self._radlat)*math.cos(decl)*math.cos(w)
+        gamma=math.asin(sh)
+        #trace du soleil dans le plan horizontal
+        alpha=math.asin(math.cos(decl)*math.sin(w)/math.cos(gamma))
+        if gamma &lt; 0:
+            gamma=0
+
+        if rad==True:
+            return gamma, alpha, w
+        else:
+            return math.degrees(gamma), math.degrees(alpha), math.degrees(w)
+
+    def Linke(self,n,h):
+        &#34;&#34;&#34;
+        gas absorption disorder (02, CO2, O3 ozone, water vapor, aerosols)
+
+        Capderou ?
+        &#34;&#34;&#34;
+        sinphi = math.sin(self._radlat)
+        A=math.sin(2*math.pi*(n-121)/365)
+        z=self._alt/1000
+        angles=self.solarAngles(n,h)
+        T1 = 2.4 - 0.9*sinphi + 0.1*(2 + sinphi*A - 0.2*z - (1.22+0.14*A)*(1-math.sin(angles[0])))
+        T2 = 0.89**z
+        T3 = (0.9 + 0.4*A)*0.63**z
+        return T1+T2+T3
+
+    def globalRadiation(self,n,h):
+        &#34;&#34;&#34;
+        in W/m2
+
+        cf OMM
+
+        https://hal.archives-ouvertes.fr/jpa-00246138/document
+        &#34;&#34;&#34;
+        angles=self.solarAngles(n,h)
+        TL=self.Linke(n,h)
+        z=self._alt/1000
+        # solar gain / coefficient d&#39;atténuation tenant compte des variations de la nébulosité
+        fs=0.65
+        fs=1
+        mod1=fs*(1300-57*TL)*math.exp(0.22*z/7.8)*math.sin(angles[0])**((TL+36)/33)
+        mod2=fs*extraRadiation(n)*math.sin(angles[0])
+        self._datas[self._indice]=np.array([mod1,TL,math.degrees(angles[0]),math.degrees(angles[1]),math.degrees(angles[2])])
+        self._indice+=1
+        return mod1, mod2
+
+    def generate(self):
+        &#34;&#34;&#34;
+        generate and store datas
+
+        global radiation in W/m2, linke trouble, gamma, alpha, omega
+        &#34;&#34;&#34;
+        for d in range(self._nbdays):
+            day=self._startday+d
+            for h in range(24):
+                for m in range(self._nbptinh):
+                    self.globalRadiation(day,h+m/self._nbptinh)
+
+    def energy(self):
+        &#34;&#34;&#34;
+        ouputs energy balance per month
+        &#34;&#34;&#34;
+        E=[]
+        steps_in_month=30*24*self._nbptinh
+        indice=0
+        Emonth=0
+        for i in range(self._datas.shape[0]):
+            if indice &gt; steps_in_month:
+                indice=0
+                E.append(Emonth)
+                Emonth=0
+            Emonth+=self._datas[i,0]
+            indice+=1
+        if len(E):
+            print(&#34;Kwh not integrated in the mensual estimation : {}&#34;.format(Emonth/(self._nbptinh*1000)))
+            E=np.array(E)/(self._nbptinh*1000)
+            print(&#34;the following array synthetises mensual estimations on the choosen period&#34;)
+            print(E)
+            self._E=np.sum(E)
+        else:
+            self._E=Emonth/(self._nbptinh*1000)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="src.tools.globalSunRadiation.Linke"><code class="name flex">
+<span>def <span class="ident">Linke</span></span>(<span>self, n, h)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>gas absorption disorder (02, CO2, O3 ozone, water vapor, aerosols)</p>
+<p>Capderou ?</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Linke(self,n,h):
+    &#34;&#34;&#34;
+    gas absorption disorder (02, CO2, O3 ozone, water vapor, aerosols)
+
+    Capderou ?
+    &#34;&#34;&#34;
+    sinphi = math.sin(self._radlat)
+    A=math.sin(2*math.pi*(n-121)/365)
+    z=self._alt/1000
+    angles=self.solarAngles(n,h)
+    T1 = 2.4 - 0.9*sinphi + 0.1*(2 + sinphi*A - 0.2*z - (1.22+0.14*A)*(1-math.sin(angles[0])))
+    T2 = 0.89**z
+    T3 = (0.9 + 0.4*A)*0.63**z
+    return T1+T2+T3</code></pre>
+</details>
+</dd>
+<dt id="src.tools.globalSunRadiation.energy"><code class="name flex">
+<span>def <span class="ident">energy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ouputs energy balance per month</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def energy(self):
+    &#34;&#34;&#34;
+    ouputs energy balance per month
+    &#34;&#34;&#34;
+    E=[]
+    steps_in_month=30*24*self._nbptinh
+    indice=0
+    Emonth=0
+    for i in range(self._datas.shape[0]):
+        if indice &gt; steps_in_month:
+            indice=0
+            E.append(Emonth)
+            Emonth=0
+        Emonth+=self._datas[i,0]
+        indice+=1
+    if len(E):
+        print(&#34;Kwh not integrated in the mensual estimation : {}&#34;.format(Emonth/(self._nbptinh*1000)))
+        E=np.array(E)/(self._nbptinh*1000)
+        print(&#34;the following array synthetises mensual estimations on the choosen period&#34;)
+        print(E)
+        self._E=np.sum(E)
+    else:
+        self._E=Emonth/(self._nbptinh*1000)</code></pre>
+</details>
+</dd>
+<dt id="src.tools.globalSunRadiation.generate"><code class="name flex">
+<span>def <span class="ident">generate</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>generate and store datas</p>
+<p>global radiation in W/m2, linke trouble, gamma, alpha, omega</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate(self):
+    &#34;&#34;&#34;
+    generate and store datas
+
+    global radiation in W/m2, linke trouble, gamma, alpha, omega
+    &#34;&#34;&#34;
+    for d in range(self._nbdays):
+        day=self._startday+d
+        for h in range(24):
+            for m in range(self._nbptinh):
+                self.globalRadiation(day,h+m/self._nbptinh)</code></pre>
+</details>
+</dd>
+<dt id="src.tools.globalSunRadiation.globalRadiation"><code class="name flex">
+<span>def <span class="ident">globalRadiation</span></span>(<span>self, n, h)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>in W/m2</p>
+<p>cf OMM</p>
+<p><a href="https://hal.archives-ouvertes.fr/jpa-00246138/document">https://hal.archives-ouvertes.fr/jpa-00246138/document</a></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def globalRadiation(self,n,h):
+    &#34;&#34;&#34;
+    in W/m2
+
+    cf OMM
+
+    https://hal.archives-ouvertes.fr/jpa-00246138/document
+    &#34;&#34;&#34;
+    angles=self.solarAngles(n,h)
+    TL=self.Linke(n,h)
+    z=self._alt/1000
+    # solar gain / coefficient d&#39;atténuation tenant compte des variations de la nébulosité
+    fs=0.65
+    fs=1
+    mod1=fs*(1300-57*TL)*math.exp(0.22*z/7.8)*math.sin(angles[0])**((TL+36)/33)
+    mod2=fs*extraRadiation(n)*math.sin(angles[0])
+    self._datas[self._indice]=np.array([mod1,TL,math.degrees(angles[0]),math.degrees(angles[1]),math.degrees(angles[2])])
+    self._indice+=1
+    return mod1, mod2</code></pre>
+</details>
+</dd>
+<dt id="src.tools.globalSunRadiation.hourAngle"><code class="name flex">
+<span>def <span class="ident">hourAngle</span></span>(<span>self, n, h, rad=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>angle between the sun and the local meridian</p>
+<p>result in degrees or radians</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def hourAngle(self,n,h,rad=True):
+    &#34;&#34;&#34;
+    angle between the sun and the local meridian
+
+    result in degrees or radians
+    &#34;&#34;&#34;
+    w = 15*(h-self._UTCoffset+deltaT(n)-12) + self._long
+
+    if rad==True:
+        return math.radians(w)
+    else:
+        return w</code></pre>
+</details>
+</dd>
+<dt id="src.tools.globalSunRadiation.solarAngles"><code class="name flex">
+<span>def <span class="ident">solarAngles</span></span>(<span>self, n, h, rad=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>calculates the solar angles :</p>
+<ul>
+<li>
+<p>(gamma)solar/angular height or solar altitude = angle between the local horizontal plane and the sun direction</p>
+</li>
+<li>
+<p>(alpha)azimuth = angle between the local meridian and the vertical plane including the observed point and the sun</p>
+</li>
+</ul>
+<p>results in degrees or radians</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def solarAngles(self,n,h,rad=True):
+    &#34;&#34;&#34;
+    calculates the solar angles :
+
+    - (gamma)solar/angular height or solar altitude = angle between the local horizontal plane and the sun direction
+
+    - (alpha)azimuth = angle between the local meridian and the vertical plane including the observed point and the sun
+
+    results in degrees or radians
+    &#34;&#34;&#34;
+    decl=earthDeclination(n)
+    w=self.hourAngle(n,h)
+    #hauteur du soleil - sun height : sh
+    sh = math.sin(self._radlat)*math.sin(decl) + math.cos(self._radlat)*math.cos(decl)*math.cos(w)
+    gamma=math.asin(sh)
+    #trace du soleil dans le plan horizontal
+    alpha=math.asin(math.cos(decl)*math.sin(w)/math.cos(gamma))
+    if gamma &lt; 0:
+        gamma=0
+
+    if rad==True:
+        return gamma, alpha, w
+    else:
+        return math.degrees(gamma), math.degrees(alpha), math.degrees(w)</code></pre>
+</details>
+</dd>
+<dt id="src.tools.globalSunRadiation.sunDuration"><code class="name flex">
+<span>def <span class="ident">sunDuration</span></span>(<span>self, n)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>calculates the sun duration for the day n</p>
+<p>result in hour</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sunDuration(self,n):
+    &#34;&#34;&#34;
+    calculates the sun duration for the day n
+
+    result in hour
+    &#34;&#34;&#34;
+    return 2*math.degrees(math.acos(-math.tan(self._radlat)*math.tan(earthDeclination(n))))/15</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="src.tools.openData"><code class="flex name class">
+<span>class <span class="ident">openData</span></span>
+<span>(</span><span>dataset, station, start, stop, fields, utz, step_in_h, year=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><h3 id="use-case-example">use case example</h3>
+<p>using the API v2 server (API v1 was "https://data.opendatasoft.com/explore/dataset")</p>
+<p>start and stop can be integer if working with years</p>
+<p>if not, they must be string ODS formatted</p>
+<p>retrieve nebulosity and temperature datas for the year 2018 and for the Clermont-Ferrand station</p>
+<pre><code>dataset='donnees-synop-essentielles-omm%40public'
+</code></pre>
+<p>clermont-ferrand station is number 07460</p>
+<p>Lyon/Satolas(Colombier-Saugnieu) is number 07481 for example. It is the nearest station close to grenoble</p>
+<pre><code>station=&quot;07460&quot;
+start=2018
+stop=2019
+utz=&quot;Europe/Paris&quot;
+fields=[&quot;date&quot;,&quot;nbas&quot;,&quot;tc&quot;]
+</code></pre>
+<p>we fix here the presumed timestep in hour</p>
+<p>for data coming from météo france, timestep is usually 3 hours</p>
+<pre><code>step_in_h=3
+source=openData(dataset,station,start,stop,fields,utz,step_in_h)
+view={'vis':True,'lib':[&quot;nebulosity in Octa&quot;,&quot;external temperature in°C&quot;]}
+source.retrieve(view=view)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class openData():
+    &#34;&#34;&#34;
+    ### use case example
+
+    using the API v2 server (API v1 was &#34;https://data.opendatasoft.com/explore/dataset&#34;)
+
+    start and stop can be integer if working with years
+
+    if not, they must be string ODS formatted
+
+    retrieve nebulosity and temperature datas for the year 2018 and for the Clermont-Ferrand station
+    ```
+    dataset=&#39;donnees-synop-essentielles-omm%40public&#39;
+    ```
+    clermont-ferrand station is number 07460
+
+    Lyon/Satolas(Colombier-Saugnieu) is number 07481 for example. It is the nearest station close to grenoble
+    ```
+    station=&#34;07460&#34;
+    start=2018
+    stop=2019
+    utz=&#34;Europe/Paris&#34;
+    fields=[&#34;date&#34;,&#34;nbas&#34;,&#34;tc&#34;]
+    ```
+    we fix here the presumed timestep in hour
+
+    for data coming from météo france, timestep is usually 3 hours
+    ```
+    step_in_h=3
+    source=openData(dataset,station,start,stop,fields,utz,step_in_h)
+    view={&#39;vis&#39;:True,&#39;lib&#39;:[&#34;nebulosity in Octa&#34;,&#34;external temperature in°C&#34;]}
+    source.retrieve(view=view)
+    ```
+    &#34;&#34;&#34;
+    def __init__(self,dataset,station,start,stop,fields,utz,step_in_h,year=True):
+        self._server=&#34;https://data.opendatasoft.com/api/v2/opendatasoft/datasets&#34;
+        self._dataset=dataset
+        self._station=station
+        self._start=start
+        self._stop=stop
+        self._nbf=len(fields)
+        self._fields=&#39;,&#39;.join(fields)
+        self._tz=utz
+        self._step_in_h=step_in_h
+        self._step_in_s=step_in_h*3600
+        self._uts=0
+        if year:
+            self._nbp=(self._stop-self._start)*365*24//self._step_in_h
+        else:
+            self._nbp=(ODSstrToUTS(stop)-ODSstrToUTS(start))//(3600*self._step_in_h)
+        self._full_data=np.zeros((self._nbp,self._nbf))
+
+    def retrieve(self,view={&#39;vis&#39;:False}):
+        params={
+                 &#39;where&#39;:[&#39;numer_sta=&#34;{}&#34;&#39;.format(self._station),&#39;date&lt;\&#39;{}\&#39;&#39;.format(self._stop),&#39;date&gt;=\&#39;{}\&#39;&#39;.format(self._start)],
+                 &#39;sort&#39;:&#39;date&#39;,
+                 &#39;select&#39;: self._fields,
+                 &#39;timezone&#39;:self._tz,
+                 &#39;delimiter&#39;:&#39;;&#39;
+               }
+        urlend=urllib.parse.urlencode(params,safe=&#39;&#39;,doseq=True)
+        url=&#34;{}/{}/exports/csv?{}&#34;.format(self._server,self._dataset,urlend)
+        #print(url)
+        #input(&#34;press any key&#34;)
+
+        response = requests.get(url)
+        data=response.text
+        data = data.rstrip(&#39;\n\r&#39;)
+        lines = data.split(&#39;\n&#39;)
+        header = lines[0].split(&#39;;&#39;)
+        lines = lines[1:]
+        print(&#34;we&#39;ve got {} lines and {} columns&#34;.format(len(lines), len(header)))
+        # raw_data shape is (time,features)
+        raw_data=np.zeros((len(lines),self._nbf))
+        missing=0
+        for i,line in enumerate(lines):
+            x = line.split(&#39;;&#39;)
+            # converting to unixtimestamp
+            raw_data[i,0]=ODSstrToUTS(x[0])
+            for j in range(1,self._nbf,1):
+                if x[j]:
+                  raw_data[i,j]=float(x[j])
+                else:
+                  raw_data[i,j]= math.nan
+                  missing+=1
+
+        print(&#34;according to the presumed time stamp, we should have {} points&#34;.format(self._nbp))
+        print(&#34;missing datas : {}&#34;.format(missing))
+
+        #remove eventual lines full of zeros
+        raw_data = raw_data[~np.all(raw_data == 0, axis=1)]
+
+        # reorder by ascending timestep
+        # https://stackoverflow.com/questions/2828059/sorting-arrays-in-numpy-by-column
+        # datas are supposed to be sorted by ascending date but the trick could be usefull in some cases
+        #raw_data=raw_data[raw_data[:,0].argsort()]
+
+        float_data=copy.deepcopy(raw_data)
+        # replace nan values by previous float value
+        for i in range(float_data.shape[0]):
+            for j in range(1,self._nbf,1):
+                if math.isnan(float_data[i,j]) :
+                    float_data[i,j]=float_data[i-1,j]
+
+        # last sanity check is to regularize the timestep as some steps can be missing
+        self._uts = float_data[0,0]
+        print(&#34;timeserie will start at {} &#34;.format(self._uts))
+        index=1
+        for j in range(self._nbf):
+            self._full_data[0,j]=float_data[0,j]
+
+        for i in range(1,self._nbp,1):
+            self._full_data[i,0]=self._full_data[i-1,0]+self._step_in_s
+            # if full_data timestep is greater than or equal to the timestep of float_data at index i,
+            # we can record a new value in full_data and increment index i
+            if self._full_data[i,0] &gt;= float_data[index,0] and index &lt;= float_data.shape[0]-2:
+                for j in range(1,self._nbf,1):
+                    self._full_data[i,j]=float_data[index,j]
+                index+=1
+            else:
+                for j in range(1,self._nbf,1):
+                    self._full_data[i,j]=self._full_data[i-1,j]
+                #print(&#34;delta is {} for i {}&#34;.format(float_data[index,0]-self._full_data[i,0],i))
+        if view[&#39;vis&#39;]:
+            xrange=np.arange(raw_data.shape[0])
+            ax1=plt.subplot(311)
+            plt.plot(raw_data[:,1],color=&#34;red&#34;)
+            plt.scatter(xrange,raw_data[:,1],color=&#34;orange&#34;,marker=&#39;o&#39;,s=4)
+            ax2=ax1.twinx()
+            plt.plot(raw_data[:,0],color=&#34;blue&#34;,label=&#34;unixtimestamp&#34;)
+            plt.legend(loc=&#39;upper right&#39;)
+            plt.subplot(312,sharex=ax1)
+            plt.plot(float_data[:,1],color=&#34;orange&#34;)
+            ax3=plt.subplot(313)
+            plt.plot(self._full_data[:,1],color=&#34;orange&#34;,label=view[&#39;lib&#39;][0])
+            plt.legend(loc=&#39;upper left&#39;)
+            ax4=ax3.twinx()
+            plt.plot(self._full_data[:,0],color=&#34;blue&#34;,label=&#34;unixtimestamp&#34;)
+            plt.legend(loc=&#39;upper right&#39;)
+            plt.show()
+
+            plt.subplot(111)
+            for j in range(len(view[&#39;lib&#39;])):
+                plt.plot(self._full_data[:,j+1],label=view[&#39;lib&#39;][j])
+            plt.legend(loc=&#39;upper left&#39;)
+            plt.show()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="src.tools.openData.retrieve"><code class="name flex">
+<span>def <span class="ident">retrieve</span></span>(<span>self, view={'vis': False})</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def retrieve(self,view={&#39;vis&#39;:False}):
+    params={
+             &#39;where&#39;:[&#39;numer_sta=&#34;{}&#34;&#39;.format(self._station),&#39;date&lt;\&#39;{}\&#39;&#39;.format(self._stop),&#39;date&gt;=\&#39;{}\&#39;&#39;.format(self._start)],
+             &#39;sort&#39;:&#39;date&#39;,
+             &#39;select&#39;: self._fields,
+             &#39;timezone&#39;:self._tz,
+             &#39;delimiter&#39;:&#39;;&#39;
+           }
+    urlend=urllib.parse.urlencode(params,safe=&#39;&#39;,doseq=True)
+    url=&#34;{}/{}/exports/csv?{}&#34;.format(self._server,self._dataset,urlend)
+    #print(url)
+    #input(&#34;press any key&#34;)
+
+    response = requests.get(url)
+    data=response.text
+    data = data.rstrip(&#39;\n\r&#39;)
+    lines = data.split(&#39;\n&#39;)
+    header = lines[0].split(&#39;;&#39;)
+    lines = lines[1:]
+    print(&#34;we&#39;ve got {} lines and {} columns&#34;.format(len(lines), len(header)))
+    # raw_data shape is (time,features)
+    raw_data=np.zeros((len(lines),self._nbf))
+    missing=0
+    for i,line in enumerate(lines):
+        x = line.split(&#39;;&#39;)
+        # converting to unixtimestamp
+        raw_data[i,0]=ODSstrToUTS(x[0])
+        for j in range(1,self._nbf,1):
+            if x[j]:
+              raw_data[i,j]=float(x[j])
+            else:
+              raw_data[i,j]= math.nan
+              missing+=1
+
+    print(&#34;according to the presumed time stamp, we should have {} points&#34;.format(self._nbp))
+    print(&#34;missing datas : {}&#34;.format(missing))
+
+    #remove eventual lines full of zeros
+    raw_data = raw_data[~np.all(raw_data == 0, axis=1)]
+
+    # reorder by ascending timestep
+    # https://stackoverflow.com/questions/2828059/sorting-arrays-in-numpy-by-column
+    # datas are supposed to be sorted by ascending date but the trick could be usefull in some cases
+    #raw_data=raw_data[raw_data[:,0].argsort()]
+
+    float_data=copy.deepcopy(raw_data)
+    # replace nan values by previous float value
+    for i in range(float_data.shape[0]):
+        for j in range(1,self._nbf,1):
+            if math.isnan(float_data[i,j]) :
+                float_data[i,j]=float_data[i-1,j]
+
+    # last sanity check is to regularize the timestep as some steps can be missing
+    self._uts = float_data[0,0]
+    print(&#34;timeserie will start at {} &#34;.format(self._uts))
+    index=1
+    for j in range(self._nbf):
+        self._full_data[0,j]=float_data[0,j]
+
+    for i in range(1,self._nbp,1):
+        self._full_data[i,0]=self._full_data[i-1,0]+self._step_in_s
+        # if full_data timestep is greater than or equal to the timestep of float_data at index i,
+        # we can record a new value in full_data and increment index i
+        if self._full_data[i,0] &gt;= float_data[index,0] and index &lt;= float_data.shape[0]-2:
+            for j in range(1,self._nbf,1):
+                self._full_data[i,j]=float_data[index,j]
+            index+=1
+        else:
+            for j in range(1,self._nbf,1):
+                self._full_data[i,j]=self._full_data[i-1,j]
+            #print(&#34;delta is {} for i {}&#34;.format(float_data[index,0]-self._full_data[i,0],i))
+    if view[&#39;vis&#39;]:
+        xrange=np.arange(raw_data.shape[0])
+        ax1=plt.subplot(311)
+        plt.plot(raw_data[:,1],color=&#34;red&#34;)
+        plt.scatter(xrange,raw_data[:,1],color=&#34;orange&#34;,marker=&#39;o&#39;,s=4)
+        ax2=ax1.twinx()
+        plt.plot(raw_data[:,0],color=&#34;blue&#34;,label=&#34;unixtimestamp&#34;)
+        plt.legend(loc=&#39;upper right&#39;)
+        plt.subplot(312,sharex=ax1)
+        plt.plot(float_data[:,1],color=&#34;orange&#34;)
+        ax3=plt.subplot(313)
+        plt.plot(self._full_data[:,1],color=&#34;orange&#34;,label=view[&#39;lib&#39;][0])
+        plt.legend(loc=&#39;upper left&#39;)
+        ax4=ax3.twinx()
+        plt.plot(self._full_data[:,0],color=&#34;blue&#34;,label=&#34;unixtimestamp&#34;)
+        plt.legend(loc=&#39;upper right&#39;)
+        plt.show()
+
+        plt.subplot(111)
+        for j in range(len(view[&#39;lib&#39;])):
+            plt.plot(self._full_data[:,j+1],label=view[&#39;lib&#39;][j])
+        plt.legend(loc=&#39;upper left&#39;)
+        plt.show()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="src" href="../index.html">src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="src.tools.opendata" href="opendata.html">src.tools.opendata</a></code></li>
+<li><code><a title="src.tools.phpfina" href="phpfina.html">src.tools.phpfina</a></code></li>
+<li><code><a title="src.tools.sunmodel" href="sunmodel.html">src.tools.sunmodel</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="src.tools.deltaT" href="#src.tools.deltaT">deltaT</a></code></li>
+<li><code><a title="src.tools.earthDeclination" href="#src.tools.earthDeclination">earthDeclination</a></code></li>
+<li><code><a title="src.tools.newPHPFina" href="#src.tools.newPHPFina">newPHPFina</a></code></li>
+<li><code><a title="src.tools.viewSunPath" href="#src.tools.viewSunPath">viewSunPath</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="src.tools.PHPFina" href="#src.tools.PHPFina">PHPFina</a></code></h4>
+<ul class="">
+<li><code><a title="src.tools.PHPFina.getDatas" href="#src.tools.PHPFina.getDatas">getDatas</a></code></li>
+<li><code><a title="src.tools.PHPFina.getKwh" href="#src.tools.PHPFina.getKwh">getKwh</a></code></li>
+<li><code><a title="src.tools.PHPFina.getMetas" href="#src.tools.PHPFina.getMetas">getMetas</a></code></li>
+<li><code><a title="src.tools.PHPFina.setStart" href="#src.tools.PHPFina.setStart">setStart</a></code></li>
+<li><code><a title="src.tools.PHPFina.unAcc" href="#src.tools.PHPFina.unAcc">unAcc</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="src.tools.globalSunRadiation" href="#src.tools.globalSunRadiation">globalSunRadiation</a></code></h4>
+<ul class="two-column">
+<li><code><a title="src.tools.globalSunRadiation.Linke" href="#src.tools.globalSunRadiation.Linke">Linke</a></code></li>
+<li><code><a title="src.tools.globalSunRadiation.energy" href="#src.tools.globalSunRadiation.energy">energy</a></code></li>
+<li><code><a title="src.tools.globalSunRadiation.generate" href="#src.tools.globalSunRadiation.generate">generate</a></code></li>
+<li><code><a title="src.tools.globalSunRadiation.globalRadiation" href="#src.tools.globalSunRadiation.globalRadiation">globalRadiation</a></code></li>
+<li><code><a title="src.tools.globalSunRadiation.hourAngle" href="#src.tools.globalSunRadiation.hourAngle">hourAngle</a></code></li>
+<li><code><a title="src.tools.globalSunRadiation.solarAngles" href="#src.tools.globalSunRadiation.solarAngles">solarAngles</a></code></li>
+<li><code><a title="src.tools.globalSunRadiation.sunDuration" href="#src.tools.globalSunRadiation.sunDuration">sunDuration</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="src.tools.openData" href="#src.tools.openData">openData</a></code></h4>
+<ul class="">
+<li><code><a title="src.tools.openData.retrieve" href="#src.tools.openData.retrieve">retrieve</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

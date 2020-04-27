@@ -1,6 +1,8 @@
-from building import BuildingZone, GoToTensor
+from src.modelstats import BuildingZone, GoToTensor
 import numpy as np
 import matplotlib.pylab as plt
+
+dir="../phpfina"
 
 """
 pavillon temoin
@@ -14,11 +16,9 @@ history_size=10
 target_size=1
 # how many hours in the future are we going to simulate ?
 goto=200
-#***********************************************************************************
-#***********************************************************************************
 
 paramsb=[{"id":1,"action":"smp"},{"id":191,"action":"smp"},{"id":139,"action":"acc"}]
-winter=GoToTensor(paramsb,step,1539950400,210*24*nbptinh)
+winter=GoToTensor(paramsb,step,1539950400,210*24*nbptinh,dir)
 tsize=winter.shape[0]-1-1500
 temoin=BuildingZone(step,history_size,target_size)
 temoin.CalcMeanStd(winter[0:tsize])
@@ -51,5 +51,9 @@ samples=[200,1500,2000,3000,4220,4260,4300,4350,4400]
 for i in samples:
     LSTM_preds, LSTM_labels=temoin.LSTMpredict(i,goto)
     MLA_preds=temoin.MLApredict(MLA_datas,i,goto)
+    temoin.view(winter, i, goto, MLApreds=MLA_preds, LSTMpreds=LSTM_preds)
+    """
+    # use this if you want to check that labelling process is correct
     temoin.view(winter, i, goto, MLApreds=MLA_preds, LSTMpreds=LSTM_preds,
                                                 MLAtruths=MLA_labels[i:i+goto], LSTMtruths=LSTM_labels)
+    """

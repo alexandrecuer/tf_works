@@ -1,0 +1,1582 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>src.modelstats.modelstats API documentation</title>
+<meta name="description" content="some modelisation tools using statistical approaches (multilinear vs LSTM)" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>src.modelstats.modelstats</code></h1>
+</header>
+<section id="section-intro">
+<p>some modelisation tools using statistical approaches (multilinear vs LSTM)</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+some modelisation tools using statistical approaches (multilinear vs LSTM)
+&#34;&#34;&#34;
+
+import numpy as np
+import random
+import math
+import time
+import struct
+import matplotlib.pylab as plt
+from src.tools import PHPFina
+import tensorflow as tf
+import sys
+import copy
+from pandas import DataFrame
+from sklearn import linear_model
+
+dir=&#34;phpfina&#34;
+
+def InitializeFeed(nb,step,start,dir=dir):
+    feed=PHPFina(nb,step,dir)
+    feed.getMetas()
+    feed.setStart(start)
+    return feed
+
+def GoToTensor(params,step,start,nbsteps,dir=dir):
+    &#34;&#34;&#34;
+    create a tensor, given some PHPFina feeds, a period and a start (as a unix timestamp) both in seconds
+    &#34;&#34;&#34;
+    #print(&#34;going to tensor for {} feeds&#34;.format(len(params)))
+    float_data=np.zeros((nbsteps,len(params)))
+    for i in range(len(params)):
+        #print(&#34;feed number {}&#34;.format(i))
+        feed=InitializeFeed(params[i][&#34;id&#34;],step,start,dir=dir)
+        if params[i][&#34;action&#34;]==&#34;smp&#34;:
+            feed.getDatas(nbsteps)
+        elif params[i][&#34;action&#34;]==&#34;acc&#34;:
+            feed.getKwh(nbsteps)
+        if len(feed._datas):
+            float_data[:,i]=feed._datas[0:nbsteps]
+        else:
+            return False
+    return float_data
+
+def plot_train_history(history, title):
+    loss = history.history[&#39;loss&#39;]
+    val_loss = history.history[&#39;val_loss&#39;]
+    epochs = range(len(loss))
+    plt.figure()
+    plt.plot(epochs, loss, &#39;b&#39;, label=&#39;Training loss&#39;)
+    plt.plot(epochs, val_loss, &#39;r&#39;, label=&#39;Validation loss&#39;)
+    plt.title(title)
+    plt.legend()
+    plt.show()
+
+class BuildingZone():
+
+    def __init__(self,step,history_size,target_size):
+        &#39;&#39;&#39;
+        history_size and target_size are integers
+
+        we want history_size steps of history
+
+        we want target_size steps in a single prediction
+
+        if target_size is 1, prediction is the next point
+
+        if target_size &gt; 1, there is target_size points in the prediction
+
+        CAUTION - developments are needed to make the part of the code related to prediction work with target_size &gt; 1
+
+        anyway single size prediction is enough and multi size prediction is not really a target
+
+        initializes 4 lists to host datasets&#39;tensors for the neural network, 2 for training and 2 for validation
+        _train_datas, _train_labels
+        _val_datas, _val_labels
+        &#39;&#39;&#39;
+        self._step=step
+        self._history_size=history_size
+        self._target_size=target_size
+        self._mean=[]
+        self._std=[]
+        self._train_datas=[]
+        self._train_labels=[]
+        self._val_datas=[]
+        self._val_labels=[]
+        self._debug=False
+        self._lab = [&#34;out. temp&#34;,&#34;indoor temp&#34;, &#34;Kwh&#34;]
+        self._col = [&#34;blue&#34;, &#34;green&#34;, &#34;red&#34;]
+        self._MLAintercept=0
+        self._MLAcoef=[]
+        self._MLAregularize=True
+        self._regularize=True
+        self._LSTMmodel = tf.keras.models.Sequential()
+
+    def CalcMeanStd(self, datas):
+        &#34;&#34;&#34;
+        calculate and store mean and standard deviation on the population
+
+        :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+        &#34;&#34;&#34;
+        self._mean = datas.mean(axis=0)
+        self._std = datas.std(axis=0)
+        print(self._mean)
+        print(self._std)
+
+    def MLAprepare(self, datas, labelsToPhysicsValue=False):
+        &#34;&#34;&#34;
+        prepare datas for multilinear Regression
+
+        :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+
+        returns :
+
+        - numpy array of (scaled) datas
+
+        - numpy array of (rescaled) labels
+
+        Only the results of the ml regression are stored in the class
+
+        you have to prepare AND to transmit the result of preparation to the predict method
+
+        MLA_datas, MLA_labels = MLAprepare(datas)
+
+        MLApredict(MLA_datas,nbset,goto)
+
+        each line of the returned MLA_datas array is a sample, we find :
+
+        - the outdoor temperature values (at the step) from index 0 to history_size-1
+
+        - the indoor temperature values (at the step) from index history_size to 2*history_size-1
+
+        - the energy consumptions (for the step to come) in kwh from 2*history_size to 3*history_size-1
+
+        &#34;&#34;&#34;
+        clone=copy.deepcopy(datas)
+        if self._MLAregularize:
+            clone=(clone-self._mean)/self._std
+        msize=clone.shape[0]-self._history_size
+        MLA_datas=np.zeros((msize,clone.shape[1]*self._history_size))
+        indice=0
+        for j in range(clone.shape[1]):
+            for i in range(self._history_size):
+                MLA_datas[:,indice]=clone[i:i+msize,j]
+                indice+=1
+        MLA_labels=clone[self._history_size:clone.shape[0],1]
+        if self._MLAregularize and labelsToPhysicsValue:
+            MLA_labels = np.array(MLA_labels)*self._std[1]+self._mean[1]
+        return MLA_datas, MLA_labels
+
+    def MLAfit(self, datas, regularize=True):
+        &#34;&#34;&#34;
+        multilinear regression
+
+        :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+
+        :param regularize: boolean - if true datas are regularized with the mean/std technique
+        &#34;&#34;&#34;
+        self._MLAregularize=regularize
+        MLA_datas, MLA_labels=self.MLAprepare(datas)
+        regr = linear_model.LinearRegression()
+        regr.fit(MLA_datas, MLA_labels)
+        self._MLAintercept=regr.intercept_
+        self._MLAcoef=regr.coef_
+        if self._debug:
+            print(&#34;MLA datas size {}&#34;.format(MLA_datas.shape))
+            print(&#34;MLA labels size {}&#34;.format(len(MLA_labels)))
+            print(&#39;Intercept: \n&#39;, self._MLAintercept)
+            print(&#39;Coefficients: \n&#39;, self._MLAcoef)
+
+    def MLApredict(self,datas,nbset,goto):
+        &#34;&#34;&#34;
+        executes prediction(s) step by step with the multilinear method
+
+        for example, prediction 11 is made using all 10 previous predictions, if history_size is 10
+
+        :param datas: an array with the samples to use, as produced by the MLAprepare method
+
+        :param nbset: the first sample to use for prediction
+
+        :param goto: the number of prediction(s) to realize
+
+        if goto is set to 1, the method will realize only one prediction
+
+        pred is an array to store the predictions step by step
+
+        l is the size of the pred array
+
+        to make the predictions step by step :
+
+          - if l &lt; history_size, we have to replace the last l temperature values by the predicted ones
+
+          - if l &gt;= history_size, we have to replace the whole history_size values in the sample by the predicted ones
+
+        returns numpy array of (rescaled) predictions
+        &#34;&#34;&#34;
+        pred=[]
+        for k in range(goto):
+            sample=copy.deepcopy(datas[nbset+k])
+            if self._debug:
+                print(pred)
+                print(&#34;before injection&#34;)
+                print(sample)
+            if len(pred)&gt;0:
+                if len(pred)&gt;self._history_size:
+                    simTs=pred[-self._history_size:]
+                else:
+                    simTs=pred
+                sample[2*self._history_size-min(len(pred),self._history_size):2*self._history_size]=simTs
+            if self._debug:
+                print(&#34;after injection&#34;)
+                print(sample)
+                input(&#34;press any key&#34;)
+            prediction=np.sum(self._MLAcoef*sample)+self._MLAintercept
+            pred.append(prediction)
+        if self._MLAregularize:
+            pred=np.array(pred)*self._std[1]+self._mean[1]
+        return pred
+
+    def MLAviewWeights(self):
+        &#34;&#34;&#34;
+        plot the weights after the multilinear fitting
+        &#34;&#34;&#34;
+        plt.subplot(111)
+        plt.title(&#34;Multilinear regression - coefficient {}&#34;.format(self._MLAintercept))
+        plt.plot(self._MLAcoef)
+        plt.show()
+
+    def ClearSets(self, train=True):
+        &#34;&#34;&#34;
+        clear datas and labels arrays
+        &#34;&#34;&#34;
+        if train:
+            self._train_datas=[]
+            self._train_labels=[]
+        else:
+            self._val_datas=[]
+            self._val_labels=[]
+
+    def regularizeSets(self, regularize=True):
+        &#34;&#34;&#34;
+        :param regularize: boolean
+
+        if set to True, all datasets processed will be regularized with the mean/std technique
+
+        ONLY applies to LSTM optimization
+        &#34;&#34;&#34;
+        self._regularize=regularize
+
+    def AddSets(self, datas, forTrain=True, shuffle=True):
+        &#34;&#34;&#34;
+        feed the datas and labels array for the LSTM optimization
+
+        :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries - shape (x,y)
+
+        :param forTrain: boolean - if set to True, datasets constructed are injected into train_datas and train_labels
+
+        :param shuffle: boolean - if set to True with fortrain=True, randomize the **TRAINING** datasets
+
+        shuffle does not have any effect on validation datasets which are always in chronological order
+
+        GENERAL CASE - 3 physical parameters monitored : external temperature, indoor temperature and instant power converted to energy (accumulation)
+
+        each dataset sample is structured as a tensor of shape (history_size,3) :
+
+        - the outdoor temperature values (at the step) = dataset[0:history_size,0]
+
+        - the indoor temperature values (at the step) = dataset[0:history_size,1]
+
+        - the energy consumptions (for the step to come) in kwh = dataset[0:history_size,2]
+        &#34;&#34;&#34;
+        clone=copy.deepcopy(datas)
+        if self._regularize:
+            clone=(clone-self._mean)/self._std
+        # l is the number of datasets we can construct with datas
+        l=clone.shape[0]-self._target_size-self._history_size
+        rows=np.arange(self._history_size,self._history_size+l,1)
+        if forTrain and shuffle:
+            np.random.shuffle(rows)
+        if self._debug:
+            print(rows.shape)
+            print(rows)
+            input(&#34;press any key&#34;)
+        for j in range(len(rows)):
+            indices = range(rows[j]-self._history_size, rows[j])
+            if forTrain:
+                self._train_datas.append(clone[indices])
+                self._train_labels.append(clone[rows[j]:rows[j]+self._target_size,1])
+            else:
+                self._val_datas.append(clone[indices])
+                self._val_labels.append(clone[rows[j]:rows[j]+self._target_size,1])
+
+    def LSTMfit(self, name, verbose=0):
+        &#34;&#34;&#34;
+        fit an LTSM model using train and val datas/labels defined by the method AddSets()
+
+        :param name: filename to save the model
+
+        :param verbose: 0 for silent mode, 1 to get some information from tensorflow
+
+        default is verbose=0
+
+        save fitted model as an h5 file
+        &#34;&#34;&#34;
+        tdat=np.array(self._train_datas)
+        tlab=np.array(self._train_labels)
+        vdat=np.array(self._val_datas)
+        vlab=np.array(self._val_labels)
+        # if using a second layer, should add return_sequences=True
+        self._LSTMmodel.add(tf.keras.layers.LSTM(32, dropout=0.05, recurrent_dropout=0.50 , input_shape=tdat.shape[-2:]))
+        self._LSTMmodel.add(tf.keras.layers.Dense(self._target_size))
+        self._LSTMmodel.compile(optimizer=tf.keras.optimizers.RMSprop(), loss=&#39;mae&#39;)
+        history = self._LSTMmodel.fit(tdat, tlab, verbose=verbose, epochs=20,batch_size=50,validation_data=(vdat, vlab))
+        plot_train_history(history,&#39;Single Step Training and validation loss&#39;)
+        self._LSTMmodel.save(&#39;{}.h5&#39;.format(name))
+
+    def LSTMload(self, name):
+        &#34;&#34;&#34;
+        load a model (from an existing h5 file)
+        &#34;&#34;&#34;
+        self._LSTMmodel = tf.keras.models.load_model(&#39;{}.h5&#39;.format(name))
+
+    def LSTMpredict(self, nbset, goto, **kwargs):
+        &#34;&#34;&#34;
+        executes prediction(s) step by step with the LSTM fitted model
+
+        for example, prediction 11 is made using all 10 previous predictions, if history_size is 10
+
+        :param nbset: the first sample to use for prediction
+
+        :param goto: the number of prediction(s) to realize
+
+        if goto is set to 1, the method will realize only one prediction
+
+        t = tensor created by GoToTensor on the basis of some PHPFina timeseries
+
+        by defaut, uses with the _val_datas and _val_labels recorded by the method AddSets(t)
+
+        we assume that t.shape = (x,y)
+
+        :param datas: (optional) array of datasets - shape (history_size,y)
+
+        :param labels: (optional) array of labels
+
+        to be used if you dont want to use datasets and labels recorded in the BuildingZone object
+
+        returns :
+
+        - numpy array of (rescaled) predictions
+
+        - numpy array of (rescaled) labels
+        &#34;&#34;&#34;
+        pred=[]
+        truth=[]
+        if len(kwargs)==0:
+            datas=np.array(self._val_datas)
+            truth=self._val_labels[nbset:nbset+goto]
+        elif len(kwargs)==2:
+            datas=np.array(kwargs[&#34;datas&#34;])
+            truth=np.array(kwargs[&#34;labels&#34;])[nbset:nbset+goto]
+        else:
+            print(&#34;wrong number of parameters - stopping&#34;)
+            return
+        for k in range(goto):
+            # the input for the model
+            position=nbset+k
+            # make a deepcopy not to affect datas
+            # cf http://lyceeomar.atspace.cc/Copiesup_profonde1.html
+            sample=copy.deepcopy(datas[position])
+            if self._debug:
+                print(&#34;pred length : {}&#34;.format(len(pred)))
+                print(pred)
+            if len(pred)&gt;0:
+                if len(pred)&gt;self._history_size:
+                    # we want the last history_size predictions
+                    simTs=pred[-self._history_size:]
+                else:
+                    simTs=pred
+                if self._debug:
+                    print(&#34;before injection&#34;)
+                    print(sample)
+                # we have to update the last min(len(pred),history_size) elements in the temperature column (index 1)
+                sample[-min(len(pred),self._history_size):,1]=simTs
+            if self._debug:
+                print(&#34;after sim injection&#34;)
+                print(sample)
+                input(&#34;press any key&#34;)
+            sample=sample.reshape(1,self._history_size,datas.shape[-2:][1])
+            prediction=self._LSTMmodel.predict(sample)
+            pred.append(prediction[0,0])
+        if self._regularize:
+            pred=np.array(pred)*self._std[1]+self._mean[1]
+            truth=np.array(truth)*self._std[1]+self._mean[1]
+        return pred, truth
+
+
+    def view(self, physics, nbset, nbpreds, **kwargs):
+        &#34;&#34;&#34;
+        datasets vizualisation
+
+        uses the val datas as train datas can be shuffled
+
+        :param physics : the original unregularized tensor, as produced by GoToTensor, in order not to recalculate things for nothing
+
+        :param nbset : the starting index (which will be at x=0 on the window)
+
+        :param nbpreds : the vizu window will go from x=-history_size to x=nbpreds
+
+        :param **pred** : (optional) array of nbpreds predictions with a model
+
+        :param **truth** : (optional) array of truths
+        &#34;&#34;&#34;
+        history_range=list(range(-self._history_size, 0))
+        future_range=list(range(0,nbpreds))
+        zero=nbset+self._history_size
+        grnb=111
+        ax1=plt.subplot(grnb)
+        ax1.set_ylabel(&#39;°C&#39;)
+        plt.title(&#34;sample nb {}\n cross -&gt; dataset \n line -&gt; timeseries&#34;.format(zero))
+        plt.xlim([history_range[0], future_range[-1]])
+        truefuture=self._val_labels[nbset]*self._std[1]+self._mean[1]
+        plt.plot(0,truefuture, &#39;o&#39;, label=&#39;true future&#39;, color=self._col[1])
+        if len(kwargs):
+            icons=[&#39;+&#39;,&#39;*&#39;,&#39;o&#39;,&#39;*&#39;]
+            indice=0
+            for key, vals in kwargs.items():
+                if &#34;pred&#34; in key.lower() :
+                    plt.plot(future_range,vals,icons[indice],markersize=2,label=&#34;{}.&#34;.format(key), color=&#34;black&#34;)
+                if &#34;truth&#34; in key.lower() :
+                    plt.plot(future_range,vals,icons[indice],markersize=2, color=self._col[1])
+                indice+=1
+        values=self._val_datas[nbset]*self._std+self._mean
+        for k in range(3):
+            if k == 2:
+               ax1.tick_params(axis=&#39;y&#39;)
+               plt.legend()
+               ax2 = ax1.twinx()
+               ax2.set_ylabel(&#34;Kwh&#34;)
+            plt.plot(history_range,values[:,k], &#39;rx&#39;, color=self._col[k])
+            # printing the initial dataset (nbset) with crosses
+            plt.plot(history_range,physics[nbset:zero,k], color=self._col[k], label=self._lab[k])
+            plt.plot(future_range,physics[zero:zero+nbpreds,k], color=self._col[k])
+        ax2.tick_params(axis=&#39;y&#39;)
+        plt.legend()
+        plt.show()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="src.modelstats.modelstats.GoToTensor"><code class="name flex">
+<span>def <span class="ident">GoToTensor</span></span>(<span>params, step, start, nbsteps, dir='phpfina')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>create a tensor, given some PHPFina feeds, a period and a start (as a unix timestamp) both in seconds</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GoToTensor(params,step,start,nbsteps,dir=dir):
+    &#34;&#34;&#34;
+    create a tensor, given some PHPFina feeds, a period and a start (as a unix timestamp) both in seconds
+    &#34;&#34;&#34;
+    #print(&#34;going to tensor for {} feeds&#34;.format(len(params)))
+    float_data=np.zeros((nbsteps,len(params)))
+    for i in range(len(params)):
+        #print(&#34;feed number {}&#34;.format(i))
+        feed=InitializeFeed(params[i][&#34;id&#34;],step,start,dir=dir)
+        if params[i][&#34;action&#34;]==&#34;smp&#34;:
+            feed.getDatas(nbsteps)
+        elif params[i][&#34;action&#34;]==&#34;acc&#34;:
+            feed.getKwh(nbsteps)
+        if len(feed._datas):
+            float_data[:,i]=feed._datas[0:nbsteps]
+        else:
+            return False
+    return float_data</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.InitializeFeed"><code class="name flex">
+<span>def <span class="ident">InitializeFeed</span></span>(<span>nb, step, start, dir='phpfina')</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def InitializeFeed(nb,step,start,dir=dir):
+    feed=PHPFina(nb,step,dir)
+    feed.getMetas()
+    feed.setStart(start)
+    return feed</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.plot_train_history"><code class="name flex">
+<span>def <span class="ident">plot_train_history</span></span>(<span>history, title)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot_train_history(history, title):
+    loss = history.history[&#39;loss&#39;]
+    val_loss = history.history[&#39;val_loss&#39;]
+    epochs = range(len(loss))
+    plt.figure()
+    plt.plot(epochs, loss, &#39;b&#39;, label=&#39;Training loss&#39;)
+    plt.plot(epochs, val_loss, &#39;r&#39;, label=&#39;Validation loss&#39;)
+    plt.title(title)
+    plt.legend()
+    plt.show()</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="src.modelstats.modelstats.BuildingZone"><code class="flex name class">
+<span>class <span class="ident">BuildingZone</span></span>
+<span>(</span><span>step, history_size, target_size)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>history_size and target_size are integers</p>
+<p>we want history_size steps of history</p>
+<p>we want target_size steps in a single prediction</p>
+<p>if target_size is 1, prediction is the next point</p>
+<p>if target_size &gt; 1, there is target_size points in the prediction</p>
+<p>CAUTION - developments are needed to make the part of the code related to prediction work with target_size &gt; 1</p>
+<p>anyway single size prediction is enough and multi size prediction is not really a target</p>
+<p>initializes 4 lists to host datasets'tensors for the neural network, 2 for training and 2 for validation
+_train_datas, _train_labels
+_val_datas, _val_labels</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BuildingZone():
+
+    def __init__(self,step,history_size,target_size):
+        &#39;&#39;&#39;
+        history_size and target_size are integers
+
+        we want history_size steps of history
+
+        we want target_size steps in a single prediction
+
+        if target_size is 1, prediction is the next point
+
+        if target_size &gt; 1, there is target_size points in the prediction
+
+        CAUTION - developments are needed to make the part of the code related to prediction work with target_size &gt; 1
+
+        anyway single size prediction is enough and multi size prediction is not really a target
+
+        initializes 4 lists to host datasets&#39;tensors for the neural network, 2 for training and 2 for validation
+        _train_datas, _train_labels
+        _val_datas, _val_labels
+        &#39;&#39;&#39;
+        self._step=step
+        self._history_size=history_size
+        self._target_size=target_size
+        self._mean=[]
+        self._std=[]
+        self._train_datas=[]
+        self._train_labels=[]
+        self._val_datas=[]
+        self._val_labels=[]
+        self._debug=False
+        self._lab = [&#34;out. temp&#34;,&#34;indoor temp&#34;, &#34;Kwh&#34;]
+        self._col = [&#34;blue&#34;, &#34;green&#34;, &#34;red&#34;]
+        self._MLAintercept=0
+        self._MLAcoef=[]
+        self._MLAregularize=True
+        self._regularize=True
+        self._LSTMmodel = tf.keras.models.Sequential()
+
+    def CalcMeanStd(self, datas):
+        &#34;&#34;&#34;
+        calculate and store mean and standard deviation on the population
+
+        :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+        &#34;&#34;&#34;
+        self._mean = datas.mean(axis=0)
+        self._std = datas.std(axis=0)
+        print(self._mean)
+        print(self._std)
+
+    def MLAprepare(self, datas, labelsToPhysicsValue=False):
+        &#34;&#34;&#34;
+        prepare datas for multilinear Regression
+
+        :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+
+        returns :
+
+        - numpy array of (scaled) datas
+
+        - numpy array of (rescaled) labels
+
+        Only the results of the ml regression are stored in the class
+
+        you have to prepare AND to transmit the result of preparation to the predict method
+
+        MLA_datas, MLA_labels = MLAprepare(datas)
+
+        MLApredict(MLA_datas,nbset,goto)
+
+        each line of the returned MLA_datas array is a sample, we find :
+
+        - the outdoor temperature values (at the step) from index 0 to history_size-1
+
+        - the indoor temperature values (at the step) from index history_size to 2*history_size-1
+
+        - the energy consumptions (for the step to come) in kwh from 2*history_size to 3*history_size-1
+
+        &#34;&#34;&#34;
+        clone=copy.deepcopy(datas)
+        if self._MLAregularize:
+            clone=(clone-self._mean)/self._std
+        msize=clone.shape[0]-self._history_size
+        MLA_datas=np.zeros((msize,clone.shape[1]*self._history_size))
+        indice=0
+        for j in range(clone.shape[1]):
+            for i in range(self._history_size):
+                MLA_datas[:,indice]=clone[i:i+msize,j]
+                indice+=1
+        MLA_labels=clone[self._history_size:clone.shape[0],1]
+        if self._MLAregularize and labelsToPhysicsValue:
+            MLA_labels = np.array(MLA_labels)*self._std[1]+self._mean[1]
+        return MLA_datas, MLA_labels
+
+    def MLAfit(self, datas, regularize=True):
+        &#34;&#34;&#34;
+        multilinear regression
+
+        :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+
+        :param regularize: boolean - if true datas are regularized with the mean/std technique
+        &#34;&#34;&#34;
+        self._MLAregularize=regularize
+        MLA_datas, MLA_labels=self.MLAprepare(datas)
+        regr = linear_model.LinearRegression()
+        regr.fit(MLA_datas, MLA_labels)
+        self._MLAintercept=regr.intercept_
+        self._MLAcoef=regr.coef_
+        if self._debug:
+            print(&#34;MLA datas size {}&#34;.format(MLA_datas.shape))
+            print(&#34;MLA labels size {}&#34;.format(len(MLA_labels)))
+            print(&#39;Intercept: \n&#39;, self._MLAintercept)
+            print(&#39;Coefficients: \n&#39;, self._MLAcoef)
+
+    def MLApredict(self,datas,nbset,goto):
+        &#34;&#34;&#34;
+        executes prediction(s) step by step with the multilinear method
+
+        for example, prediction 11 is made using all 10 previous predictions, if history_size is 10
+
+        :param datas: an array with the samples to use, as produced by the MLAprepare method
+
+        :param nbset: the first sample to use for prediction
+
+        :param goto: the number of prediction(s) to realize
+
+        if goto is set to 1, the method will realize only one prediction
+
+        pred is an array to store the predictions step by step
+
+        l is the size of the pred array
+
+        to make the predictions step by step :
+
+          - if l &lt; history_size, we have to replace the last l temperature values by the predicted ones
+
+          - if l &gt;= history_size, we have to replace the whole history_size values in the sample by the predicted ones
+
+        returns numpy array of (rescaled) predictions
+        &#34;&#34;&#34;
+        pred=[]
+        for k in range(goto):
+            sample=copy.deepcopy(datas[nbset+k])
+            if self._debug:
+                print(pred)
+                print(&#34;before injection&#34;)
+                print(sample)
+            if len(pred)&gt;0:
+                if len(pred)&gt;self._history_size:
+                    simTs=pred[-self._history_size:]
+                else:
+                    simTs=pred
+                sample[2*self._history_size-min(len(pred),self._history_size):2*self._history_size]=simTs
+            if self._debug:
+                print(&#34;after injection&#34;)
+                print(sample)
+                input(&#34;press any key&#34;)
+            prediction=np.sum(self._MLAcoef*sample)+self._MLAintercept
+            pred.append(prediction)
+        if self._MLAregularize:
+            pred=np.array(pred)*self._std[1]+self._mean[1]
+        return pred
+
+    def MLAviewWeights(self):
+        &#34;&#34;&#34;
+        plot the weights after the multilinear fitting
+        &#34;&#34;&#34;
+        plt.subplot(111)
+        plt.title(&#34;Multilinear regression - coefficient {}&#34;.format(self._MLAintercept))
+        plt.plot(self._MLAcoef)
+        plt.show()
+
+    def ClearSets(self, train=True):
+        &#34;&#34;&#34;
+        clear datas and labels arrays
+        &#34;&#34;&#34;
+        if train:
+            self._train_datas=[]
+            self._train_labels=[]
+        else:
+            self._val_datas=[]
+            self._val_labels=[]
+
+    def regularizeSets(self, regularize=True):
+        &#34;&#34;&#34;
+        :param regularize: boolean
+
+        if set to True, all datasets processed will be regularized with the mean/std technique
+
+        ONLY applies to LSTM optimization
+        &#34;&#34;&#34;
+        self._regularize=regularize
+
+    def AddSets(self, datas, forTrain=True, shuffle=True):
+        &#34;&#34;&#34;
+        feed the datas and labels array for the LSTM optimization
+
+        :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries - shape (x,y)
+
+        :param forTrain: boolean - if set to True, datasets constructed are injected into train_datas and train_labels
+
+        :param shuffle: boolean - if set to True with fortrain=True, randomize the **TRAINING** datasets
+
+        shuffle does not have any effect on validation datasets which are always in chronological order
+
+        GENERAL CASE - 3 physical parameters monitored : external temperature, indoor temperature and instant power converted to energy (accumulation)
+
+        each dataset sample is structured as a tensor of shape (history_size,3) :
+
+        - the outdoor temperature values (at the step) = dataset[0:history_size,0]
+
+        - the indoor temperature values (at the step) = dataset[0:history_size,1]
+
+        - the energy consumptions (for the step to come) in kwh = dataset[0:history_size,2]
+        &#34;&#34;&#34;
+        clone=copy.deepcopy(datas)
+        if self._regularize:
+            clone=(clone-self._mean)/self._std
+        # l is the number of datasets we can construct with datas
+        l=clone.shape[0]-self._target_size-self._history_size
+        rows=np.arange(self._history_size,self._history_size+l,1)
+        if forTrain and shuffle:
+            np.random.shuffle(rows)
+        if self._debug:
+            print(rows.shape)
+            print(rows)
+            input(&#34;press any key&#34;)
+        for j in range(len(rows)):
+            indices = range(rows[j]-self._history_size, rows[j])
+            if forTrain:
+                self._train_datas.append(clone[indices])
+                self._train_labels.append(clone[rows[j]:rows[j]+self._target_size,1])
+            else:
+                self._val_datas.append(clone[indices])
+                self._val_labels.append(clone[rows[j]:rows[j]+self._target_size,1])
+
+    def LSTMfit(self, name, verbose=0):
+        &#34;&#34;&#34;
+        fit an LTSM model using train and val datas/labels defined by the method AddSets()
+
+        :param name: filename to save the model
+
+        :param verbose: 0 for silent mode, 1 to get some information from tensorflow
+
+        default is verbose=0
+
+        save fitted model as an h5 file
+        &#34;&#34;&#34;
+        tdat=np.array(self._train_datas)
+        tlab=np.array(self._train_labels)
+        vdat=np.array(self._val_datas)
+        vlab=np.array(self._val_labels)
+        # if using a second layer, should add return_sequences=True
+        self._LSTMmodel.add(tf.keras.layers.LSTM(32, dropout=0.05, recurrent_dropout=0.50 , input_shape=tdat.shape[-2:]))
+        self._LSTMmodel.add(tf.keras.layers.Dense(self._target_size))
+        self._LSTMmodel.compile(optimizer=tf.keras.optimizers.RMSprop(), loss=&#39;mae&#39;)
+        history = self._LSTMmodel.fit(tdat, tlab, verbose=verbose, epochs=20,batch_size=50,validation_data=(vdat, vlab))
+        plot_train_history(history,&#39;Single Step Training and validation loss&#39;)
+        self._LSTMmodel.save(&#39;{}.h5&#39;.format(name))
+
+    def LSTMload(self, name):
+        &#34;&#34;&#34;
+        load a model (from an existing h5 file)
+        &#34;&#34;&#34;
+        self._LSTMmodel = tf.keras.models.load_model(&#39;{}.h5&#39;.format(name))
+
+    def LSTMpredict(self, nbset, goto, **kwargs):
+        &#34;&#34;&#34;
+        executes prediction(s) step by step with the LSTM fitted model
+
+        for example, prediction 11 is made using all 10 previous predictions, if history_size is 10
+
+        :param nbset: the first sample to use for prediction
+
+        :param goto: the number of prediction(s) to realize
+
+        if goto is set to 1, the method will realize only one prediction
+
+        t = tensor created by GoToTensor on the basis of some PHPFina timeseries
+
+        by defaut, uses with the _val_datas and _val_labels recorded by the method AddSets(t)
+
+        we assume that t.shape = (x,y)
+
+        :param datas: (optional) array of datasets - shape (history_size,y)
+
+        :param labels: (optional) array of labels
+
+        to be used if you dont want to use datasets and labels recorded in the BuildingZone object
+
+        returns :
+
+        - numpy array of (rescaled) predictions
+
+        - numpy array of (rescaled) labels
+        &#34;&#34;&#34;
+        pred=[]
+        truth=[]
+        if len(kwargs)==0:
+            datas=np.array(self._val_datas)
+            truth=self._val_labels[nbset:nbset+goto]
+        elif len(kwargs)==2:
+            datas=np.array(kwargs[&#34;datas&#34;])
+            truth=np.array(kwargs[&#34;labels&#34;])[nbset:nbset+goto]
+        else:
+            print(&#34;wrong number of parameters - stopping&#34;)
+            return
+        for k in range(goto):
+            # the input for the model
+            position=nbset+k
+            # make a deepcopy not to affect datas
+            # cf http://lyceeomar.atspace.cc/Copiesup_profonde1.html
+            sample=copy.deepcopy(datas[position])
+            if self._debug:
+                print(&#34;pred length : {}&#34;.format(len(pred)))
+                print(pred)
+            if len(pred)&gt;0:
+                if len(pred)&gt;self._history_size:
+                    # we want the last history_size predictions
+                    simTs=pred[-self._history_size:]
+                else:
+                    simTs=pred
+                if self._debug:
+                    print(&#34;before injection&#34;)
+                    print(sample)
+                # we have to update the last min(len(pred),history_size) elements in the temperature column (index 1)
+                sample[-min(len(pred),self._history_size):,1]=simTs
+            if self._debug:
+                print(&#34;after sim injection&#34;)
+                print(sample)
+                input(&#34;press any key&#34;)
+            sample=sample.reshape(1,self._history_size,datas.shape[-2:][1])
+            prediction=self._LSTMmodel.predict(sample)
+            pred.append(prediction[0,0])
+        if self._regularize:
+            pred=np.array(pred)*self._std[1]+self._mean[1]
+            truth=np.array(truth)*self._std[1]+self._mean[1]
+        return pred, truth
+
+
+    def view(self, physics, nbset, nbpreds, **kwargs):
+        &#34;&#34;&#34;
+        datasets vizualisation
+
+        uses the val datas as train datas can be shuffled
+
+        :param physics : the original unregularized tensor, as produced by GoToTensor, in order not to recalculate things for nothing
+
+        :param nbset : the starting index (which will be at x=0 on the window)
+
+        :param nbpreds : the vizu window will go from x=-history_size to x=nbpreds
+
+        :param **pred** : (optional) array of nbpreds predictions with a model
+
+        :param **truth** : (optional) array of truths
+        &#34;&#34;&#34;
+        history_range=list(range(-self._history_size, 0))
+        future_range=list(range(0,nbpreds))
+        zero=nbset+self._history_size
+        grnb=111
+        ax1=plt.subplot(grnb)
+        ax1.set_ylabel(&#39;°C&#39;)
+        plt.title(&#34;sample nb {}\n cross -&gt; dataset \n line -&gt; timeseries&#34;.format(zero))
+        plt.xlim([history_range[0], future_range[-1]])
+        truefuture=self._val_labels[nbset]*self._std[1]+self._mean[1]
+        plt.plot(0,truefuture, &#39;o&#39;, label=&#39;true future&#39;, color=self._col[1])
+        if len(kwargs):
+            icons=[&#39;+&#39;,&#39;*&#39;,&#39;o&#39;,&#39;*&#39;]
+            indice=0
+            for key, vals in kwargs.items():
+                if &#34;pred&#34; in key.lower() :
+                    plt.plot(future_range,vals,icons[indice],markersize=2,label=&#34;{}.&#34;.format(key), color=&#34;black&#34;)
+                if &#34;truth&#34; in key.lower() :
+                    plt.plot(future_range,vals,icons[indice],markersize=2, color=self._col[1])
+                indice+=1
+        values=self._val_datas[nbset]*self._std+self._mean
+        for k in range(3):
+            if k == 2:
+               ax1.tick_params(axis=&#39;y&#39;)
+               plt.legend()
+               ax2 = ax1.twinx()
+               ax2.set_ylabel(&#34;Kwh&#34;)
+            plt.plot(history_range,values[:,k], &#39;rx&#39;, color=self._col[k])
+            # printing the initial dataset (nbset) with crosses
+            plt.plot(history_range,physics[nbset:zero,k], color=self._col[k], label=self._lab[k])
+            plt.plot(future_range,physics[zero:zero+nbpreds,k], color=self._col[k])
+        ax2.tick_params(axis=&#39;y&#39;)
+        plt.legend()
+        plt.show()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="src.modelstats.modelstats.BuildingZone.AddSets"><code class="name flex">
+<span>def <span class="ident">AddSets</span></span>(<span>self, datas, forTrain=True, shuffle=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>feed the datas and labels array for the LSTM optimization</p>
+<p>:param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries - shape (x,y)</p>
+<p>:param forTrain: boolean - if set to True, datasets constructed are injected into train_datas and train_labels</p>
+<p>:param shuffle: boolean - if set to True with fortrain=True, randomize the <strong>TRAINING</strong> datasets</p>
+<p>shuffle does not have any effect on validation datasets which are always in chronological order</p>
+<p>GENERAL CASE - 3 physical parameters monitored : external temperature, indoor temperature and instant power converted to energy (accumulation)</p>
+<p>each dataset sample is structured as a tensor of shape (history_size,3) :</p>
+<ul>
+<li>
+<p>the outdoor temperature values (at the step) = dataset[0:history_size,0]</p>
+</li>
+<li>
+<p>the indoor temperature values (at the step) = dataset[0:history_size,1]</p>
+</li>
+<li>
+<p>the energy consumptions (for the step to come) in kwh = dataset[0:history_size,2]</p>
+</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def AddSets(self, datas, forTrain=True, shuffle=True):
+    &#34;&#34;&#34;
+    feed the datas and labels array for the LSTM optimization
+
+    :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries - shape (x,y)
+
+    :param forTrain: boolean - if set to True, datasets constructed are injected into train_datas and train_labels
+
+    :param shuffle: boolean - if set to True with fortrain=True, randomize the **TRAINING** datasets
+
+    shuffle does not have any effect on validation datasets which are always in chronological order
+
+    GENERAL CASE - 3 physical parameters monitored : external temperature, indoor temperature and instant power converted to energy (accumulation)
+
+    each dataset sample is structured as a tensor of shape (history_size,3) :
+
+    - the outdoor temperature values (at the step) = dataset[0:history_size,0]
+
+    - the indoor temperature values (at the step) = dataset[0:history_size,1]
+
+    - the energy consumptions (for the step to come) in kwh = dataset[0:history_size,2]
+    &#34;&#34;&#34;
+    clone=copy.deepcopy(datas)
+    if self._regularize:
+        clone=(clone-self._mean)/self._std
+    # l is the number of datasets we can construct with datas
+    l=clone.shape[0]-self._target_size-self._history_size
+    rows=np.arange(self._history_size,self._history_size+l,1)
+    if forTrain and shuffle:
+        np.random.shuffle(rows)
+    if self._debug:
+        print(rows.shape)
+        print(rows)
+        input(&#34;press any key&#34;)
+    for j in range(len(rows)):
+        indices = range(rows[j]-self._history_size, rows[j])
+        if forTrain:
+            self._train_datas.append(clone[indices])
+            self._train_labels.append(clone[rows[j]:rows[j]+self._target_size,1])
+        else:
+            self._val_datas.append(clone[indices])
+            self._val_labels.append(clone[rows[j]:rows[j]+self._target_size,1])</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.BuildingZone.CalcMeanStd"><code class="name flex">
+<span>def <span class="ident">CalcMeanStd</span></span>(<span>self, datas)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>calculate and store mean and standard deviation on the population</p>
+<p>:param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CalcMeanStd(self, datas):
+    &#34;&#34;&#34;
+    calculate and store mean and standard deviation on the population
+
+    :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+    &#34;&#34;&#34;
+    self._mean = datas.mean(axis=0)
+    self._std = datas.std(axis=0)
+    print(self._mean)
+    print(self._std)</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.BuildingZone.ClearSets"><code class="name flex">
+<span>def <span class="ident">ClearSets</span></span>(<span>self, train=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>clear datas and labels arrays</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ClearSets(self, train=True):
+    &#34;&#34;&#34;
+    clear datas and labels arrays
+    &#34;&#34;&#34;
+    if train:
+        self._train_datas=[]
+        self._train_labels=[]
+    else:
+        self._val_datas=[]
+        self._val_labels=[]</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.BuildingZone.LSTMfit"><code class="name flex">
+<span>def <span class="ident">LSTMfit</span></span>(<span>self, name, verbose=0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>fit an LTSM model using train and val datas/labels defined by the method AddSets()</p>
+<p>:param name: filename to save the model</p>
+<p>:param verbose: 0 for silent mode, 1 to get some information from tensorflow</p>
+<p>default is verbose=0</p>
+<p>save fitted model as an h5 file</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def LSTMfit(self, name, verbose=0):
+    &#34;&#34;&#34;
+    fit an LTSM model using train and val datas/labels defined by the method AddSets()
+
+    :param name: filename to save the model
+
+    :param verbose: 0 for silent mode, 1 to get some information from tensorflow
+
+    default is verbose=0
+
+    save fitted model as an h5 file
+    &#34;&#34;&#34;
+    tdat=np.array(self._train_datas)
+    tlab=np.array(self._train_labels)
+    vdat=np.array(self._val_datas)
+    vlab=np.array(self._val_labels)
+    # if using a second layer, should add return_sequences=True
+    self._LSTMmodel.add(tf.keras.layers.LSTM(32, dropout=0.05, recurrent_dropout=0.50 , input_shape=tdat.shape[-2:]))
+    self._LSTMmodel.add(tf.keras.layers.Dense(self._target_size))
+    self._LSTMmodel.compile(optimizer=tf.keras.optimizers.RMSprop(), loss=&#39;mae&#39;)
+    history = self._LSTMmodel.fit(tdat, tlab, verbose=verbose, epochs=20,batch_size=50,validation_data=(vdat, vlab))
+    plot_train_history(history,&#39;Single Step Training and validation loss&#39;)
+    self._LSTMmodel.save(&#39;{}.h5&#39;.format(name))</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.BuildingZone.LSTMload"><code class="name flex">
+<span>def <span class="ident">LSTMload</span></span>(<span>self, name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>load a model (from an existing h5 file)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def LSTMload(self, name):
+    &#34;&#34;&#34;
+    load a model (from an existing h5 file)
+    &#34;&#34;&#34;
+    self._LSTMmodel = tf.keras.models.load_model(&#39;{}.h5&#39;.format(name))</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.BuildingZone.LSTMpredict"><code class="name flex">
+<span>def <span class="ident">LSTMpredict</span></span>(<span>self, nbset, goto, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>executes prediction(s) step by step with the LSTM fitted model</p>
+<p>for example, prediction 11 is made using all 10 previous predictions, if history_size is 10</p>
+<p>:param nbset: the first sample to use for prediction</p>
+<p>:param goto: the number of prediction(s) to realize</p>
+<p>if goto is set to 1, the method will realize only one prediction</p>
+<p>t = tensor created by GoToTensor on the basis of some PHPFina timeseries</p>
+<p>by defaut, uses with the _val_datas and _val_labels recorded by the method AddSets(t)</p>
+<p>we assume that t.shape = (x,y)</p>
+<p>:param datas: (optional) array of datasets - shape (history_size,y)</p>
+<p>:param labels: (optional) array of labels</p>
+<p>to be used if you dont want to use datasets and labels recorded in the BuildingZone object</p>
+<p>returns :</p>
+<ul>
+<li>
+<p>numpy array of (rescaled) predictions</p>
+</li>
+<li>
+<p>numpy array of (rescaled) labels</p>
+</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def LSTMpredict(self, nbset, goto, **kwargs):
+    &#34;&#34;&#34;
+    executes prediction(s) step by step with the LSTM fitted model
+
+    for example, prediction 11 is made using all 10 previous predictions, if history_size is 10
+
+    :param nbset: the first sample to use for prediction
+
+    :param goto: the number of prediction(s) to realize
+
+    if goto is set to 1, the method will realize only one prediction
+
+    t = tensor created by GoToTensor on the basis of some PHPFina timeseries
+
+    by defaut, uses with the _val_datas and _val_labels recorded by the method AddSets(t)
+
+    we assume that t.shape = (x,y)
+
+    :param datas: (optional) array of datasets - shape (history_size,y)
+
+    :param labels: (optional) array of labels
+
+    to be used if you dont want to use datasets and labels recorded in the BuildingZone object
+
+    returns :
+
+    - numpy array of (rescaled) predictions
+
+    - numpy array of (rescaled) labels
+    &#34;&#34;&#34;
+    pred=[]
+    truth=[]
+    if len(kwargs)==0:
+        datas=np.array(self._val_datas)
+        truth=self._val_labels[nbset:nbset+goto]
+    elif len(kwargs)==2:
+        datas=np.array(kwargs[&#34;datas&#34;])
+        truth=np.array(kwargs[&#34;labels&#34;])[nbset:nbset+goto]
+    else:
+        print(&#34;wrong number of parameters - stopping&#34;)
+        return
+    for k in range(goto):
+        # the input for the model
+        position=nbset+k
+        # make a deepcopy not to affect datas
+        # cf http://lyceeomar.atspace.cc/Copiesup_profonde1.html
+        sample=copy.deepcopy(datas[position])
+        if self._debug:
+            print(&#34;pred length : {}&#34;.format(len(pred)))
+            print(pred)
+        if len(pred)&gt;0:
+            if len(pred)&gt;self._history_size:
+                # we want the last history_size predictions
+                simTs=pred[-self._history_size:]
+            else:
+                simTs=pred
+            if self._debug:
+                print(&#34;before injection&#34;)
+                print(sample)
+            # we have to update the last min(len(pred),history_size) elements in the temperature column (index 1)
+            sample[-min(len(pred),self._history_size):,1]=simTs
+        if self._debug:
+            print(&#34;after sim injection&#34;)
+            print(sample)
+            input(&#34;press any key&#34;)
+        sample=sample.reshape(1,self._history_size,datas.shape[-2:][1])
+        prediction=self._LSTMmodel.predict(sample)
+        pred.append(prediction[0,0])
+    if self._regularize:
+        pred=np.array(pred)*self._std[1]+self._mean[1]
+        truth=np.array(truth)*self._std[1]+self._mean[1]
+    return pred, truth</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.BuildingZone.MLAfit"><code class="name flex">
+<span>def <span class="ident">MLAfit</span></span>(<span>self, datas, regularize=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>multilinear regression</p>
+<p>:param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries</p>
+<p>:param regularize: boolean - if true datas are regularized with the mean/std technique</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def MLAfit(self, datas, regularize=True):
+    &#34;&#34;&#34;
+    multilinear regression
+
+    :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+
+    :param regularize: boolean - if true datas are regularized with the mean/std technique
+    &#34;&#34;&#34;
+    self._MLAregularize=regularize
+    MLA_datas, MLA_labels=self.MLAprepare(datas)
+    regr = linear_model.LinearRegression()
+    regr.fit(MLA_datas, MLA_labels)
+    self._MLAintercept=regr.intercept_
+    self._MLAcoef=regr.coef_
+    if self._debug:
+        print(&#34;MLA datas size {}&#34;.format(MLA_datas.shape))
+        print(&#34;MLA labels size {}&#34;.format(len(MLA_labels)))
+        print(&#39;Intercept: \n&#39;, self._MLAintercept)
+        print(&#39;Coefficients: \n&#39;, self._MLAcoef)</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.BuildingZone.MLApredict"><code class="name flex">
+<span>def <span class="ident">MLApredict</span></span>(<span>self, datas, nbset, goto)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>executes prediction(s) step by step with the multilinear method</p>
+<p>for example, prediction 11 is made using all 10 previous predictions, if history_size is 10</p>
+<p>:param datas: an array with the samples to use, as produced by the MLAprepare method</p>
+<p>:param nbset: the first sample to use for prediction</p>
+<p>:param goto: the number of prediction(s) to realize</p>
+<p>if goto is set to 1, the method will realize only one prediction</p>
+<p>pred is an array to store the predictions step by step</p>
+<p>l is the size of the pred array</p>
+<p>to make the predictions step by step :</p>
+<ul>
+<li>
+<p>if l &lt; history_size, we have to replace the last l temperature values by the predicted ones</p>
+</li>
+<li>
+<p>if l &gt;= history_size, we have to replace the whole history_size values in the sample by the predicted ones</p>
+</li>
+</ul>
+<p>returns numpy array of (rescaled) predictions</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def MLApredict(self,datas,nbset,goto):
+    &#34;&#34;&#34;
+    executes prediction(s) step by step with the multilinear method
+
+    for example, prediction 11 is made using all 10 previous predictions, if history_size is 10
+
+    :param datas: an array with the samples to use, as produced by the MLAprepare method
+
+    :param nbset: the first sample to use for prediction
+
+    :param goto: the number of prediction(s) to realize
+
+    if goto is set to 1, the method will realize only one prediction
+
+    pred is an array to store the predictions step by step
+
+    l is the size of the pred array
+
+    to make the predictions step by step :
+
+      - if l &lt; history_size, we have to replace the last l temperature values by the predicted ones
+
+      - if l &gt;= history_size, we have to replace the whole history_size values in the sample by the predicted ones
+
+    returns numpy array of (rescaled) predictions
+    &#34;&#34;&#34;
+    pred=[]
+    for k in range(goto):
+        sample=copy.deepcopy(datas[nbset+k])
+        if self._debug:
+            print(pred)
+            print(&#34;before injection&#34;)
+            print(sample)
+        if len(pred)&gt;0:
+            if len(pred)&gt;self._history_size:
+                simTs=pred[-self._history_size:]
+            else:
+                simTs=pred
+            sample[2*self._history_size-min(len(pred),self._history_size):2*self._history_size]=simTs
+        if self._debug:
+            print(&#34;after injection&#34;)
+            print(sample)
+            input(&#34;press any key&#34;)
+        prediction=np.sum(self._MLAcoef*sample)+self._MLAintercept
+        pred.append(prediction)
+    if self._MLAregularize:
+        pred=np.array(pred)*self._std[1]+self._mean[1]
+    return pred</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.BuildingZone.MLAprepare"><code class="name flex">
+<span>def <span class="ident">MLAprepare</span></span>(<span>self, datas, labelsToPhysicsValue=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>prepare datas for multilinear Regression</p>
+<p>:param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries</p>
+<p>returns :</p>
+<ul>
+<li>
+<p>numpy array of (scaled) datas</p>
+</li>
+<li>
+<p>numpy array of (rescaled) labels</p>
+</li>
+</ul>
+<p>Only the results of the ml regression are stored in the class</p>
+<p>you have to prepare AND to transmit the result of preparation to the predict method</p>
+<p>MLA_datas, MLA_labels = MLAprepare(datas)</p>
+<p>MLApredict(MLA_datas,nbset,goto)</p>
+<p>each line of the returned MLA_datas array is a sample, we find :</p>
+<ul>
+<li>
+<p>the outdoor temperature values (at the step) from index 0 to history_size-1</p>
+</li>
+<li>
+<p>the indoor temperature values (at the step) from index history_size to 2*history_size-1</p>
+</li>
+<li>
+<p>the energy consumptions (for the step to come) in kwh from 2<em>history_size to 3</em>history_size-1</p>
+</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def MLAprepare(self, datas, labelsToPhysicsValue=False):
+    &#34;&#34;&#34;
+    prepare datas for multilinear Regression
+
+    :param datas: tensor created by GoToTensor on the basis of some PHPFina timeseries
+
+    returns :
+
+    - numpy array of (scaled) datas
+
+    - numpy array of (rescaled) labels
+
+    Only the results of the ml regression are stored in the class
+
+    you have to prepare AND to transmit the result of preparation to the predict method
+
+    MLA_datas, MLA_labels = MLAprepare(datas)
+
+    MLApredict(MLA_datas,nbset,goto)
+
+    each line of the returned MLA_datas array is a sample, we find :
+
+    - the outdoor temperature values (at the step) from index 0 to history_size-1
+
+    - the indoor temperature values (at the step) from index history_size to 2*history_size-1
+
+    - the energy consumptions (for the step to come) in kwh from 2*history_size to 3*history_size-1
+
+    &#34;&#34;&#34;
+    clone=copy.deepcopy(datas)
+    if self._MLAregularize:
+        clone=(clone-self._mean)/self._std
+    msize=clone.shape[0]-self._history_size
+    MLA_datas=np.zeros((msize,clone.shape[1]*self._history_size))
+    indice=0
+    for j in range(clone.shape[1]):
+        for i in range(self._history_size):
+            MLA_datas[:,indice]=clone[i:i+msize,j]
+            indice+=1
+    MLA_labels=clone[self._history_size:clone.shape[0],1]
+    if self._MLAregularize and labelsToPhysicsValue:
+        MLA_labels = np.array(MLA_labels)*self._std[1]+self._mean[1]
+    return MLA_datas, MLA_labels</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.BuildingZone.MLAviewWeights"><code class="name flex">
+<span>def <span class="ident">MLAviewWeights</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>plot the weights after the multilinear fitting</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def MLAviewWeights(self):
+    &#34;&#34;&#34;
+    plot the weights after the multilinear fitting
+    &#34;&#34;&#34;
+    plt.subplot(111)
+    plt.title(&#34;Multilinear regression - coefficient {}&#34;.format(self._MLAintercept))
+    plt.plot(self._MLAcoef)
+    plt.show()</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.BuildingZone.regularizeSets"><code class="name flex">
+<span>def <span class="ident">regularizeSets</span></span>(<span>self, regularize=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>:param regularize: boolean</p>
+<p>if set to True, all datasets processed will be regularized with the mean/std technique</p>
+<p>ONLY applies to LSTM optimization</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def regularizeSets(self, regularize=True):
+    &#34;&#34;&#34;
+    :param regularize: boolean
+
+    if set to True, all datasets processed will be regularized with the mean/std technique
+
+    ONLY applies to LSTM optimization
+    &#34;&#34;&#34;
+    self._regularize=regularize</code></pre>
+</details>
+</dd>
+<dt id="src.modelstats.modelstats.BuildingZone.view"><code class="name flex">
+<span>def <span class="ident">view</span></span>(<span>self, physics, nbset, nbpreds, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>datasets vizualisation</p>
+<p>uses the val datas as train datas can be shuffled</p>
+<p>:param physics : the original unregularized tensor, as produced by GoToTensor, in order not to recalculate things for nothing</p>
+<p>:param nbset : the starting index (which will be at x=0 on the window)</p>
+<p>:param nbpreds : the vizu window will go from x=-history_size to x=nbpreds</p>
+<p>:param <strong>pred</strong> : (optional) array of nbpreds predictions with a model</p>
+<p>:param <strong>truth</strong> : (optional) array of truths</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def view(self, physics, nbset, nbpreds, **kwargs):
+    &#34;&#34;&#34;
+    datasets vizualisation
+
+    uses the val datas as train datas can be shuffled
+
+    :param physics : the original unregularized tensor, as produced by GoToTensor, in order not to recalculate things for nothing
+
+    :param nbset : the starting index (which will be at x=0 on the window)
+
+    :param nbpreds : the vizu window will go from x=-history_size to x=nbpreds
+
+    :param **pred** : (optional) array of nbpreds predictions with a model
+
+    :param **truth** : (optional) array of truths
+    &#34;&#34;&#34;
+    history_range=list(range(-self._history_size, 0))
+    future_range=list(range(0,nbpreds))
+    zero=nbset+self._history_size
+    grnb=111
+    ax1=plt.subplot(grnb)
+    ax1.set_ylabel(&#39;°C&#39;)
+    plt.title(&#34;sample nb {}\n cross -&gt; dataset \n line -&gt; timeseries&#34;.format(zero))
+    plt.xlim([history_range[0], future_range[-1]])
+    truefuture=self._val_labels[nbset]*self._std[1]+self._mean[1]
+    plt.plot(0,truefuture, &#39;o&#39;, label=&#39;true future&#39;, color=self._col[1])
+    if len(kwargs):
+        icons=[&#39;+&#39;,&#39;*&#39;,&#39;o&#39;,&#39;*&#39;]
+        indice=0
+        for key, vals in kwargs.items():
+            if &#34;pred&#34; in key.lower() :
+                plt.plot(future_range,vals,icons[indice],markersize=2,label=&#34;{}.&#34;.format(key), color=&#34;black&#34;)
+            if &#34;truth&#34; in key.lower() :
+                plt.plot(future_range,vals,icons[indice],markersize=2, color=self._col[1])
+            indice+=1
+    values=self._val_datas[nbset]*self._std+self._mean
+    for k in range(3):
+        if k == 2:
+           ax1.tick_params(axis=&#39;y&#39;)
+           plt.legend()
+           ax2 = ax1.twinx()
+           ax2.set_ylabel(&#34;Kwh&#34;)
+        plt.plot(history_range,values[:,k], &#39;rx&#39;, color=self._col[k])
+        # printing the initial dataset (nbset) with crosses
+        plt.plot(history_range,physics[nbset:zero,k], color=self._col[k], label=self._lab[k])
+        plt.plot(future_range,physics[zero:zero+nbpreds,k], color=self._col[k])
+    ax2.tick_params(axis=&#39;y&#39;)
+    plt.legend()
+    plt.show()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="src.modelstats" href="index.html">src.modelstats</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="src.modelstats.modelstats.GoToTensor" href="#src.modelstats.modelstats.GoToTensor">GoToTensor</a></code></li>
+<li><code><a title="src.modelstats.modelstats.InitializeFeed" href="#src.modelstats.modelstats.InitializeFeed">InitializeFeed</a></code></li>
+<li><code><a title="src.modelstats.modelstats.plot_train_history" href="#src.modelstats.modelstats.plot_train_history">plot_train_history</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="src.modelstats.modelstats.BuildingZone" href="#src.modelstats.modelstats.BuildingZone">BuildingZone</a></code></h4>
+<ul class="two-column">
+<li><code><a title="src.modelstats.modelstats.BuildingZone.AddSets" href="#src.modelstats.modelstats.BuildingZone.AddSets">AddSets</a></code></li>
+<li><code><a title="src.modelstats.modelstats.BuildingZone.CalcMeanStd" href="#src.modelstats.modelstats.BuildingZone.CalcMeanStd">CalcMeanStd</a></code></li>
+<li><code><a title="src.modelstats.modelstats.BuildingZone.ClearSets" href="#src.modelstats.modelstats.BuildingZone.ClearSets">ClearSets</a></code></li>
+<li><code><a title="src.modelstats.modelstats.BuildingZone.LSTMfit" href="#src.modelstats.modelstats.BuildingZone.LSTMfit">LSTMfit</a></code></li>
+<li><code><a title="src.modelstats.modelstats.BuildingZone.LSTMload" href="#src.modelstats.modelstats.BuildingZone.LSTMload">LSTMload</a></code></li>
+<li><code><a title="src.modelstats.modelstats.BuildingZone.LSTMpredict" href="#src.modelstats.modelstats.BuildingZone.LSTMpredict">LSTMpredict</a></code></li>
+<li><code><a title="src.modelstats.modelstats.BuildingZone.MLAfit" href="#src.modelstats.modelstats.BuildingZone.MLAfit">MLAfit</a></code></li>
+<li><code><a title="src.modelstats.modelstats.BuildingZone.MLApredict" href="#src.modelstats.modelstats.BuildingZone.MLApredict">MLApredict</a></code></li>
+<li><code><a title="src.modelstats.modelstats.BuildingZone.MLAprepare" href="#src.modelstats.modelstats.BuildingZone.MLAprepare">MLAprepare</a></code></li>
+<li><code><a title="src.modelstats.modelstats.BuildingZone.MLAviewWeights" href="#src.modelstats.modelstats.BuildingZone.MLAviewWeights">MLAviewWeights</a></code></li>
+<li><code><a title="src.modelstats.modelstats.BuildingZone.regularizeSets" href="#src.modelstats.modelstats.BuildingZone.regularizeSets">regularizeSets</a></code></li>
+<li><code><a title="src.modelstats.modelstats.BuildingZone.view" href="#src.modelstats.modelstats.BuildingZone.view">view</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

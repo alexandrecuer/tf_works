@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>src.tools.opendata API documentation</title>
+<meta name="description" content="requests the opendatasoft API …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>src.tools.opendata</code></h1>
+</header>
+<section id="section-intro">
+<p>requests the opendatasoft API</p>
+<p>to get the summary of the dataset "donnees-synop-essentielles-omm%40public" and retrieve all the fields codes/descriptions</p>
+<p><a href="https://data.opendatasoft.com/api/v2/opendatasoft/datasets/donnees-synop-essentielles-omm%40public">https://data.opendatasoft.com/api/v2/opendatasoft/datasets/donnees-synop-essentielles-omm%40public</a></p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+requests the opendatasoft API
+
+to get the summary of the dataset &#34;donnees-synop-essentielles-omm%40public&#34; and retrieve all the fields codes/descriptions
+
+https://data.opendatasoft.com/api/v2/opendatasoft/datasets/donnees-synop-essentielles-omm%40public
+
+&#34;&#34;&#34;
+
+import os
+import math
+import numpy as np
+import time
+import datetime
+from matplotlib import pyplot as plt
+import copy
+import requests
+# cf https://www.urlencoder.io/python/
+import urllib.parse
+from dateutil import tz
+
+def ODSstrToUTS(str):
+    # removing the last occurence of : in the time string
+    # see https://docs.python.org/fr/3.6/library/datetime.html#strftime-strptime-behavior
+    # and https://stackoverflow.com/questions/12281975/convert-timestamps-with-offset-to-datetime-obj-using-strptime
+    tstr=str[::-1].replace(&#34;:&#34;,&#34;&#34;,1)[::-1]
+    _time=datetime.datetime.strptime(tstr, &#39;%Y-%m-%dT%H:%M:%S%z&#39;)
+    ts=int(datetime.datetime.timestamp(_time))
+    return ts
+
+
+class openData():
+    &#34;&#34;&#34;
+    ### use case example
+
+    using the API v2 server (API v1 was &#34;https://data.opendatasoft.com/explore/dataset&#34;)
+
+    start and stop can be integer if working with years
+
+    if not, they must be string ODS formatted
+
+    retrieve nebulosity and temperature datas for the year 2018 and for the Clermont-Ferrand station
+    ```
+    dataset=&#39;donnees-synop-essentielles-omm%40public&#39;
+    ```
+    clermont-ferrand station is number 07460
+
+    Lyon/Satolas(Colombier-Saugnieu) is number 07481 for example. It is the nearest station close to grenoble
+    ```
+    station=&#34;07460&#34;
+    start=2018
+    stop=2019
+    utz=&#34;Europe/Paris&#34;
+    fields=[&#34;date&#34;,&#34;nbas&#34;,&#34;tc&#34;]
+    ```
+    we fix here the presumed timestep in hour
+
+    for data coming from météo france, timestep is usually 3 hours
+    ```
+    step_in_h=3
+    source=openData(dataset,station,start,stop,fields,utz,step_in_h)
+    view={&#39;vis&#39;:True,&#39;lib&#39;:[&#34;nebulosity in Octa&#34;,&#34;external temperature in°C&#34;]}
+    source.retrieve(view=view)
+    ```
+    &#34;&#34;&#34;
+    def __init__(self,dataset,station,start,stop,fields,utz,step_in_h,year=True):
+        self._server=&#34;https://data.opendatasoft.com/api/v2/opendatasoft/datasets&#34;
+        self._dataset=dataset
+        self._station=station
+        self._start=start
+        self._stop=stop
+        self._nbf=len(fields)
+        self._fields=&#39;,&#39;.join(fields)
+        self._tz=utz
+        self._step_in_h=step_in_h
+        self._step_in_s=step_in_h*3600
+        self._uts=0
+        if year:
+            self._nbp=(self._stop-self._start)*365*24//self._step_in_h
+        else:
+            self._nbp=(ODSstrToUTS(stop)-ODSstrToUTS(start))//(3600*self._step_in_h)
+        self._full_data=np.zeros((self._nbp,self._nbf))
+
+    def retrieve(self,view={&#39;vis&#39;:False}):
+        params={
+                 &#39;where&#39;:[&#39;numer_sta=&#34;{}&#34;&#39;.format(self._station),&#39;date&lt;\&#39;{}\&#39;&#39;.format(self._stop),&#39;date&gt;=\&#39;{}\&#39;&#39;.format(self._start)],
+                 &#39;sort&#39;:&#39;date&#39;,
+                 &#39;select&#39;: self._fields,
+                 &#39;timezone&#39;:self._tz,
+                 &#39;delimiter&#39;:&#39;;&#39;
+               }
+        urlend=urllib.parse.urlencode(params,safe=&#39;&#39;,doseq=True)
+        url=&#34;{}/{}/exports/csv?{}&#34;.format(self._server,self._dataset,urlend)
+        #print(url)
+        #input(&#34;press any key&#34;)
+
+        response = requests.get(url)
+        data=response.text
+        data = data.rstrip(&#39;\n\r&#39;)
+        lines = data.split(&#39;\n&#39;)
+        header = lines[0].split(&#39;;&#39;)
+        lines = lines[1:]
+        print(&#34;we&#39;ve got {} lines and {} columns&#34;.format(len(lines), len(header)))
+        # raw_data shape is (time,features)
+        raw_data=np.zeros((len(lines),self._nbf))
+        missing=0
+        for i,line in enumerate(lines):
+            x = line.split(&#39;;&#39;)
+            # converting to unixtimestamp
+            raw_data[i,0]=ODSstrToUTS(x[0])
+            for j in range(1,self._nbf,1):
+                if x[j]:
+                  raw_data[i,j]=float(x[j])
+                else:
+                  raw_data[i,j]= math.nan
+                  missing+=1
+
+        print(&#34;according to the presumed time stamp, we should have {} points&#34;.format(self._nbp))
+        print(&#34;missing datas : {}&#34;.format(missing))
+
+        #remove eventual lines full of zeros
+        raw_data = raw_data[~np.all(raw_data == 0, axis=1)]
+
+        # reorder by ascending timestep
+        # https://stackoverflow.com/questions/2828059/sorting-arrays-in-numpy-by-column
+        # datas are supposed to be sorted by ascending date but the trick could be usefull in some cases
+        #raw_data=raw_data[raw_data[:,0].argsort()]
+
+        float_data=copy.deepcopy(raw_data)
+        # replace nan values by previous float value
+        for i in range(float_data.shape[0]):
+            for j in range(1,self._nbf,1):
+                if math.isnan(float_data[i,j]) :
+                    float_data[i,j]=float_data[i-1,j]
+
+        # last sanity check is to regularize the timestep as some steps can be missing
+        self._uts = float_data[0,0]
+        print(&#34;timeserie will start at {} &#34;.format(self._uts))
+        index=1
+        for j in range(self._nbf):
+            self._full_data[0,j]=float_data[0,j]
+
+        for i in range(1,self._nbp,1):
+            self._full_data[i,0]=self._full_data[i-1,0]+self._step_in_s
+            # if full_data timestep is greater than or equal to the timestep of float_data at index i,
+            # we can record a new value in full_data and increment index i
+            if self._full_data[i,0] &gt;= float_data[index,0] and index &lt;= float_data.shape[0]-2:
+                for j in range(1,self._nbf,1):
+                    self._full_data[i,j]=float_data[index,j]
+                index+=1
+            else:
+                for j in range(1,self._nbf,1):
+                    self._full_data[i,j]=self._full_data[i-1,j]
+                #print(&#34;delta is {} for i {}&#34;.format(float_data[index,0]-self._full_data[i,0],i))
+        if view[&#39;vis&#39;]:
+            xrange=np.arange(raw_data.shape[0])
+            ax1=plt.subplot(311)
+            plt.plot(raw_data[:,1],color=&#34;red&#34;)
+            plt.scatter(xrange,raw_data[:,1],color=&#34;orange&#34;,marker=&#39;o&#39;,s=4)
+            ax2=ax1.twinx()
+            plt.plot(raw_data[:,0],color=&#34;blue&#34;,label=&#34;unixtimestamp&#34;)
+            plt.legend(loc=&#39;upper right&#39;)
+            plt.subplot(312,sharex=ax1)
+            plt.plot(float_data[:,1],color=&#34;orange&#34;)
+            ax3=plt.subplot(313)
+            plt.plot(self._full_data[:,1],color=&#34;orange&#34;,label=view[&#39;lib&#39;][0])
+            plt.legend(loc=&#39;upper left&#39;)
+            ax4=ax3.twinx()
+            plt.plot(self._full_data[:,0],color=&#34;blue&#34;,label=&#34;unixtimestamp&#34;)
+            plt.legend(loc=&#39;upper right&#39;)
+            plt.show()
+
+            plt.subplot(111)
+            for j in range(len(view[&#39;lib&#39;])):
+                plt.plot(self._full_data[:,j+1],label=view[&#39;lib&#39;][j])
+            plt.legend(loc=&#39;upper left&#39;)
+            plt.show()
+
+&#34;&#34;&#34;
+numer_sta : ID OMM station
+date : date
+pmer : Pression au niveau mer
+tend : Variation de pression en 3 heures(Pa)
+cod_tend : Type de tendance barométrique
+dd : Direction du vent moyen 10 mn (°)
+ff : Vitesse du vent moyen 10 mn (m/s)
+t : Température(K)
+td : Point de rosée(K)
+u : Humidité(%)
+vv : Visibilité horizontale(m)
+ww : Temps présent
+w1 : Temps passé 1
+w2 : Temps passé 2
+n : Nebulosité totale(%)
+nbas : Nébulosité  des nuages de l&#39; étage inférieur(octa)
+hbas : Hauteur de la base des nuages de l&#39;étage inférieur(mètre)
+cl : Type des nuages de l&#39;étage inférieur
+cm : Type des nuages de l&#39;étage moyen
+ch : Type des nuages de l&#39;étage supérieur
+pres : Pression station(Pa)
+niv_bar : Niveau barométrique(Pa)
+geop : Géopotentiel(m2/s2)
+tend24 : Variation de pression en 24 heures(Pa)
+tn12 : Température minimale sur 12 heures(K)
+tn24 : Température minimale sur 24 heures(K)
+tx12 : Température maximale sur 12 heures(K)
+tx24 : Température maximale sur 24 heures(K)
+tminsol : Température minimale du sol sur 12 heures(K)
+sw : Méthode de mesure Température du thermomètre mouillé
+tw : Température du thermomètre mouillé(K)
+raf10 : Rafale sur les 10 dernières minutes(m/s)
+rafper : Rafales sur une période(m/s)
+per : Periode de mesure de la rafale(min)
+etat_sol : Etat du sol
+ht_neige : Hauteur totale de la couche de neige, glace, autre au sol(m)
+ssfrai : Hauteur de la neige fraîche(m)
+perssfrai : Periode de mesure de la neige fraiche(1/10 heure)
+rr1 : Précipitations dans la dernière heure(mm)
+rr3 : Précipitations dans les 3 dernières heures(mm)
+rr6 : Précipitations dans les 6 dernières heures(mm)
+rr12 : Précipitations dans les 12 dernières heures(mm)
+rr24 : Précipitations dans les 24 dernières heures(mm)
+phenspe1 : Phénomène spécial 1
+phenspe2 : Phénomène spécial 2
+phenspe3 : Phénomène spécial 3
+phenspe4 : Phénomène spécial 4
+nnuage1 : Nébulosité couche nuageuse 1(octa)
+ctype1 : Type nuage 1
+hnuage1 : Hauteur de base 1(m)
+nnuage2 : Nébulosité couche nuageuse 2(octa)
+ctype2 : Type nuage 2
+hnuage2 : Hauteur de base 2(m)
+nnuage3 : Nébulosité couche nuageuse 3(octa)
+ctype3 : Type nuage 3
+hnuage3 : Hauteur de base 3(m)
+nnuage4 : Nébulosité couche nuageuse 4(octa)
+ctype4 : Type nuage 4
+hnuage4 : Hauteur de base 4(m)
+coordonnees : Coordonnees
+nom : Nom
+type_de_tendance_barometrique : Type de tendance barométrique
+temps_passe_1 : Temps passé 1
+temps_present : Temps présent
+tc : Température (°C)
+tn12c : Température minimale sur 12 heures (°C)
+tn24c : Température minimale sur 24 heures (°C)
+tx12c : Température maximale sur 12 heures (°C)
+tx24c : Température maximale sur 24 heures (°C)
+tminsolc : Température minimale du sol sur 12 heures (en °C)
+altitude : Altitude
+longitude : Longitude
+latitude : Latitude
+libgeo : communes (name)
+codegeo : communes (code)
+nom_epci : EPCI (name)
+code_epci : EPCI (code)
+nom_dept : department (name)
+code_dep : department (code)
+nom_reg : region (name)
+code_reg : region (code)
+mois_de_l_annee : mois_de_l_annee
+&#34;&#34;&#34;</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="src.tools.opendata.ODSstrToUTS"><code class="name flex">
+<span>def <span class="ident">ODSstrToUTS</span></span>(<span>str)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ODSstrToUTS(str):
+    # removing the last occurence of : in the time string
+    # see https://docs.python.org/fr/3.6/library/datetime.html#strftime-strptime-behavior
+    # and https://stackoverflow.com/questions/12281975/convert-timestamps-with-offset-to-datetime-obj-using-strptime
+    tstr=str[::-1].replace(&#34;:&#34;,&#34;&#34;,1)[::-1]
+    _time=datetime.datetime.strptime(tstr, &#39;%Y-%m-%dT%H:%M:%S%z&#39;)
+    ts=int(datetime.datetime.timestamp(_time))
+    return ts</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="src.tools.opendata.openData"><code class="flex name class">
+<span>class <span class="ident">openData</span></span>
+<span>(</span><span>dataset, station, start, stop, fields, utz, step_in_h, year=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><h3 id="use-case-example">use case example</h3>
+<p>using the API v2 server (API v1 was "https://data.opendatasoft.com/explore/dataset")</p>
+<p>start and stop can be integer if working with years</p>
+<p>if not, they must be string ODS formatted</p>
+<p>retrieve nebulosity and temperature datas for the year 2018 and for the Clermont-Ferrand station</p>
+<pre><code>dataset='donnees-synop-essentielles-omm%40public'
+</code></pre>
+<p>clermont-ferrand station is number 07460</p>
+<p>Lyon/Satolas(Colombier-Saugnieu) is number 07481 for example. It is the nearest station close to grenoble</p>
+<pre><code>station=&quot;07460&quot;
+start=2018
+stop=2019
+utz=&quot;Europe/Paris&quot;
+fields=[&quot;date&quot;,&quot;nbas&quot;,&quot;tc&quot;]
+</code></pre>
+<p>we fix here the presumed timestep in hour</p>
+<p>for data coming from météo france, timestep is usually 3 hours</p>
+<pre><code>step_in_h=3
+source=openData(dataset,station,start,stop,fields,utz,step_in_h)
+view={'vis':True,'lib':[&quot;nebulosity in Octa&quot;,&quot;external temperature in°C&quot;]}
+source.retrieve(view=view)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class openData():
+    &#34;&#34;&#34;
+    ### use case example
+
+    using the API v2 server (API v1 was &#34;https://data.opendatasoft.com/explore/dataset&#34;)
+
+    start and stop can be integer if working with years
+
+    if not, they must be string ODS formatted
+
+    retrieve nebulosity and temperature datas for the year 2018 and for the Clermont-Ferrand station
+    ```
+    dataset=&#39;donnees-synop-essentielles-omm%40public&#39;
+    ```
+    clermont-ferrand station is number 07460
+
+    Lyon/Satolas(Colombier-Saugnieu) is number 07481 for example. It is the nearest station close to grenoble
+    ```
+    station=&#34;07460&#34;
+    start=2018
+    stop=2019
+    utz=&#34;Europe/Paris&#34;
+    fields=[&#34;date&#34;,&#34;nbas&#34;,&#34;tc&#34;]
+    ```
+    we fix here the presumed timestep in hour
+
+    for data coming from météo france, timestep is usually 3 hours
+    ```
+    step_in_h=3
+    source=openData(dataset,station,start,stop,fields,utz,step_in_h)
+    view={&#39;vis&#39;:True,&#39;lib&#39;:[&#34;nebulosity in Octa&#34;,&#34;external temperature in°C&#34;]}
+    source.retrieve(view=view)
+    ```
+    &#34;&#34;&#34;
+    def __init__(self,dataset,station,start,stop,fields,utz,step_in_h,year=True):
+        self._server=&#34;https://data.opendatasoft.com/api/v2/opendatasoft/datasets&#34;
+        self._dataset=dataset
+        self._station=station
+        self._start=start
+        self._stop=stop
+        self._nbf=len(fields)
+        self._fields=&#39;,&#39;.join(fields)
+        self._tz=utz
+        self._step_in_h=step_in_h
+        self._step_in_s=step_in_h*3600
+        self._uts=0
+        if year:
+            self._nbp=(self._stop-self._start)*365*24//self._step_in_h
+        else:
+            self._nbp=(ODSstrToUTS(stop)-ODSstrToUTS(start))//(3600*self._step_in_h)
+        self._full_data=np.zeros((self._nbp,self._nbf))
+
+    def retrieve(self,view={&#39;vis&#39;:False}):
+        params={
+                 &#39;where&#39;:[&#39;numer_sta=&#34;{}&#34;&#39;.format(self._station),&#39;date&lt;\&#39;{}\&#39;&#39;.format(self._stop),&#39;date&gt;=\&#39;{}\&#39;&#39;.format(self._start)],
+                 &#39;sort&#39;:&#39;date&#39;,
+                 &#39;select&#39;: self._fields,
+                 &#39;timezone&#39;:self._tz,
+                 &#39;delimiter&#39;:&#39;;&#39;
+               }
+        urlend=urllib.parse.urlencode(params,safe=&#39;&#39;,doseq=True)
+        url=&#34;{}/{}/exports/csv?{}&#34;.format(self._server,self._dataset,urlend)
+        #print(url)
+        #input(&#34;press any key&#34;)
+
+        response = requests.get(url)
+        data=response.text
+        data = data.rstrip(&#39;\n\r&#39;)
+        lines = data.split(&#39;\n&#39;)
+        header = lines[0].split(&#39;;&#39;)
+        lines = lines[1:]
+        print(&#34;we&#39;ve got {} lines and {} columns&#34;.format(len(lines), len(header)))
+        # raw_data shape is (time,features)
+        raw_data=np.zeros((len(lines),self._nbf))
+        missing=0
+        for i,line in enumerate(lines):
+            x = line.split(&#39;;&#39;)
+            # converting to unixtimestamp
+            raw_data[i,0]=ODSstrToUTS(x[0])
+            for j in range(1,self._nbf,1):
+                if x[j]:
+                  raw_data[i,j]=float(x[j])
+                else:
+                  raw_data[i,j]= math.nan
+                  missing+=1
+
+        print(&#34;according to the presumed time stamp, we should have {} points&#34;.format(self._nbp))
+        print(&#34;missing datas : {}&#34;.format(missing))
+
+        #remove eventual lines full of zeros
+        raw_data = raw_data[~np.all(raw_data == 0, axis=1)]
+
+        # reorder by ascending timestep
+        # https://stackoverflow.com/questions/2828059/sorting-arrays-in-numpy-by-column
+        # datas are supposed to be sorted by ascending date but the trick could be usefull in some cases
+        #raw_data=raw_data[raw_data[:,0].argsort()]
+
+        float_data=copy.deepcopy(raw_data)
+        # replace nan values by previous float value
+        for i in range(float_data.shape[0]):
+            for j in range(1,self._nbf,1):
+                if math.isnan(float_data[i,j]) :
+                    float_data[i,j]=float_data[i-1,j]
+
+        # last sanity check is to regularize the timestep as some steps can be missing
+        self._uts = float_data[0,0]
+        print(&#34;timeserie will start at {} &#34;.format(self._uts))
+        index=1
+        for j in range(self._nbf):
+            self._full_data[0,j]=float_data[0,j]
+
+        for i in range(1,self._nbp,1):
+            self._full_data[i,0]=self._full_data[i-1,0]+self._step_in_s
+            # if full_data timestep is greater than or equal to the timestep of float_data at index i,
+            # we can record a new value in full_data and increment index i
+            if self._full_data[i,0] &gt;= float_data[index,0] and index &lt;= float_data.shape[0]-2:
+                for j in range(1,self._nbf,1):
+                    self._full_data[i,j]=float_data[index,j]
+                index+=1
+            else:
+                for j in range(1,self._nbf,1):
+                    self._full_data[i,j]=self._full_data[i-1,j]
+                #print(&#34;delta is {} for i {}&#34;.format(float_data[index,0]-self._full_data[i,0],i))
+        if view[&#39;vis&#39;]:
+            xrange=np.arange(raw_data.shape[0])
+            ax1=plt.subplot(311)
+            plt.plot(raw_data[:,1],color=&#34;red&#34;)
+            plt.scatter(xrange,raw_data[:,1],color=&#34;orange&#34;,marker=&#39;o&#39;,s=4)
+            ax2=ax1.twinx()
+            plt.plot(raw_data[:,0],color=&#34;blue&#34;,label=&#34;unixtimestamp&#34;)
+            plt.legend(loc=&#39;upper right&#39;)
+            plt.subplot(312,sharex=ax1)
+            plt.plot(float_data[:,1],color=&#34;orange&#34;)
+            ax3=plt.subplot(313)
+            plt.plot(self._full_data[:,1],color=&#34;orange&#34;,label=view[&#39;lib&#39;][0])
+            plt.legend(loc=&#39;upper left&#39;)
+            ax4=ax3.twinx()
+            plt.plot(self._full_data[:,0],color=&#34;blue&#34;,label=&#34;unixtimestamp&#34;)
+            plt.legend(loc=&#39;upper right&#39;)
+            plt.show()
+
+            plt.subplot(111)
+            for j in range(len(view[&#39;lib&#39;])):
+                plt.plot(self._full_data[:,j+1],label=view[&#39;lib&#39;][j])
+            plt.legend(loc=&#39;upper left&#39;)
+            plt.show()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="src.tools.opendata.openData.retrieve"><code class="name flex">
+<span>def <span class="ident">retrieve</span></span>(<span>self, view={'vis': False})</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def retrieve(self,view={&#39;vis&#39;:False}):
+    params={
+             &#39;where&#39;:[&#39;numer_sta=&#34;{}&#34;&#39;.format(self._station),&#39;date&lt;\&#39;{}\&#39;&#39;.format(self._stop),&#39;date&gt;=\&#39;{}\&#39;&#39;.format(self._start)],
+             &#39;sort&#39;:&#39;date&#39;,
+             &#39;select&#39;: self._fields,
+             &#39;timezone&#39;:self._tz,
+             &#39;delimiter&#39;:&#39;;&#39;
+           }
+    urlend=urllib.parse.urlencode(params,safe=&#39;&#39;,doseq=True)
+    url=&#34;{}/{}/exports/csv?{}&#34;.format(self._server,self._dataset,urlend)
+    #print(url)
+    #input(&#34;press any key&#34;)
+
+    response = requests.get(url)
+    data=response.text
+    data = data.rstrip(&#39;\n\r&#39;)
+    lines = data.split(&#39;\n&#39;)
+    header = lines[0].split(&#39;;&#39;)
+    lines = lines[1:]
+    print(&#34;we&#39;ve got {} lines and {} columns&#34;.format(len(lines), len(header)))
+    # raw_data shape is (time,features)
+    raw_data=np.zeros((len(lines),self._nbf))
+    missing=0
+    for i,line in enumerate(lines):
+        x = line.split(&#39;;&#39;)
+        # converting to unixtimestamp
+        raw_data[i,0]=ODSstrToUTS(x[0])
+        for j in range(1,self._nbf,1):
+            if x[j]:
+              raw_data[i,j]=float(x[j])
+            else:
+              raw_data[i,j]= math.nan
+              missing+=1
+
+    print(&#34;according to the presumed time stamp, we should have {} points&#34;.format(self._nbp))
+    print(&#34;missing datas : {}&#34;.format(missing))
+
+    #remove eventual lines full of zeros
+    raw_data = raw_data[~np.all(raw_data == 0, axis=1)]
+
+    # reorder by ascending timestep
+    # https://stackoverflow.com/questions/2828059/sorting-arrays-in-numpy-by-column
+    # datas are supposed to be sorted by ascending date but the trick could be usefull in some cases
+    #raw_data=raw_data[raw_data[:,0].argsort()]
+
+    float_data=copy.deepcopy(raw_data)
+    # replace nan values by previous float value
+    for i in range(float_data.shape[0]):
+        for j in range(1,self._nbf,1):
+            if math.isnan(float_data[i,j]) :
+                float_data[i,j]=float_data[i-1,j]
+
+    # last sanity check is to regularize the timestep as some steps can be missing
+    self._uts = float_data[0,0]
+    print(&#34;timeserie will start at {} &#34;.format(self._uts))
+    index=1
+    for j in range(self._nbf):
+        self._full_data[0,j]=float_data[0,j]
+
+    for i in range(1,self._nbp,1):
+        self._full_data[i,0]=self._full_data[i-1,0]+self._step_in_s
+        # if full_data timestep is greater than or equal to the timestep of float_data at index i,
+        # we can record a new value in full_data and increment index i
+        if self._full_data[i,0] &gt;= float_data[index,0] and index &lt;= float_data.shape[0]-2:
+            for j in range(1,self._nbf,1):
+                self._full_data[i,j]=float_data[index,j]
+            index+=1
+        else:
+            for j in range(1,self._nbf,1):
+                self._full_data[i,j]=self._full_data[i-1,j]
+            #print(&#34;delta is {} for i {}&#34;.format(float_data[index,0]-self._full_data[i,0],i))
+    if view[&#39;vis&#39;]:
+        xrange=np.arange(raw_data.shape[0])
+        ax1=plt.subplot(311)
+        plt.plot(raw_data[:,1],color=&#34;red&#34;)
+        plt.scatter(xrange,raw_data[:,1],color=&#34;orange&#34;,marker=&#39;o&#39;,s=4)
+        ax2=ax1.twinx()
+        plt.plot(raw_data[:,0],color=&#34;blue&#34;,label=&#34;unixtimestamp&#34;)
+        plt.legend(loc=&#39;upper right&#39;)
+        plt.subplot(312,sharex=ax1)
+        plt.plot(float_data[:,1],color=&#34;orange&#34;)
+        ax3=plt.subplot(313)
+        plt.plot(self._full_data[:,1],color=&#34;orange&#34;,label=view[&#39;lib&#39;][0])
+        plt.legend(loc=&#39;upper left&#39;)
+        ax4=ax3.twinx()
+        plt.plot(self._full_data[:,0],color=&#34;blue&#34;,label=&#34;unixtimestamp&#34;)
+        plt.legend(loc=&#39;upper right&#39;)
+        plt.show()
+
+        plt.subplot(111)
+        for j in range(len(view[&#39;lib&#39;])):
+            plt.plot(self._full_data[:,j+1],label=view[&#39;lib&#39;][j])
+        plt.legend(loc=&#39;upper left&#39;)
+        plt.show()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="src.tools" href="index.html">src.tools</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="src.tools.opendata.ODSstrToUTS" href="#src.tools.opendata.ODSstrToUTS">ODSstrToUTS</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="src.tools.opendata.openData" href="#src.tools.opendata.openData">openData</a></code></h4>
+<ul class="">
+<li><code><a title="src.tools.opendata.openData.retrieve" href="#src.tools.opendata.openData.retrieve">retrieve</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
