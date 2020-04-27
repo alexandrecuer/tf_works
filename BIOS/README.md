@@ -10,9 +10,11 @@ To install them :
 git clone https://github.com/alexandrecuer/tf_works
 cd tf_works/BIOS
 wget https://raw.githubusercontent.com/alexandrecuer/smartgrid/master/datasets/emoncms-backup-2019-08-19.tar.gz
-wget https://raw.githubusercontent.com/alexandrecuer/smartgrid/master/datasets/emoncms-backup-2020-04-22.tar.gz
 tar -zxvf emoncms-backup-2019-08-19.tar.gz phpfina
-tar -zxvf emoncms-backup-2020-04-22.tar.gz phpfina -C labo
+mkdir labo
+cd labo
+wget https://raw.githubusercontent.com/alexandrecuer/smartgrid/master/datasets/emoncms-backup-2020-04-22.tar.gz
+tar -zxvf emoncms-backup-2020-04-22.tar.gz phpfina
 ```
 
 to install the src module
