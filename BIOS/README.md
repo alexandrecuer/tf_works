@@ -23,7 +23,7 @@ to install the src module
 cd ..
 python3 setup.py develop
 ```
-This will create a link in `/usr/local/lib/python3.x`
+This will create a link named `src.egg-link` in `/usr/local/lib/python3.x/dist-packages`
 
 Right now, classic install will not work...no need to run :
 ```
