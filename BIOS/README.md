@@ -20,7 +20,8 @@ tar -zxvf emoncms-backup-2020-04-22.tar.gz phpfina
 to install the src module
 
 ```
-python3 setup.py install
+cd ..
+pip3 install .
 ```
 
 documentation for module src is available at : http://alexandrecuer.github.io/tf_works
