@@ -8,6 +8,11 @@ solution is here :
 
 https://ubuntuforums.org/showthread.php?t=2247186
 
+Nota : to go from english keyboard to french:
+```
+setxkbmap fr 
+```
+
 From live installer, as a sudoer, mount the efi partition on hard drive:
 
 ```
