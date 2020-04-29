@@ -255,11 +255,11 @@ def RCpredict_Euler(step, p, x0, inputs, allStates=False):
 
     all other methods rely on setting a truth variable in addition to p,x0 and inputs
 
-     - RCfonc(step,p, x0, inputs, truth, type="classic", verbose="true") is the cost function
+     - RCfonc(step,p, x0, inputs, truth, type="classic", verbose=True) is the cost function
 
-     - RCgrad(step,p, x0, inputs, truth)
+     - RCgrad(step,p, x0, inputs, truth, verbose=True)
 
-     - RCgrad_Krank(step,p, x0, inputs, truth)
+     - RCgrad_Krank(step,p, x0, inputs, truth, verbose=True)
 
     truth represents field reality for indoor temperature
 
@@ -306,7 +306,7 @@ def RCpredict_Krank(step, p, x0, inputs, allStates=False):
     else:
         return x
 
-def RCfonc(step, p, x0, inputs, truth, type="classic", verbose="true"):
+def RCfonc(step, p, x0, inputs, truth, type="classic", verbose=True):
     """
     estimate the cost function
     """
@@ -320,14 +320,15 @@ def RCfonc(step, p, x0, inputs, truth, type="classic", verbose="true"):
         x=RCpredict_Krank(step,p,x0,inputs)
     return 0.5*np.sum(np.square(x-truth))/x.shape[0]
 
-def RCgrad(step, p, x0, inputs, truth):
+def RCgrad(step, p, x0, inputs, truth, verbose=True):
     """
     estimate the gradient with the Euler explicit scheme
     """
     n_par=len(p)
     n=x0.shape[0]
-    str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(p)
-    print("estimating the gradient - p is {}".format(str))
+    if verbose:
+        str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(p)
+        print("estimating the gradient - p is {}".format(str))
     A, B, dA, dB = MatriX(p,jac=True)
     x=RCpredict_Euler(step,p,x0,inputs,allStates=True)
 
@@ -341,14 +342,15 @@ def RCgrad(step, p, x0, inputs, truth):
 
     return df/len(x)
 
-def RCgrad_Krank(step, p, x0, inputs, truth):
+def RCgrad_Krank(step, p, x0, inputs, truth, verbose=True):
     """
     estimate the gradient with the krank nicholson scheme
     """
     n_par=len(p)
     n=x0.shape[0]
-    str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(p)
-    print("estimating the gradient - p is {}".format(str))
+    if verbose:
+        str="%.2E, %.2E, %.2E, %.2E, %.2E" % tuple(p)
+        print("estimating the gradient - p is {}".format(str))
     A, B, dA, dB = MatriX(p,jac=True)
     x=RCpredict_Krank(step,p,x0,inputs,allStates=True)
 
@@ -593,7 +595,7 @@ class RC_model():
 
         plt.show()
 
-    def optimize(self,i,guess):
+    def optimize(self,i,guess,verbose=True):
         """
         launch a BFGS optimization on set i
         """
@@ -603,18 +605,18 @@ class RC_model():
 
         # nested functions for regularisation
         def fonc(_w):
-            return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo)
+            return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo, verbose=verbose)
 
         def grad(_w):
             w.append(_w)
             if self._algo=="krank":
-                return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+                return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], verbose=verbose)
             elif self._algo=="classic":
-                return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+                return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], verbose=verbose)
 
-        res=optimize.minimize(fonc, self._w0, method="BFGS", jac=grad)
+        res=optimize.minimize(fonc, self._w0, method="BFGS", jac=grad, options={"disp":False})
         #bounds=[(0,np.inf),(0,np.inf),(0,1),(0,1),(0,1)]
-        #res=optimize.minimize(fonc, self._w0, method="BFGS", jac=grad, bounds=bounds)
+        #res=optimize.minimize(fonc, self._w0, method="L-BFGS-B", jac=grad, bounds=bounds)
 
         # SANITY CONVERGENCE CHECK
         quality=np.array(w)

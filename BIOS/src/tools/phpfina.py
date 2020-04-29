@@ -90,6 +90,8 @@ def createFeed(nb,data,dir=dir):
 def getMetas(nb,dir=dir):
     """
     read meta given a feed number
+    
+    print (interval,starting timestamp)
     """
     f=open("{}/{}.meta".format(dir,nb),"rb")
     f.seek(8,0)
