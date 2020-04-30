@@ -41,7 +41,7 @@ from scipy import optimize
 
 def generateSunDay(qs_max, nb):
     &#34;&#34;&#34;
-    **TO USE ONLY IF YOU CANNOT GENERATE A SYNTHETIC SUN FEED**
+    **WILL BE USED ONLY IF YOU DONT HAVE A MONITORED SUN OR CANNOT GENERATE A SYNTHETIC SUN FEED, SAVED TO A PHPFINA FEED**
 
     generate one day of sun given a qs_max power
 
@@ -69,7 +69,7 @@ def generateSunDay(qs_max, nb):
 
 def generateSunRange(qs_max, nb, size, offset):
     &#34;&#34;&#34;
-    **TO USE ONLY IF YOU CANNOT GENERATE A SYNTHETIC SUN FEED**
+    **WILL BE USED ONLY IF YOU DONT HAVE A MONITORED SUN OR CANNOT GENERATE A SYNTHETIC SUN FEED, SAVED TO A PHPFINA FEED**
 
     generate sun power over a full sampling period
 
@@ -248,7 +248,7 @@ def MatriX(p,jac=True):
 
 def RCpredict_Euler(step, p, x0, inputs, allStates=False):
     &#34;&#34;&#34;
-    make predictions with the Euler explicit scheme
+    make predictions with the Euler implicit scheme (backward=implicit / forward=explicit)
 
     ### DIFFERENTIAL SYSTEM TOOLKIT
 
@@ -282,11 +282,11 @@ def RCpredict_Euler(step, p, x0, inputs, allStates=False):
 
     all other methods rely on setting a truth variable in addition to p,x0 and inputs
 
-     - RCfonc(step,p, x0, inputs, truth, type=&#34;classic&#34;, verbose=&#34;true&#34;) is the cost function
+     - RCfonc(step,p, x0, inputs, truth, type=&#34;classic&#34;, verbose=True) is the cost function
 
-     - RCgrad(step,p, x0, inputs, truth)
+     - RCgrad(step,p, x0, inputs, truth, verbose=True)
 
-     - RCgrad_Krank(step,p, x0, inputs, truth)
+     - RCgrad_Krank(step,p, x0, inputs, truth, verbose=True)
 
     truth represents field reality for indoor temperature
 
@@ -333,7 +333,7 @@ def RCpredict_Krank(step, p, x0, inputs, allStates=False):
     else:
         return x
 
-def RCfonc(step, p, x0, inputs, truth, type=&#34;classic&#34;, verbose=&#34;true&#34;):
+def RCfonc(step, p, x0, inputs, truth, type=&#34;classic&#34;, verbose=True):
     &#34;&#34;&#34;
     estimate the cost function
     &#34;&#34;&#34;
@@ -347,14 +347,15 @@ def RCfonc(step, p, x0, inputs, truth, type=&#34;classic&#34;, verbose=&#34;true
         x=RCpredict_Krank(step,p,x0,inputs)
     return 0.5*np.sum(np.square(x-truth))/x.shape[0]
 
-def RCgrad(step, p, x0, inputs, truth):
+def RCgrad(step, p, x0, inputs, truth, verbose=True):
     &#34;&#34;&#34;
-    estimate the gradient with the Euler explicit scheme
+    estimate the gradient with the Euler implicit scheme
     &#34;&#34;&#34;
     n_par=len(p)
     n=x0.shape[0]
-    str=&#34;%.2E, %.2E, %.2E, %.2E, %.2E&#34; % tuple(p)
-    print(&#34;estimating the gradient - p is {}&#34;.format(str))
+    if verbose:
+        str=&#34;%.2E, %.2E, %.2E, %.2E, %.2E&#34; % tuple(p)
+        print(&#34;estimating the gradient - p is {}&#34;.format(str))
     A, B, dA, dB = MatriX(p,jac=True)
     x=RCpredict_Euler(step,p,x0,inputs,allStates=True)
 
@@ -368,14 +369,15 @@ def RCgrad(step, p, x0, inputs, truth):
 
     return df/len(x)
 
-def RCgrad_Krank(step, p, x0, inputs, truth):
+def RCgrad_Krank(step, p, x0, inputs, truth, verbose=True):
     &#34;&#34;&#34;
     estimate the gradient with the krank nicholson scheme
     &#34;&#34;&#34;
     n_par=len(p)
     n=x0.shape[0]
-    str=&#34;%.2E, %.2E, %.2E, %.2E, %.2E&#34; % tuple(p)
-    print(&#34;estimating the gradient - p is {}&#34;.format(str))
+    if verbose:
+        str=&#34;%.2E, %.2E, %.2E, %.2E, %.2E&#34; % tuple(p)
+        print(&#34;estimating the gradient - p is {}&#34;.format(str))
     A, B, dA, dB = MatriX(p,jac=True)
     x=RCpredict_Krank(step,p,x0,inputs,allStates=True)
 
@@ -620,7 +622,7 @@ class RC_model():
 
         plt.show()
 
-    def optimize(self,i,guess):
+    def optimize(self,i,guess,verbose=True):
         &#34;&#34;&#34;
         launch a BFGS optimization on set i
         &#34;&#34;&#34;
@@ -630,18 +632,18 @@ class RC_model():
 
         # nested functions for regularisation
         def fonc(_w):
-            return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo)
+            return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo, verbose=verbose)
 
         def grad(_w):
             w.append(_w)
             if self._algo==&#34;krank&#34;:
-                return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+                return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], verbose=verbose)
             elif self._algo==&#34;classic&#34;:
-                return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+                return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], verbose=verbose)
 
-        res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad)
+        res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad, options={&#34;disp&#34;:False})
         #bounds=[(0,np.inf),(0,np.inf),(0,1),(0,1),(0,1)]
-        #res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad, bounds=bounds)
+        #res=optimize.minimize(fonc, self._w0, method=&#34;L-BFGS-B&#34;, jac=grad, bounds=bounds)
 
         # SANITY CONVERGENCE CHECK
         quality=np.array(w)
@@ -836,7 +838,7 @@ class RC_model():
 </details>
 </dd>
 <dt id="src.modelrc.modelrc.RCfonc"><code class="name flex">
-<span>def <span class="ident">RCfonc</span></span>(<span>step, p, x0, inputs, truth, type='classic', verbose='true')</span>
+<span>def <span class="ident">RCfonc</span></span>(<span>step, p, x0, inputs, truth, type='classic', verbose=True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>estimate the cost function</p></div>
@@ -844,7 +846,7 @@ class RC_model():
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def RCfonc(step, p, x0, inputs, truth, type=&#34;classic&#34;, verbose=&#34;true&#34;):
+<pre><code class="python">def RCfonc(step, p, x0, inputs, truth, type=&#34;classic&#34;, verbose=True):
     &#34;&#34;&#34;
     estimate the cost function
     &#34;&#34;&#34;
@@ -860,22 +862,23 @@ class RC_model():
 </details>
 </dd>
 <dt id="src.modelrc.modelrc.RCgrad"><code class="name flex">
-<span>def <span class="ident">RCgrad</span></span>(<span>step, p, x0, inputs, truth)</span>
+<span>def <span class="ident">RCgrad</span></span>(<span>step, p, x0, inputs, truth, verbose=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>estimate the gradient with the Euler explicit scheme</p></div>
+<div class="desc"><p>estimate the gradient with the Euler implicit scheme</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def RCgrad(step, p, x0, inputs, truth):
+<pre><code class="python">def RCgrad(step, p, x0, inputs, truth, verbose=True):
     &#34;&#34;&#34;
-    estimate the gradient with the Euler explicit scheme
+    estimate the gradient with the Euler implicit scheme
     &#34;&#34;&#34;
     n_par=len(p)
     n=x0.shape[0]
-    str=&#34;%.2E, %.2E, %.2E, %.2E, %.2E&#34; % tuple(p)
-    print(&#34;estimating the gradient - p is {}&#34;.format(str))
+    if verbose:
+        str=&#34;%.2E, %.2E, %.2E, %.2E, %.2E&#34; % tuple(p)
+        print(&#34;estimating the gradient - p is {}&#34;.format(str))
     A, B, dA, dB = MatriX(p,jac=True)
     x=RCpredict_Euler(step,p,x0,inputs,allStates=True)
 
@@ -891,7 +894,7 @@ class RC_model():
 </details>
 </dd>
 <dt id="src.modelrc.modelrc.RCgrad_Krank"><code class="name flex">
-<span>def <span class="ident">RCgrad_Krank</span></span>(<span>step, p, x0, inputs, truth)</span>
+<span>def <span class="ident">RCgrad_Krank</span></span>(<span>step, p, x0, inputs, truth, verbose=True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>estimate the gradient with the krank nicholson scheme</p></div>
@@ -899,14 +902,15 @@ class RC_model():
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def RCgrad_Krank(step, p, x0, inputs, truth):
+<pre><code class="python">def RCgrad_Krank(step, p, x0, inputs, truth, verbose=True):
     &#34;&#34;&#34;
     estimate the gradient with the krank nicholson scheme
     &#34;&#34;&#34;
     n_par=len(p)
     n=x0.shape[0]
-    str=&#34;%.2E, %.2E, %.2E, %.2E, %.2E&#34; % tuple(p)
-    print(&#34;estimating the gradient - p is {}&#34;.format(str))
+    if verbose:
+        str=&#34;%.2E, %.2E, %.2E, %.2E, %.2E&#34; % tuple(p)
+        print(&#34;estimating the gradient - p is {}&#34;.format(str))
     A, B, dA, dB = MatriX(p,jac=True)
     x=RCpredict_Krank(step,p,x0,inputs,allStates=True)
 
@@ -929,7 +933,7 @@ class RC_model():
 <span>def <span class="ident">RCpredict_Euler</span></span>(<span>step, p, x0, inputs, allStates=False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>make predictions with the Euler explicit scheme</p>
+<div class="desc"><p>make predictions with the Euler implicit scheme (backward=implicit / forward=explicit)</p>
 <h3 id="differential-system-toolkit">DIFFERENTIAL SYSTEM TOOLKIT</h3>
 <p>dx/dt=A(p).x(p,t)+B.inputs(p,t)</p>
 <p>p is the parameter vector we want to optimize</p>
@@ -963,13 +967,13 @@ Krank Nicholson scheme</p>
 <p>all other methods rely on setting a truth variable in addition to p,x0 and inputs</p>
 <ul>
 <li>
-<p>RCfonc(step,p, x0, inputs, truth, type="classic", verbose="true") is the cost function</p>
+<p>RCfonc(step,p, x0, inputs, truth, type="classic", verbose=True) is the cost function</p>
 </li>
 <li>
-<p>RCgrad(step,p, x0, inputs, truth)</p>
+<p>RCgrad(step,p, x0, inputs, truth, verbose=True)</p>
 </li>
 <li>
-<p>RCgrad_Krank(step,p, x0, inputs, truth)</p>
+<p>RCgrad_Krank(step,p, x0, inputs, truth, verbose=True)</p>
 </li>
 </ul>
 <p>truth represents field reality for indoor temperature</p></div>
@@ -979,7 +983,7 @@ Krank Nicholson scheme</p>
 </summary>
 <pre><code class="python">def RCpredict_Euler(step, p, x0, inputs, allStates=False):
     &#34;&#34;&#34;
-    make predictions with the Euler explicit scheme
+    make predictions with the Euler implicit scheme (backward=implicit / forward=explicit)
 
     ### DIFFERENTIAL SYSTEM TOOLKIT
 
@@ -1013,11 +1017,11 @@ Krank Nicholson scheme</p>
 
     all other methods rely on setting a truth variable in addition to p,x0 and inputs
 
-     - RCfonc(step,p, x0, inputs, truth, type=&#34;classic&#34;, verbose=&#34;true&#34;) is the cost function
+     - RCfonc(step,p, x0, inputs, truth, type=&#34;classic&#34;, verbose=True) is the cost function
 
-     - RCgrad(step,p, x0, inputs, truth)
+     - RCgrad(step,p, x0, inputs, truth, verbose=True)
 
-     - RCgrad_Krank(step,p, x0, inputs, truth)
+     - RCgrad_Krank(step,p, x0, inputs, truth, verbose=True)
 
     truth represents field reality for indoor temperature
 
@@ -1079,7 +1083,7 @@ Krank Nicholson scheme</p>
 <span>def <span class="ident">generateSunDay</span></span>(<span>qs_max, nb)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>TO USE ONLY IF YOU CANNOT GENERATE A SYNTHETIC SUN FEED</strong></p>
+<div class="desc"><p><strong>WILL BE USED ONLY IF YOU DONT HAVE A MONITORED SUN OR CANNOT GENERATE A SYNTHETIC SUN FEED, SAVED TO A PHPFINA FEED</strong></p>
 <p>generate one day of sun given a qs_max power</p>
 <p>:qs_max: maximum power in W that the sun can deliver during the day</p>
 <p>:nb: number of points in a hour (determine the precision of the discretisation)</p>
@@ -1090,7 +1094,7 @@ Krank Nicholson scheme</p>
 </summary>
 <pre><code class="python">def generateSunDay(qs_max, nb):
     &#34;&#34;&#34;
-    **TO USE ONLY IF YOU CANNOT GENERATE A SYNTHETIC SUN FEED**
+    **WILL BE USED ONLY IF YOU DONT HAVE A MONITORED SUN OR CANNOT GENERATE A SYNTHETIC SUN FEED, SAVED TO A PHPFINA FEED**
 
     generate one day of sun given a qs_max power
 
@@ -1121,7 +1125,7 @@ Krank Nicholson scheme</p>
 <span>def <span class="ident">generateSunRange</span></span>(<span>qs_max, nb, size, offset)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>TO USE ONLY IF YOU CANNOT GENERATE A SYNTHETIC SUN FEED</strong></p>
+<div class="desc"><p><strong>WILL BE USED ONLY IF YOU DONT HAVE A MONITORED SUN OR CANNOT GENERATE A SYNTHETIC SUN FEED, SAVED TO A PHPFINA FEED</strong></p>
 <p>generate sun power over a full sampling period</p>
 <p>:qs_max: maximum power in W that the sun can deliver during the day</p>
 <p>:nb: number of points in a hour (determine the precision of the discretisation)</p>
@@ -1134,7 +1138,7 @@ Krank Nicholson scheme</p>
 </summary>
 <pre><code class="python">def generateSunRange(qs_max, nb, size, offset):
     &#34;&#34;&#34;
-    **TO USE ONLY IF YOU CANNOT GENERATE A SYNTHETIC SUN FEED**
+    **WILL BE USED ONLY IF YOU DONT HAVE A MONITORED SUN OR CANNOT GENERATE A SYNTHETIC SUN FEED, SAVED TO A PHPFINA FEED**
 
     generate sun power over a full sampling period
 
@@ -1471,7 +1475,7 @@ Krank Nicholson scheme</p>
 
         plt.show()
 
-    def optimize(self,i,guess):
+    def optimize(self,i,guess,verbose=True):
         &#34;&#34;&#34;
         launch a BFGS optimization on set i
         &#34;&#34;&#34;
@@ -1481,18 +1485,18 @@ Krank Nicholson scheme</p>
 
         # nested functions for regularisation
         def fonc(_w):
-            return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo)
+            return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo, verbose=verbose)
 
         def grad(_w):
             w.append(_w)
             if self._algo==&#34;krank&#34;:
-                return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+                return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], verbose=verbose)
             elif self._algo==&#34;classic&#34;:
-                return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+                return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], verbose=verbose)
 
-        res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad)
+        res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad, options={&#34;disp&#34;:False})
         #bounds=[(0,np.inf),(0,np.inf),(0,1),(0,1),(0,1)]
-        #res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad, bounds=bounds)
+        #res=optimize.minimize(fonc, self._w0, method=&#34;L-BFGS-B&#34;, jac=grad, bounds=bounds)
 
         # SANITY CONVERGENCE CHECK
         quality=np.array(w)
@@ -1764,7 +1768,7 @@ Krank Nicholson scheme</p>
 </details>
 </dd>
 <dt id="src.modelrc.modelrc.RC_model.optimize"><code class="name flex">
-<span>def <span class="ident">optimize</span></span>(<span>self, i, guess)</span>
+<span>def <span class="ident">optimize</span></span>(<span>self, i, guess, verbose=True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>launch a BFGS optimization on set i</p></div>
@@ -1772,7 +1776,7 @@ Krank Nicholson scheme</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def optimize(self,i,guess):
+<pre><code class="python">def optimize(self,i,guess,verbose=True):
     &#34;&#34;&#34;
     launch a BFGS optimization on set i
     &#34;&#34;&#34;
@@ -1782,18 +1786,18 @@ Krank Nicholson scheme</p>
 
     # nested functions for regularisation
     def fonc(_w):
-        return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo)
+        return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo, verbose=verbose)
 
     def grad(_w):
         w.append(_w)
         if self._algo==&#34;krank&#34;:
-            return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+            return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], verbose=verbose)
         elif self._algo==&#34;classic&#34;:
-            return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+            return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], verbose=verbose)
 
-    res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad)
+    res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad, options={&#34;disp&#34;:False})
     #bounds=[(0,np.inf),(0,np.inf),(0,1),(0,1),(0,1)]
-    #res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad, bounds=bounds)
+    #res=optimize.minimize(fonc, self._w0, method=&#34;L-BFGS-B&#34;, jac=grad, bounds=bounds)
 
     # SANITY CONVERGENCE CHECK
     quality=np.array(w)

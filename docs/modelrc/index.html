@@ -331,7 +331,7 @@ __all__=[&#34;RC_model&#34;, &#34;CsvExport&#34;]</code></pre>
 
         plt.show()
 
-    def optimize(self,i,guess):
+    def optimize(self,i,guess,verbose=True):
         &#34;&#34;&#34;
         launch a BFGS optimization on set i
         &#34;&#34;&#34;
@@ -341,18 +341,18 @@ __all__=[&#34;RC_model&#34;, &#34;CsvExport&#34;]</code></pre>
 
         # nested functions for regularisation
         def fonc(_w):
-            return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo)
+            return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo, verbose=verbose)
 
         def grad(_w):
             w.append(_w)
             if self._algo==&#34;krank&#34;:
-                return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+                return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], verbose=verbose)
             elif self._algo==&#34;classic&#34;:
-                return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+                return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], verbose=verbose)
 
-        res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad)
+        res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad, options={&#34;disp&#34;:False})
         #bounds=[(0,np.inf),(0,np.inf),(0,1),(0,1),(0,1)]
-        #res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad, bounds=bounds)
+        #res=optimize.minimize(fonc, self._w0, method=&#34;L-BFGS-B&#34;, jac=grad, bounds=bounds)
 
         # SANITY CONVERGENCE CHECK
         quality=np.array(w)
@@ -624,7 +624,7 @@ __all__=[&#34;RC_model&#34;, &#34;CsvExport&#34;]</code></pre>
 </details>
 </dd>
 <dt id="src.modelrc.RC_model.optimize"><code class="name flex">
-<span>def <span class="ident">optimize</span></span>(<span>self, i, guess)</span>
+<span>def <span class="ident">optimize</span></span>(<span>self, i, guess, verbose=True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>launch a BFGS optimization on set i</p></div>
@@ -632,7 +632,7 @@ __all__=[&#34;RC_model&#34;, &#34;CsvExport&#34;]</code></pre>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def optimize(self,i,guess):
+<pre><code class="python">def optimize(self,i,guess,verbose=True):
     &#34;&#34;&#34;
     launch a BFGS optimization on set i
     &#34;&#34;&#34;
@@ -642,18 +642,18 @@ __all__=[&#34;RC_model&#34;, &#34;CsvExport&#34;]</code></pre>
 
     # nested functions for regularisation
     def fonc(_w):
-        return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo)
+        return RCfonc(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], type=self._algo, verbose=verbose)
 
     def grad(_w):
         w.append(_w)
         if self._algo==&#34;krank&#34;:
-            return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+            return self._p0*RCgrad_Krank(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], verbose=verbose)
         elif self._algo==&#34;classic&#34;:
-            return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i])
+            return self._p0*RCgrad(self._step, self._p0*_w, guess, self._inputs[i], self._truth[i], verbose=verbose)
 
-    res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad)
+    res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad, options={&#34;disp&#34;:False})
     #bounds=[(0,np.inf),(0,np.inf),(0,1),(0,1),(0,1)]
-    #res=optimize.minimize(fonc, self._w0, method=&#34;BFGS&#34;, jac=grad, bounds=bounds)
+    #res=optimize.minimize(fonc, self._w0, method=&#34;L-BFGS-B&#34;, jac=grad, bounds=bounds)
 
     # SANITY CONVERGENCE CHECK
     quality=np.array(w)

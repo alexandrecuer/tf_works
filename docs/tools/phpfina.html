@@ -126,6 +126,8 @@ def createFeed(nb,data,dir=dir):
 def getMetas(nb,dir=dir):
     &#34;&#34;&#34;
     read meta given a feed number
+    
+    print (interval,starting timestamp)
     &#34;&#34;&#34;
     f=open(&#34;{}/{}.meta&#34;.format(dir,nb),&#34;rb&#34;)
     f.seek(8,0)
@@ -413,7 +415,8 @@ class PHPFina:
 <span>def <span class="ident">getMetas</span></span>(<span>nb, dir='phpfina')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>read meta given a feed number</p></div>
+<div class="desc"><p>read meta given a feed number</p>
+<p>print (interval,starting timestamp)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -421,6 +424,8 @@ class PHPFina:
 <pre><code class="python">def getMetas(nb,dir=dir):
     &#34;&#34;&#34;
     read meta given a feed number
+    
+    print (interval,starting timestamp)
     &#34;&#34;&#34;
     f=open(&#34;{}/{}.meta&#34;.format(dir,nb),&#34;rb&#34;)
     f.seek(8,0)

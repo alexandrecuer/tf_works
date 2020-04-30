@@ -14,7 +14,7 @@ from scipy import optimize
 
 def generateSunDay(qs_max, nb):
     """
-    **TO USE ONLY IF YOU CANNOT GENERATE A SYNTHETIC SUN FEED**
+    **WILL BE USED ONLY IF YOU DONT HAVE A MONITORED SUN OR CANNOT GENERATE A SYNTHETIC SUN FEED, SAVED TO A PHPFINA FEED**
 
     generate one day of sun given a qs_max power
 
@@ -42,7 +42,7 @@ def generateSunDay(qs_max, nb):
 
 def generateSunRange(qs_max, nb, size, offset):
     """
-    **TO USE ONLY IF YOU CANNOT GENERATE A SYNTHETIC SUN FEED**
+    **WILL BE USED ONLY IF YOU DONT HAVE A MONITORED SUN OR CANNOT GENERATE A SYNTHETIC SUN FEED, SAVED TO A PHPFINA FEED**
 
     generate sun power over a full sampling period
 
@@ -221,7 +221,7 @@ def MatriX(p,jac=True):
 
 def RCpredict_Euler(step, p, x0, inputs, allStates=False):
     """
-    make predictions with the Euler explicit scheme
+    make predictions with the Euler implicit scheme (backward=implicit / forward=explicit)
 
     ### DIFFERENTIAL SYSTEM TOOLKIT
 
@@ -322,7 +322,7 @@ def RCfonc(step, p, x0, inputs, truth, type="classic", verbose=True):
 
 def RCgrad(step, p, x0, inputs, truth, verbose=True):
     """
-    estimate the gradient with the Euler explicit scheme
+    estimate the gradient with the Euler implicit scheme
     """
     n_par=len(p)
     n=x0.shape[0]
