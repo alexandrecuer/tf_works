@@ -36,6 +36,7 @@ generated with pdoc
 
 ```
 pip3 install pdoc3
+pdoc --html src
 ```
 Once datasets and module are installed, you can play with the examples
 
