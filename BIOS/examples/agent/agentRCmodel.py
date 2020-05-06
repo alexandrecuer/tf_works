@@ -149,7 +149,7 @@ datas[0,4]=Ts(datas[0,3],datas[0,0])
 #print(datas)
 
 """
-building an agenda indicating weather people are working or not
+building an agenda indicating wether people are working or not
 1: work
 0: rest
 here we go for fixed working hours each day
