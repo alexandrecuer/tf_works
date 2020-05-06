@@ -207,7 +207,6 @@ def hysteresis(Tc=Tc):
     closed loop with a simple hysteresis
     """
     K=15
-    now=start
     heating=True
 
     for i in range (0,datas.shape[0]-1):
@@ -251,7 +250,6 @@ def hysteresis(Tc=Tc):
         """
         4) monitoring to update the datas tensor
         """
-        now+=step
         monitor(i+1)
 
 hysteresis()
