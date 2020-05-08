@@ -24,8 +24,11 @@ cd ..
 ```
 then launch `pip install -e ./` or `python3 setup.py develop`
 
-On Linux, this will create a link named `src.egg-link` in `/usr/local/lib/python3.x/dist-packages`
+This will create a link named `src.egg-link` :
+- in `/usr/local/lib/python3.x/dist-packages` on Linux
+- in `C:\Users\...username....\AppData\Local\Programs\Python\Pythonxxx\Lib\site-packages` on Windows
 
+**Please note :**
 `python setup.py install` or `pip3 install .` are used to install (typically third party) packages that you're not going to develop/modify/debug yourself.
 
 To check which modules are installed :
