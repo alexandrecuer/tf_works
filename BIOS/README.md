@@ -21,13 +21,17 @@ to install the src module
 
 ```
 cd ..
-python3 setup.py develop
 ```
-This will create a link named `src.egg-link` in `/usr/local/lib/python3.x/dist-packages`
+then launch `pip install -e ./` or `python3 setup.py develop`
 
-Right now, classic install will not work...no need to run :
+On Linux, this will create a link named `src.egg-link` in `/usr/local/lib/python3.x/dist-packages`
+
+`python setup.py install` or `pip3 install .` are used to install (typically third party) packages that you're not going to develop/modify/debug yourself.
+
+To check which modules are installed :
 ```
-pip3 install .
+python
+help("modules")
 ```
 
 documentation for module src is available at : http://alexandrecuer.github.io/tf_works
