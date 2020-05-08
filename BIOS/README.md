@@ -112,7 +112,7 @@ the datasets are constructed by slicing the tensor at a specified index, on a sp
 How to use :
 
 ```
-from src.tools import BuildingZone, GoToTensor
+from src.modelstats import BuildingZone, GoToTensor
 import numpy as np
 ```
 define some sizing parameters
