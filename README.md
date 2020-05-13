@@ -174,3 +174,11 @@ https://michaelgoerz.net/notes/custom-template-for-converting-jupyter-notebooks-
 http://blog.juliusschulz.de/blog/ultimate-ipython-notebook#converting-notebook-to-latex-pdf
 
 https://www.xm1math.net/doculatex/espacements.html
+
+### slide plugin
+
+https://github.com/damianavila/RISE
+
+```
+pip install RISE
+```
