@@ -99,7 +99,11 @@ end cuves_gravitaires;
 
 # Exemples issus de la bibliothèque standard
 
+https://github.com/modelica/ModelicaStandardLibrary
+
 https://build.openmodelica.org/Documentation/Modelica.Fluid.Examples.PumpingSystem.html
+
+
 
 # Bibliothèques spécifiques bâtiments
 
