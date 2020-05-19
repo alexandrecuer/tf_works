@@ -57,8 +57,12 @@ on peut afficher les courbes dans l'onglet tracé
 ##  Exemples de fichier modèle
 
 Un exemple avec des fluides est disponible [içi](script1/cuves_gravitaires.mo)
+- faire une simulation sur 500 secondes et afficher le volume des cuves ainsi que l'évolution des pressions
 
-A noter qu'il est important de spécifier le type de fluide et que l'éditeur graphique ne le fait pas. Pour celà, au tout début de la classe, on définit le fluide :
+Un autre plutôt thermique avec un [modèle très rudimentaire de bâtiments](script2/test_house.mo)
+- faire une simulation sur 1e7 secondes et afficher température intérieure, température du mur et température extérieure
+
+Quant on travaille avec des fluides, il est important de spécifier le type de fluide et que l'éditeur graphique ne le fait pas. Pour celà, au tout début de la classe, on définit le fluide :
 ```
 model cuves_gravitaires
   replaceable package Water = Modelica.Media.Water.ConstantPropertyLiquidWater;
