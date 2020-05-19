@@ -59,5 +59,5 @@ equation
   connect(PipeReturn.port_b, CuveVide.ports[2]) annotation(
     Line(points = {{10, -24}, {48, -24}, {48, 12}, {54, 12}}, color = {0, 127, 255}));
   annotation(
-    uses(Modelica(version = "3.2.3"), BuildSysPro(version = "3.3.0"), Buildings(version = "6.0.0")));
+    uses(Modelica(version = "3.2.3")));
 end cuves_gravitaires;
