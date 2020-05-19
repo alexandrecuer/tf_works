@@ -104,9 +104,9 @@ généralement, ces bibliothèques embarquent la bibliothèque dite ibpsa https:
 IBPSA = International Building Performance Simulation Association
 
 ## Bibliothèque du lbl (berkeley lab)
-
+```
 git clone https://github.com/lbl-srg/modelica-buildings
-
+```
 cette bibliothèque contient des vannes 3 voies
 
 un seul exemple mais qui ne veut pas se compiler.... 
@@ -116,15 +116,15 @@ https://simulationresearch.lbl.gov/modelica/releases/v2.1.0/help/Buildings_Fluid
 ## Open-ideas
 
 pas vraiment testé encore
-
+```
 git clone https://github.com/open-ideas/FastBuildings
 
 git clone https://github.com/open-ideas/IDEAS
-
+```
 ## EDF
-
+```
 git clone https://github.com/EDF-TREE/BuildSysPro.git
-
+```
 # Couplage avec python
 
 https://pdfs.semanticscholar.org/f6be/32042ee837eaad6cc7955854918c7ff6de5a.pdf
