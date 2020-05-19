@@ -21,12 +21,18 @@ si on veut plus de détails, on peut rajouter des options à la commande simulat
 ```
 simulate(test, simflags="-d=aliasConflicts");
 ```
-toujours depuis le même dossier, lancer une console
 
-Sous windows, lancer l'instruction suivante :
+Pour spécifier la durée de simulation et le nombre d'intervalles :
 ```
-"%OPENMODELICAHOME%\bin\omc.exe" script.mos
+simulate(test, startTime = 0, stopTime = 500, numberOfIntervals=500)
 ```
+startTime et stopTime sont des valeurs en secondes
+
+Toujours depuis le même dossier, lancer une console et lancer la commande suivante :
+
+- sous linux : `omc script.mos`
+
+- sous windows : `"%OPENMODELICAHOME%\bin\omc.exe" script.mos`
 
 # exemples avec la bibliothèque standard
 
