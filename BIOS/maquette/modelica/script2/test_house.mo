@@ -27,7 +27,7 @@ equation
   connect(TRindoor.port_b, Indoor.port) annotation(
     Line(points = {{28, 9}, {28, 20.5}, {76, 20.5}, {76, 44}}, color = {191, 0, 0}));
   annotation(
-    uses(Modelica(version = "3.2.2")),
+    uses(BuildSysPro(version = "3.3.0"), Modelica(version = "3.2.2")),
     Documentation,
   Diagram(coordinateSystem(extent = {{-200, -100}, {200, 100}})),
   Icon(coordinateSystem(extent = {{-200, -100}, {200, 100}})),
