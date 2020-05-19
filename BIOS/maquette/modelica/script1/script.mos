@@ -1,0 +1,3 @@
+loadModel(Modelica); 
+loadFile("cuves_gravitaires.mo");
+simulate(cuves_gravitaires, startTime = 0, stopTime = 500, numberOfIntervals=500)
