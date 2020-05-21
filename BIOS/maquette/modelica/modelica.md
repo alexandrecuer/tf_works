@@ -1,3 +1,9 @@
+# Links
+
+http://www.lirmm.fr/~reitz/Modelica/
+
+https://mbe.modelica.university/
+
 # Openmodelica
 
 https://openmodelica.org
