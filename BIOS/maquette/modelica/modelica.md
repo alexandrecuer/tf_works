@@ -4,6 +4,16 @@ http://www.lirmm.fr/~reitz/Modelica/
 
 https://mbe.modelica.university/
 
+https://sti.discip.ac-caen.fr/spip.php?article250
+
+https://www.maplesoft.com/documentation_center/online_manuals/modelica/Modelica_Thermal_HeatTransfer_Components.html
+
+https://www.abcclim.net/vanne-23-voies.html
+
+http://www.valvias.com/flow-equations-flow-coefficient-cv-kv.php
+
+http://www.waterblast.com/uploadedFiles/Site/Service_and_Support/Resources/40KCat-SecH-Technical.pdf
+
 # Openmodelica
 
 https://openmodelica.org
