@@ -14,6 +14,8 @@ http://www.valvias.com/flow-equations-flow-coefficient-cv-kv.php
 
 http://www.waterblast.com/uploadedFiles/Site/Service_and_Support/Resources/40KCat-SecH-Technical.pdf
 
+https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html
+
 # Openmodelica
 
 https://openmodelica.org
