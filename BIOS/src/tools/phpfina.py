@@ -90,7 +90,7 @@ def createFeed(nb,data,dir=dir):
 def getMetas(nb,dir=dir):
     """
     read meta given a feed number
-    
+
     print (interval,starting timestamp)
     """
     f=open("{}/{}.meta".format(dir,nb),"rb")
@@ -101,6 +101,7 @@ def getMetas(nb,dir=dir):
       decoded=struct.unpack('<2I', aa)
     print(decoded)
     f.close()
+    return decoded
 
 def newPHPFina(nb,start,step,data,dir=dir):
     """
