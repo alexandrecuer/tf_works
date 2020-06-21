@@ -2,7 +2,7 @@
 
 ![relay 12V 10A 230V](img_relays/songle12Vrelay10A.jpg)
 
-On peut également deviner que le relais s’alimente et se commande en 12V (SRD-12VDC-SL-C)
+Le relais s’alimente et se commande en 12V (SRD-12VDC-SL-C)
 
 On peut lire dessus qu’on peut faire passer :
 
