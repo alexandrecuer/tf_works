@@ -37,3 +37,33 @@ Attention aux moteurs qui ont souvent un très fort appel de courant au démarra
 
 To check pinout on the raspberry : https://pinout.xyz/#
 
+```
+import RPi.GPIO as GPIO
+import curses
+
+GPIO.setmode(GPIO.BCM)
+
+nb=26
+
+GPIO.setup(nb, GPIO.OUT)
+GPIO.output(nb, GPIO.HIGH)
+
+stdscr = curses.initscr()
+curses.noecho()
+curses.cbreak()
+stdscr.addstr(0,0, "a=allumer s=stop q=quitter")
+
+while True:
+    c = stdscr.getch()
+    if c == ord('a'):
+        GPIO.output(nb, GPIO.HIGH)
+    if c == ord('s'):
+        GPIO.output(nb, GPIO.LOW)
+    if c == ord('q'):
+        curses.nocbreak()
+        stdscr.keypad(False)
+        curses.echo()
+        curses.endwin()
+        GPIO.cleanup()
+        break
+```
