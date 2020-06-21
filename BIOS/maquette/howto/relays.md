@@ -4,7 +4,7 @@
 
 Le relais s’alimente et se commande en 12V (SRD-12VDC-SL-C)
 
-On peut lire dessus qu’on peut faire passer :
+Ce type de relais supporte :
 
 - 10 ampères sous 250V alternatif (50 ou 60Hz), c’est-à-dire du secteur en France.
 - 10 ampères sous 125V alternatif (50 ou 60Hz), c’est-à-dire environ 1KW pour les pays en 110V. 
