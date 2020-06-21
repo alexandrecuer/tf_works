@@ -67,3 +67,10 @@ while True:
         GPIO.cleanup()
         break
 ```
+more about curses : https://docs.python.org/3/howto/curses.html
+
+more about RPi.GPIO : https://pypi.org/project/RPi.GPIO/
+
+Note that RPi.GPIO is unsuitable for real-time or timing critical applications. This is because you can not predict when Python will be busy garbage collecting. It also runs under the Linux kernel which is not suitable for real time applications - it is multitasking O/S and another process may be given priority over the CPU, causing jitter in your program. If you are after true real-time performance and predictability, buy yourself an Arduino
+
+https://raspberrypi.pagesperso-orange.fr/dossiers/26-33.htm
