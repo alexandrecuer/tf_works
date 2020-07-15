@@ -6,6 +6,8 @@ related to the Gordon Henderson arduino wiring like library for the raspberry
 
 http://archive.ubuntu.com/ubuntu/pool/universe/w/wiringpi/
 
+http://wiringpi.com/download-and-install/
+
 ## installation
 
 cf http://wiringpi.com/wiringpi-updated-to-2-52-for-the-raspberry-pi-4b/
