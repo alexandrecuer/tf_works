@@ -8,6 +8,7 @@ http://archive.ubuntu.com/ubuntu/pool/universe/w/wiringpi/
 
 ## installation
 
+cf http://wiringpi.com/wiringpi-updated-to-2-52-for-the-raspberry-pi-4b/
 ```
 wget https://project-downloads.drogon.net/wiringpi-latest.deb
 sudo dpkg -i wiringpi-latest.deb
