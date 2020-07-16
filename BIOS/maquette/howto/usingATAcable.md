@@ -32,6 +32,4 @@ $ gpio write 6 0
 $ gpio mode 5 out
 $ gpio write 5 0
 $ gpio write 5 1
-$ gpio write 5 0
-
 ```
