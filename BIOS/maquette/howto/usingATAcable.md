@@ -1,10 +1,12 @@
 # utilisation d'une nappe ATA
 
-broche ATA parallèle - vue de dessous
+Sur la nappe, vous remarquerez qu'un fil est différent des autres de par sa couleur. Ce fil est le fil 1 correspondant au connecteur 1 de la broche.
+
+## broche ATA parallèle - vue de dessous
 
 ![ATA](img_relays/ATA_Plug.png)
 
-Sur la nappe, vous remarquerez qu'un fil est différent des autres de par sa couleur. Ce fil est le fil 1 correspondant au connecteur 1 de la broche.
+## le module de relais, la nappe vue de dessus et le raspberry
 
 ![relay ATA RPI](img_relays/relays_ATA_RPI.jpg)
 
