@@ -8,13 +8,30 @@ Sur la nappe, vous remarquerez qu'un fil est différent des autres de par sa cou
 
 
 
-wiringPi|physical|BCM
---|--|--
-7 | 7| 4
-0 |11|17
-1 |12|18
-2 |13|27
-3 |15|22
-4 |16|23
-5 |18|24
-6 |22|25
+wiringPi|physical|BCM|Relay
+--|--|--|--
+7 | 7| 4| 8
+0 |11|17| 7
+1 |12|18| 6
+2 |13|27| 5
+3 |15|22| 4
+4 |16|23| 3
+5 |18|24| 2
+6 |22|25| 1
+
+
+```
+$ gpio mode 7 out
+$ gpio write 7 1
+$ gpio write 7 0
+
+$ gpio mode 6 out
+$ gpio write 6 1
+$ gpio write 6 0
+
+$ gpio mode 5 out
+$ gpio write 5 0
+$ gpio write 5 1
+$ gpio write 5 0
+
+```
