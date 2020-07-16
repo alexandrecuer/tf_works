@@ -6,7 +6,7 @@ broche ATA parallèle - vue de dessous
 
 Sur la nappe, vous remarquerez qu'un fil est différent des autres de par sa couleur. Ce fil est le fil 1 correspondant au connecteur 1 de la broche.
 
-
+![relay ATA RPI](img_relays/relays_ATA_RPI.jpg)
 
 wiringPi|physical|BCM|Relay
 --|--|--|--
