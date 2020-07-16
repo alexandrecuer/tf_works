@@ -62,15 +62,15 @@ Raspberry Pi Details:
 ## exploring
 
 ```
-ar tv wiringpi-latest.deb 
+$ ar tv wiringpi-latest.deb 
 rw-r--r-- 0/0      4 Jun 23 20:11 2019 debian-binary
 rw-r--r-- 0/0    560 Jun 23 20:11 2019 control.tar.xz
 rw-r--r-- 0/0  51508 Jun 23 20:11 2019 data.tar.xz
 ```
 
 ```
-ar x wiringpi-latest.deb 
-pi@emonpi:~ $ ls
+$ ar x wiringpi-latest.deb 
+$ ls
 control.tar.xz  debian-binary  wiringpi-latest.deb  data.tar.xz 
 ```
 
