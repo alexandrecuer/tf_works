@@ -139,6 +139,7 @@ virtualbox &
 pip3 install jupyter
 sudo apt-get install texlive-full
 sudo apt-get install pandoc
+sudo apt-get install texlive-publishers
 ```
 Install some basic latex templates :
 ```
