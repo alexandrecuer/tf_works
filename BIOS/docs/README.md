@@ -22,7 +22,7 @@ Ec est l'émissivité de la surface qui vaut 1 pour un corps noir et qui est com
 
 T1 et T2 sont les températures absolues, en K, des corps en présence, T1 pour la température moyenne de l'émetteur et T2 pour la température du local car on part de l'hypothèse que toutes les parois et objets sont à la même température que la température ambiante du local.
 
-Co est la constante de Stefan-Boltzmann, et vaut 5,67051 x 10-8 W/(m**2 K**4)
+Co est la constante de Stefan-Boltzmann, et vaut 5,67051 x 10-8 `W/(m**2 K**4)`
 
 ## Transmission par convection
 
