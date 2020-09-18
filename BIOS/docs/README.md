@@ -41,4 +41,14 @@ hc = 5,6 x ((T1 - T2) / (T2 x h))**0,25
 
 h est la hauteur de la surface de chauffe, en m
 
+# calculer les émissions thermiques totales d'un radiateur (Qt).
 
+La surface d'échange thermique de ce radiateur est de 2,5 m², sa hauteur est de 0,85 m, la température moyenne du fluide caloporteur est de 70 °C et la température du local est de 20 °C :
+
+```
+hr = 0,9 x (343,15 + 293,15) x (343,15**2 + 293,15**2) x (5,67051 x 10-8) = 6,614 W/(m².K)
+Qr = 2,5 x 6,614 x (70 - 20) = 826,75 W
+hc = 5,6 x ((343,15 - 293,15) / (293,15 x 0,85))**0,25 = 3,748 W/(m².K)
+Qc =  2,5 x 3,748 x (70 - 20) = 468,50 W
+Qt = 826,75 + 468,50 = 1295,25 W
+```
