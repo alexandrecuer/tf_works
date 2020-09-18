@@ -16,7 +16,7 @@ Ti est la température ambiante de la pièce, en °C
 
 hr est le coefficient de transmission thermique par rayonnement, en W/(m².K) et s'obtient de la façon suivante :
 ```
-hr = Ec x (T1 + T2) x (T12 + T22) x Co
+hr = Ec x (T1 + T2) x (T1**2 + T2**2) x Co
 ```
 Ec est l'émissivité de la surface qui vaut 1 pour un corps noir et qui est comprise entre 0 et 1 selon l'état de surface du matériau. Dans les locaux d'habitation les surfaces peuvent être considérées comme des corps noirs et la valeur de Ec est peu différente de l'unité mais la valeur moyenne pour Ec peut être prise égale à 0,9.
 
@@ -32,14 +32,12 @@ La quantité de chaleur transmise par convection peu être calculée avec la for
 ```
 Qc = S x hc x (Tm - Ti)
 ```
-S est la surface d'échange thermique de l'émetteur, en m²
 
 hc est le coefficient de transmission thermique par convection, en W/(m².K) et peut être obtenu, pour un radiateur classique, avec la formule empirique suivante :
 
 ```
 hc = 5,6 x ((T1 - T2) / (T2 x h))**0,25
 ```
-T1 et T2 ont la même signification que précédemment
 
 h est la hauteur de la surface de chauffe, en m
 
