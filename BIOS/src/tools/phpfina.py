@@ -68,7 +68,7 @@ def createMeta(nb,start,step,dir=dir):
     """
     f=open("{}/{}.meta".format(dir,nb),"wb")
     data=np.array([0,0,step,start])
-    format='<'+'I'*len(data)
+    format="<{}".format("I"*len(data))
     bin=struct.pack(format,*data)
     f.write(bin)
     f.close()
@@ -82,7 +82,7 @@ def createFeed(nb,data,dir=dir):
     - a numpy vector of data
     """
     f=open("{}/{}.dat".format(dir,nb),"wb")
-    format='<'+'f'*len(data)
+    format="<{}".format("f"*len(data))
     bin=struct.pack(format,*data)
     f.write(bin)
     f.close()
