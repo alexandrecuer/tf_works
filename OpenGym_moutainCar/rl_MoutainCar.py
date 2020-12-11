@@ -5,6 +5,9 @@ import math
 import tensorflow as tf
 import matplotlib.pylab as plt
 
+# exécution pas à pas
+sbs = True
+
 # size of the training batch
 BATCH_SIZE=50
 
@@ -80,6 +83,10 @@ max_x_store = []
 
 for episode in range(num_episodes):
     state = env.reset()
+    if sbs:
+        print(state)
+        print(state.shape)
+        input("press a key")
     if episode % 10 == 0:
         print('Episode {} of {}'.format(episode+1, num_episodes))
         print("memory length is {}".format(mem.size()))
@@ -94,6 +101,13 @@ for episode in range(num_episodes):
             rspd=state.reshape(1,numStates)
             # do not use high level function such as predict or predict_classes (in case you dont have to use argmax)
             predictionBrute = model(rspd)
+            if sbs:
+                print(state)
+                print(rspd)
+                print(predictionBrute)
+                print(np.argmax(predictionBrute))
+                input("press a key")
+
             action = np.argmax(predictionBrute)
 
         # we realize the action
