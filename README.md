@@ -1,4 +1,4 @@
-# operating systems with machine intelligence
+# Finding a model to describe a building and optimization with real datas
 
 numerical analysis work related to the **BIOS** project - started in 2020
 
