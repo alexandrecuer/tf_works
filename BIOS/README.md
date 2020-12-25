@@ -1,6 +1,11 @@
 Status : work in progress
 
-## installation and datasets addition
+the problem : Regarding comfort and energy savings, would it be possible to improve the operation of HVAC systems, in the field of **tertiary buildings**, using reinforcement learning (RL) techniques ? Could it be possible to train an intelligent agent in a sandbox running an appropriate model and then to drop it on the field ?
+
+A model is needed before we can tackle the construction of an intelligent agent that will operate the HVAC. 
+We have to keep in mind the difficulty to acquire representative datas for each phenomena we need to accurately describe in order to properly cover our problematic (i.e. the energy supply of the building). A range of 1 year of real-life datas is a small thing as real-life is very different from gaming experience, a field where RL has proven to be efficient. So we need to compensate using modelization....
+
+# installation and datasets addition
 
 Some datasets are available here : https://alexandrecuer.github.io/smartgrid/
 
@@ -47,15 +52,7 @@ pdoc --html src
 ```
 Once datasets and module are installed, you can play with the examples
 
-
-# BIOS : Building Intelligent Operating System
-
-the problem : Regarding comfort and energy savings, would it be possible to improve the operation of HVAC systems, in the field of **tertiary buildings**, using reinforcement learning (RL) techniques ? Could it be possible to train an intelligent agent in a sandbox running an appropriate model and then to drop it on the field ?
-
-A model is needed before we can tackle the construction of an intelligent agent that will operate the HVAC. 
-We have to keep in mind the difficulty to acquire representative datas for each phenomena we need to accurately describe in order to properly cover our problematic (i.e. the energy supply of the building). A range of 1 year of real-life datas is a small thing as real-life is very different from gaming experience, a field where RL has proven to be efficient. So we need to compensate using modelization....
-
-## finding a model
+# finding a model
 
 For a given building, the model has to find the "next" correct internal temperature, ie Tint(t =1), given some history :
 - Tint(t in [minus24 -> 0])
