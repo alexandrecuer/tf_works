@@ -25,7 +25,7 @@ Une première initiation pour [commander une lampe](relays_operate_a_lamp.md)
 
 ![relay power supply](img_relays/power_supply.jpg)
 
-connection d'une vanne 3 voies 3 points TOR (le mélange est tout ou rien)
+Connection d'une vanne 3 voies 3 points TOR (le mélange est tout ou rien). Lorsque la bobine du relay n'est pas alimenté, la vanne est totalement fermée. Lorsque la bobine du relay est alimentée, la vanne est totalement ouverte.
 
 ![V3V mode TOR](img_relays/relaysV3VTOR.png)
 
