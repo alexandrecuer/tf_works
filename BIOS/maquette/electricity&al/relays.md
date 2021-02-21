@@ -17,60 +17,22 @@ Attention aux moteurs qui ont souvent un très fort appel de courant au démarra
 - Impossible de brancher la machine à laver ou le frigo sur ce genre de relais. 
 - Il semble possible de contrôler un ventilateur dont le moteur fait quelques dizaine de watt.
 
+Une première initiation pour [commander une lampe](relays_operate_a_lamp.md)
+
 ## relays
 
 ![relays](img_relays/relays.jpg)
 
 ![relay power supply](img_relays/power_supply.jpg)
 
-## equipement to control
+connection d'une vanne 3 voies 3 points TOR (le mélange est tout ou rien)
 
-![power cable of the equipment to control](img_relays/equipment_to_control1.jpeg)
+![V3V mode TOR](img_relays/relaysV3VTOR.png)
 
-![the lamp](img_relays/lamp.jpg)
-
-![connect the equipment to the relay](img_relays/equipment_to_control2.jpeg)
+Pour les vannes 3 voies 3 points dont on peut régler le mélange sur des positions intermédiaires, il faut 2 relays, un pour commander l'ouverture, l'autre pour commander la fermeture. Si `c` est la course de la vanne (en s ou ms), on applique le signal de fermeture ou d'ouverture 0.2/0.5/0.8 fois `c` pour s'arrêter en position intermédiaire et produire un mélange particulier. C'est utile pour le hors-gel notamment. 
 
 ## raspberry control
 
-![control with raspberry](img_relays/RPI.jpg)
-
 To check pinout on the raspberry : https://pinout.xyz/#
 
-```
-import RPi.GPIO as GPIO
-import curses
 
-GPIO.setmode(GPIO.BCM)
-
-nb=26
-
-GPIO.setup(nb, GPIO.OUT)
-GPIO.output(nb, GPIO.HIGH)
-
-stdscr = curses.initscr()
-curses.noecho()
-curses.cbreak()
-stdscr.addstr(0,0, "a=allumer s=stop q=quitter")
-
-while True:
-    c = stdscr.getch()
-    if c == ord('a'):
-        GPIO.output(nb, GPIO.HIGH)
-    if c == ord('s'):
-        GPIO.output(nb, GPIO.LOW)
-    if c == ord('q'):
-        curses.nocbreak()
-        stdscr.keypad(False)
-        curses.echo()
-        curses.endwin()
-        GPIO.cleanup()
-        break
-```
-more about curses : https://docs.python.org/3/howto/curses.html
-
-more about RPi.GPIO : https://pypi.org/project/RPi.GPIO/
-
-Note that RPi.GPIO is unsuitable for real-time or timing critical applications. This is because you can not predict when Python will be busy garbage collecting. It also runs under the Linux kernel which is not suitable for real time applications - it is multitasking O/S and another process may be given priority over the CPU, causing jitter in your program. If you are after true real-time performance and predictability, buy yourself an Arduino
-
-https://raspberrypi.pagesperso-orange.fr/dossiers/26-33.htm
