@@ -8,7 +8,7 @@ W203 128T : potentiomètre
 
 25V220 : capacité
 
-NE555P DNSX19 : timer Texas instrumet
+NE555P DNSX19 : timer Texas instrument
 
 # les composants électroniques
 
