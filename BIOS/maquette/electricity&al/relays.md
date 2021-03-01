@@ -15,7 +15,7 @@ Cela permet de commander un appareil jusqu’à environ 2KW, soit une ampoule ou
 Attention aux moteurs qui ont souvent un très fort appel de courant au démarrage :
 
 - Impossible de brancher la machine à laver ou le frigo sur ce genre de relais. 
-- Il semble possible de contrôler un ventilateur dont le moteur fait quelques dizaine de watt.
+- Il semble possible de contrôler un ventilateur dont le moteur fait quelques dizaines de watt.
 
 Une première initiation pour [commander une lampe](relays_operate_a_lamp.md)
 
