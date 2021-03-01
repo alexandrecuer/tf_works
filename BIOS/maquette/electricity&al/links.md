@@ -6,6 +6,8 @@ https://lacavernedelucan.com/comment-creer-une-sortie-relais-pour-un-microcontro
 
 https://www.studentcompanion.net/fr/fabriquer-shield-arduino-relais-debut-a-la-fin/
 
+https://www.susa.net/wordpress/2012/06/raspberry-pi-relay-using-gpio/
+
 # généralités
 
 https://www.sonelec-musique.com/electronique_theorie_relais.html
