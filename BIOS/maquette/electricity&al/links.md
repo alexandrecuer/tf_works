@@ -8,6 +8,8 @@ https://www.studentcompanion.net/fr/fabriquer-shield-arduino-relais-debut-a-la-f
 
 # généralités
 
+https://www.sonelec-musique.com/electronique_theorie_relais.html
+
 http://sorel80.free.fr/Electrotechnique/CalculdescourantsdeCourtcircuit.htm
 
 https://www.studentcompanion.net/fr/fabriquer-shield-arduino-relais-debut-a-la-fin/
