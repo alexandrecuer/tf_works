@@ -29,7 +29,8 @@ Connection d'une vanne 3 voies 3 points TOR (le mélange est tout ou rien). Lors
 
 ![V3V mode TOR](img_relays/relaysV3VTOR.png)
 
-Pour les vannes 3 voies 3 points dont on peut régler le mélange sur des positions intermédiaires, il faut 2 relays, un pour commander l'ouverture, l'autre pour commander la fermeture. Si `c` est la course de la vanne (en s ou ms), on applique le signal de fermeture ou d'ouverture 0.2/0.5/0.8 fois `c` pour s'arrêter en position intermédiaire et produire un mélange particulier. C'est utile pour le hors-gel notamment. 
+Pour les vannes 3 voies 3 points dont on peut régler le mélange sur des positions intermédiaires, il faut 2 relays, un pour commander la commande ON/OFF avec un timer, l'autre pour commander le sens (ouverture/fermeture). 
+Si `c` est la course de la vanne (en s ou ms), on applique la commande 0.2/0.5/0.8 fois `c` pour s'arrêter en position intermédiaire et produire un mélange particulier. C'est utile pour le hors-gel notamment. 
 
 ## raspberry control
 
