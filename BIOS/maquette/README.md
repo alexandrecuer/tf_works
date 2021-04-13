@@ -9,6 +9,7 @@
 ## composants achetés
 
 achetés en 2021 : https://www.amazon.fr/gp/product/B08MTMKPQN/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1#descriptionAndDetails
+NE FONCTIONNENT PAS DU TOUT
 
 [Relais 12V 220V](https://www.amazon.fr/SODIAL-R%C3%A9gulateur-Automatique-Intelligent-Anti-Transposition/dp/B07JP8TYQP/ref=sr_1_10?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=relais+carte+12V&qid=1583481978&sr=8-10)
 
