@@ -8,16 +8,14 @@
 
 ## composants achetés
 
-achetés en 2021 : https://www.amazon.fr/gp/product/B08MTMKPQN
-NE FONCTIONNENT PAS DU TOUT
+Relais
 
-[Relais 12V 220V](https://www.amazon.fr/SODIAL-R%C3%A9gulateur-Automatique-Intelligent-Anti-Transposition/dp/B07JP8TYQP)
-PAS ADAPTÉ POUR FONCTIONNER AVEC UN RASPBERRY
-
-[Module 8 relais 12V 2020](https://www.amazon.fr/Module-Walfront-D%C3%A9clenchement-Indicateur-Traction/dp/B07JZN7GGR)
-[Module 8 relais 12V 2021 - 1](https://www.amazon.fr/gp/product/B07JZN7GGR/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
-[Module 8 relais 12V 2021 - 2](https://www.amazon.fr/gp/product/B0794RF1ZW/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
-TT A FAIT OK
+lien | date | commentaire
+--|--|--
+https://www.amazon.fr/gp/product/B08MTMKPQN | 2021 | pas adapté car on ne sait jamais dans quel état est le relais - mode de déclenchement à impulsion
+[Relais 12V 220V](https://www.amazon.fr/SODIAL-R%C3%A9gulateur-Automatique-Intelligent-Anti-Transposition/dp/B07JP8TYQP)| 2020 | PAS ADAPTÉ POUR FONCTIONNER AVEC UN RASPBERRY
+[Module 8 relais 12V Wallfront](https://www.amazon.fr/gp/product/B07JZN7GGR) | 2020 et 2021 | TT A FAIT OK
+[Module 8 relais 12V HiLetgo ](https://www.amazon.fr/gp/product/B0794RF1ZW/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1) | 2021 | TT A FAIT OK
 
 [résistance chauffante](https://www.amazon.fr/Thermoplongeur-voyage-cuisine-r%C3%A9sistance-%C3%A9lectrique/dp/B00ISQNI5W/ref=sr_1_9?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=thermoplongeur&qid=1583482478&sr=8-9)
 
