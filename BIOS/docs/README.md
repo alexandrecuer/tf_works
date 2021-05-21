@@ -2,6 +2,13 @@
 
 https://apalis.fr/herve.silve/radiateur.htm
 
+celà est compliqué à mettre en oeuvre opérationnellement car nécessitant de connaitre le circuit avec un peu de détail
+nombre de radiateurs, estimation des pertes....
+pour le bâtiment du labo de Clermont :
+- circuit cellules : 28 radiateurs
+- circuit nord : 34 radiateurs
+- circuit sud : 31 radiateurs
+
 ## Transmission par rayonnement
 
 La transmission thermique par rayonnement s'effectue par rayonnement électromagnétique et n'a pas besoin de matière pour se propager (le rayonnement solaire). La quantité de chaleur transmise par rayonnement est calculée avec la formule suivante :
