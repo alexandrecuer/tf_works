@@ -1,4 +1,4 @@
-http://my.bitscope.com/store/?p=view&i=item+0
+http://my.bitscope.com/store/
 
 https://fr.farnell.com/bitscope/bb02b/bitscope-blade-duo/dp/2546577
 
