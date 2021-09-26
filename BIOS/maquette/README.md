@@ -59,9 +59,15 @@ https://www.amazon.fr/gp/product/B08MTMKPQN | 2021 | pas adapté car on ne sait 
 
 [Manchon taraudé Femelle/Femelle avec butée centrale en laiton - Ø 3/4 pouce](https://www.amazon.fr/Ezfitt-Manchon-taraud%C3%A9-Femelle-centrale/dp/B079NGD3LF/ref=sr_1_20?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=3%2F4+femelle+femelle&qid=1583486189&sr=8-20)
 
-# pilotage
+# piloter vanne 3 voies
 
 http://sarakha63-domotique.fr/jeedom-domotiser-une-vanne-3-voies/
+
+# PID
+
+https://github.com/imax9000/Arduino-PID-Library
+
+http://brettbeauregard.com/blog/2011/04/improving-the-beginners-pid-introduction/
 
 https://www.abcclim.net/regulation-p-pi-pid.html
 
