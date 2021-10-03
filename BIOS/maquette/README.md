@@ -1,6 +1,6 @@
-## matériels
+# matériels
 
-### Relais
+## Relais
 
 lien | date | commentaire
 --|--|--
@@ -11,11 +11,11 @@ https://www.amazon.fr/gp/product/B08MTMKPQN | 2021 | pas adapté car on ne sait 
 
 **review : pour pouvoir fonctionner sans interférences avec le(s) récepteur(s) radio, les modules de relais doivent être équipés de photocoupleurs. Le module Walfront de 2020 n'en est pas équipé**
 
-### divers
+## divers
 
 [résistance chauffante](https://www.amazon.fr/Thermoplongeur-voyage-cuisine-r%C3%A9sistance-%C3%A9lectrique/dp/B00ISQNI5W/ref=sr_1_9?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=thermoplongeur&qid=1583482478&sr=8-9)
 
-### pompes et vannes miniatures
+## pompes et vannes miniatures
 
 (x3) [pompe DN15 - DN15 male – DN15 male](https://www.amazon.fr/Prom-near-balais-c%C3%A9ramique-r%C3%A9sistante-temp%C3%A9rature/dp/B07FJP2N3R?ref_=s9_apbd_orecs_hd_bw_b21XDqB&pf_rd_r=PMZV60FX5ZNNHX5PZBSJ&pf_rd_p=54aab920-59f6-583d-aa8a-1b96cc3982eb&pf_rd_s=merchandised-search-10&pf_rd_t=BROWSE&pf_rd_i=1854960031)
 
@@ -25,11 +25,11 @@ https://www.amazon.fr/gp/product/B08MTMKPQN | 2021 | pas adapté car on ne sait 
 
 (x4) [débit mètre DN20 - F = [8.1Q-5] ± 10%, F val. inst. impul. (Hz), Q flux instantané](https://www.amazon.fr/Be82aene-Capteur-dimpulsion-1-75Mpa-D%C3%A9bitm%C3%A8tres/dp/B083DKQF2H/ref=sr_1_6?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=debitmetre+dn20&qid=1583421058&sr=8-6)
 
-### temperature asset measurement (road, building, storage)
+## temperature asset measurement (road, building, storage)
 
 (x8) [PT100 2mètres](https://www.amazon.fr/Sonde-inoxydable-thermistance-capteur-temperature/dp/B01CNMAQS8/ref=pd_bxgy_img_2/262-9971649-2446628?_encoding=UTF8&pd_rd_i=B01CNMAQS8&pd_rd_r=b3596105-8191-4db1-9e38-9227a4d0a3aa&pd_rd_w=Y9V93&pd_rd_wg=Rbsei&pf_rd_p=da1675de-3974-4ba2-b26f-c06b987f79cb&pf_rd_r=H16ES3JDRVQPR8407678&psc=1&refRID=H16ES3JDRVQPR8407678)
 
-### temperature fluid measurement
+## temperature fluid measurement
 
 (x6) [Té 3 embouts femelles 3/4](https://www.amazon.fr/Watts-Raccord-laiton-visser-Femelle/dp/B079HWNM8V/ref=pd_sbs_60_3/257-2633906-0516104?_encoding=UTF8&pd_rd_i=B079HWNM8V&pd_rd_r=71a1e942-763d-41cf-8dd3-9377115e6ffc&pd_rd_w=hQLsT&pd_rd_wg=ga5Ut&pf_rd_p=72159c7a-2bb2-4a15-aa35-b315ce8f5c64&pf_rd_r=N8SHPHFVS4NKSSWWZTDZ&psc=1&refRID=N8SHPHFVS4NKSSWWZTDZ)
 
