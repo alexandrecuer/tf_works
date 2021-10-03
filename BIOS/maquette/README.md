@@ -11,7 +11,11 @@ https://www.amazon.fr/gp/product/B08MTMKPQN | 2021 | pas adapté car on ne sait 
 
 **review : pour pouvoir fonctionner sans interférences avec le(s) récepteur(s) radio, les modules de relais doivent être équipés de photocoupleurs. Le module Walfront de 2020 n'en est pas équipé**
 
+### divers
+
 [résistance chauffante](https://www.amazon.fr/Thermoplongeur-voyage-cuisine-r%C3%A9sistance-%C3%A9lectrique/dp/B00ISQNI5W/ref=sr_1_9?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=thermoplongeur&qid=1583482478&sr=8-9)
+
+### pompes et vannes miniatures
 
 (x3) [pompe DN15 - DN15 male – DN15 male](https://www.amazon.fr/Prom-near-balais-c%C3%A9ramique-r%C3%A9sistante-temp%C3%A9rature/dp/B07FJP2N3R?ref_=s9_apbd_orecs_hd_bw_b21XDqB&pf_rd_r=PMZV60FX5ZNNHX5PZBSJ&pf_rd_p=54aab920-59f6-583d-aa8a-1b96cc3982eb&pf_rd_s=merchandised-search-10&pf_rd_t=BROWSE&pf_rd_i=1854960031)
 
