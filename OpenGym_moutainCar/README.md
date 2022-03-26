@@ -13,3 +13,7 @@ https://deepmind.com/blog/article/deepmind-ai-reduces-google-data-centre-cooling
 https://github.com/mojopoly/minimize-costs-datacenter
 
 https://towardsdatascience.com/a-non-trivial-elevator-control-system-in-a-train-station-by-reinforcement-learning-f37e00137172
+
+# DDPG - deep deterministic policy gradients
+
+https://paperswithcode.com/method/d4pg
