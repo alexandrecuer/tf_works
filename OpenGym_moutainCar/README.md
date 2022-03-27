@@ -4,6 +4,8 @@ https://adventuresinmachinelearning.com/reinforcement-learning-tensorflow/
 
 https://torres.ai/deep-reinforcement-learning-explained-series/
 
+https://github.com/jorditorresBCN/Deep-Reinforcement-Learning-Explained/blob/master/DRL_15_16_17_DQN_Pong.ipynb
+
 # en interaction avec le monde réel
 
 https://github.com/vishwamano/Data-center-cooling-controller-using-Artificial-intelligence
