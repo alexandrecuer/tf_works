@@ -14,5 +14,13 @@ unrar x Roms.rar all
 
 python -m atari_py.import_roms all
 
+# installation opencv
+
+sudo apt install python3-opencv
+
+# installation pytorch
+
+python3 -m pip install torch torchvision torchaudio
+
 
 
