@@ -19,3 +19,13 @@ https://towardsdatascience.com/a-non-trivial-elevator-control-system-in-a-train-
 # DDPG - deep deterministic policy gradients
 
 https://paperswithcode.com/method/d4pg
+
+# deepmind
+
+https://github.com/deepmind/alphafold
+
+https://github.com/tensorflow/minigo
+
+https://github.com/brilee/MuGo
+
+
