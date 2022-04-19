@@ -6,6 +6,29 @@ https://torres.ai/deep-reinforcement-learning-explained-series/
 
 https://github.com/jorditorresBCN/Deep-Reinforcement-Learning-Explained/blob/master/DRL_15_16_17_DQN_Pong.ipynb
 
+# DDQN
+
+https://towardsdatascience.com/double-deep-q-networks-905dd8325412
+
+https://adgefficiency.com/dqn-tuning/
+
+https://arxiv.org/pdf/1509.06461.pdf
+
+https://hadovanhasselt.com/
+
+https://www.researchgate.net/profile/Hado-Van-Hasselt
+
+fujimoto : https://arxiv.org/pdf/1802.09477.pdf
+
+https://slazebni.cs.illinois.edu/spring17/lec17_rl.pdf
+
+https://www.davidsilver.uk/
+
+https://www.davidsilver.uk/wp-content/uploads/2020/03/rainbow.pdf
+
+Dueling : http://proceedings.mlr.press/v48/wangf16.pdf or https://arxiv.org/pdf/1511.06581.pdf
+
+
 # en interaction avec le monde réel
 
 https://github.com/vishwamano/Data-center-cooling-controller-using-Artificial-intelligence
