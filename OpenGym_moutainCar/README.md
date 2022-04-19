@@ -12,7 +12,9 @@ https://towardsdatascience.com/double-deep-q-networks-905dd8325412
 
 https://adgefficiency.com/dqn-tuning/
 
-https://arxiv.org/pdf/1509.06461.pdf
+double Q learning - Van Hasselt - 2010 - https://proceedings.neurips.cc/paper/2010/file/091d584fced301b442654dd8c23b3fc9-Paper.pdf
+
+double DQN - Van Hasselt - 2016 - https://arxiv.org/pdf/1509.06461.pdf
 
 https://hadovanhasselt.com/
 
