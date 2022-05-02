@@ -30,6 +30,12 @@ https://www.davidsilver.uk/wp-content/uploads/2020/03/rainbow.pdf
 
 Dueling : http://proceedings.mlr.press/v48/wangf16.pdf or https://arxiv.org/pdf/1511.06581.pdf
 
+# Open AI
+
+https://www.youtube.com/watch?v=aUrX-rP_ss4
+
+http://rl-gym-doc.s3-website-us-west-2.amazonaws.com/mlss/2016-MLSS-RL.pdf
+
 
 # en interaction avec le monde réel
 
