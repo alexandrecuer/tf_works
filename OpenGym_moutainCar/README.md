@@ -35,13 +35,15 @@ https://www.davidsilver.uk/
 
 les diapos du cours : https://www.davidsilver.uk/teaching/ 
 
-# Reinforce 
+# Reinforce and policy gradient
 
 https://github.com/dennybritz/reinforcement-learning/blob/master/PolicyGradient/CliffWalk%20REINFORCE%20with%20Baseline%20Solution.ipynb
 
 https://github.com/dennybritz/reinforcement-learning/blob/master/lib/envs/cliff_walking.py
 
 deterministic policy gradients : http://proceedings.mlr.press/v32/silver14.pdf
+
+https://github.com/aniket-gupta1/Reinforcement_Learning/blob/master/Policy_Optimization_methods/VPG/Iteration1_VPG.py
 
 ## DDPG - deep deterministic policy gradients
 
