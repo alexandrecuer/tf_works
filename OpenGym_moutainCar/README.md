@@ -35,12 +35,17 @@ https://www.davidsilver.uk/
 
 les diapos du cours : https://www.davidsilver.uk/teaching/ 
 
-
 # Reinforce 
 
 https://github.com/dennybritz/reinforcement-learning/blob/master/PolicyGradient/CliffWalk%20REINFORCE%20with%20Baseline%20Solution.ipynb
 
 https://github.com/dennybritz/reinforcement-learning/blob/master/lib/envs/cliff_walking.py
+
+deterministic policy gradients : http://proceedings.mlr.press/v32/silver14.pdf
+
+## DDPG - deep deterministic policy gradients
+
+https://paperswithcode.com/method/d4pg
 
 # Open AI
 
@@ -59,9 +64,6 @@ https://github.com/mojopoly/minimize-costs-datacenter
 
 https://towardsdatascience.com/a-non-trivial-elevator-control-system-in-a-train-station-by-reinforcement-learning-f37e00137172
 
-# DDPG - deep deterministic policy gradients
-
-https://paperswithcode.com/method/d4pg
 
 # deepmind
 
