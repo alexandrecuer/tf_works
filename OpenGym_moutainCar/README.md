@@ -37,6 +37,8 @@ les diapos du cours : https://www.davidsilver.uk/teaching/
 
 # Reinforce and policy gradient
 
+![image](https://user-images.githubusercontent.com/24553739/167301299-5a4c82f8-38b0-4008-bddf-12f37b94617b.png)
+
 https://github.com/dennybritz/reinforcement-learning/blob/master/PolicyGradient/CliffWalk%20REINFORCE%20with%20Baseline%20Solution.ipynb
 
 https://github.com/dennybritz/reinforcement-learning/blob/master/lib/envs/cliff_walking.py
