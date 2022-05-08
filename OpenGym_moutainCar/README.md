@@ -24,13 +24,23 @@ fujimoto : https://arxiv.org/pdf/1802.09477.pdf
 
 https://slazebni.cs.illinois.edu/spring17/lec17_rl.pdf
 
-https://www.davidsilver.uk/
-
-les diapos du cours : https://www.davidsilver.uk/teaching/ 
 
 https://www.davidsilver.uk/wp-content/uploads/2020/03/rainbow.pdf
 
 Dueling : http://proceedings.mlr.press/v48/wangf16.pdf or https://arxiv.org/pdf/1511.06581.pdf
+
+# David Silver
+
+https://www.davidsilver.uk/
+
+les diapos du cours : https://www.davidsilver.uk/teaching/ 
+
+
+# Reinforce 
+
+https://github.com/dennybritz/reinforcement-learning/blob/master/PolicyGradient/CliffWalk%20REINFORCE%20with%20Baseline%20Solution.ipynb
+
+https://github.com/dennybritz/reinforcement-learning/blob/master/lib/envs/cliff_walking.py
 
 # Open AI
 
