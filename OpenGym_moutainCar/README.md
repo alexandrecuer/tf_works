@@ -47,6 +47,10 @@ deterministic policy gradients : http://proceedings.mlr.press/v32/silver14.pdf
 
 https://github.com/aniket-gupta1/Reinforcement_Learning/blob/master/Policy_Optimization_methods/VPG/Iteration1_VPG.py
 
+https://medium.com/swlh/cartpole-with-policy-gradient-tensorflow-2-x-3a7a14b9cc03
+
+https://github.com/RahulBarman101/Policy-Gradient-CartPole-PyTorch/blob/master/policy_gradient_pytorch.py
+
 ## DDPG - deep deterministic policy gradients
 
 https://paperswithcode.com/method/d4pg
