@@ -119,6 +119,8 @@ def make_env(env_name):
 test_env = make_env(DEFAULT_ENV_NAME)
 print(test_env.observation_space.shape)
 print(test_env.action_space.n)
+while True:
+    test_env.render()
 import torch
 device = torch.device("cuda")
 
