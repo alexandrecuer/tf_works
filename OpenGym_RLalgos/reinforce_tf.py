@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 import gym
 env = gym.make("CartPole-v0")
@@ -11,7 +12,8 @@ import datetime as dt
 game = "CartPole"
 DIR =  "TensorBoard/PolicyGradient"
 STORE_PATH = "{}/{}".format(DIR,game)
-GAMMA = 0.95
+GAMMA = 0.99
+tb = False
 
 state_size = env.observation_space.shape[0]
 num_actions = env.action_space.n
@@ -110,7 +112,7 @@ if saved :
     sys.exit(0)
 else :
     network = keras.Sequential([
-        keras.layers.Dense(256, input_shape=(state_size,), activation='relu', kernel_initializer=keras.initializers.he_normal()),
+        keras.layers.Dense(256, input_shape=(state_size,), activation='relu'),# kernel_initializer=keras.initializers.he_normal()),
         keras.layers.Dense(num_actions, activation='softmax')
     ])
     optimizer = tf.keras.optimizers.Adam(learning_rate=3e-3)
@@ -143,10 +145,32 @@ for episode in range(num_episodes):
             update_network(network, rewards, actions, states)
             if episode % 50 == 0 and episode>0:
                     print('Trajectory {}\tAverage Score: {:.2f}'.format(episode, np.mean(score[-50:-1])))
-            with train_writer.as_default():
-                tf.summary.scalar('reward', tot_reward, step=episode)
-            break        
+            if tb:
+                with train_writer.as_default():
+                    tf.summary.scalar('reward', tot_reward, step=episode)
+            break
         state = new_state
+
+def running_mean(x):
+    N=50
+    kernel = np.ones(N)
+    conv_len = x.shape[0]-N
+    y = np.zeros(conv_len)
+    for i in range(conv_len):
+        y[i] = kernel @ x[i:i+N]
+        y[i] /= N
+    return y
+
+score = np.array(score)
+avg_score = running_mean(score)
+
+plt.figure(figsize=(15,7))
+plt.ylabel("Trajectory Duration",fontsize=12)
+plt.xlabel("Training Epochs",fontsize=12)
+plt.plot(score, color='gray' , linewidth=1)
+plt.plot(avg_score, color='blue', linewidth=3)
+plt.scatter(np.arange(score.shape[0]),score, color='green' , linewidth=0.3)
+plt.show()
 
 for i in range(10):
     watch_agent()
