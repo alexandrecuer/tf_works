@@ -7,8 +7,7 @@ import tensorflow as tf
 from tensorflow import keras
 import datetime as dt
 
-# pour lancer tensorboard : tensorboard --logdir=TensorBoard/PolicyGradientHeat
-game = "Heat"
+# pour lancer tensorboard : tensorboard --logdir=TensorBoard/PolicyGradient
 game = "CartPole"
 DIR =  "TensorBoard/PolicyGradient"
 STORE_PATH = "{}/{}".format(DIR,game)
@@ -67,6 +66,7 @@ def update_network(network, rewards, actions, states):
     grads = tape.gradient(loss, network.trainable_variables)
     optimizer.apply_gradients(zip(grads, network.trainable_variables))
 
+import os
 import readline
 import glob
 def simplePathCompleter(text,state):
