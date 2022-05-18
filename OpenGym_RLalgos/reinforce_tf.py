@@ -139,13 +139,13 @@ for episode in range(num_episodes):
         rewards.append(tot_reward)
         actions.append(action)
         if done:
+            score.append(tot_reward)
             update_network(network, rewards, actions, states)
             if episode % 50 == 0 and episode>0:
                     print('Trajectory {}\tAverage Score: {:.2f}'.format(episode, np.mean(score[-50:-1])))
             with train_writer.as_default():
                 tf.summary.scalar('reward', tot_reward, step=episode)
-            break
-        score.append(tot_reward)
+            break        
         state = new_state
 
 for i in range(10):
