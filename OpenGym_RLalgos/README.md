@@ -1,5 +1,7 @@
 https://adventuresinmachinelearning.com/
 
+https://github.com/adventuresinML/adventures-in-ml-code
+
 https://adventuresinmachinelearning.com/reinforcement-learning-tensorflow/
 
 https://torres.ai/deep-reinforcement-learning-explained-series/
