@@ -5,7 +5,6 @@ from matplotlib import pyplot as plt
 
 import tensorflow as tf
 import datetime as dt
-game = "Heat"
 game = "CartPole"
 DIR =  "TensorBoard/PolicyGradient"
 STORE_PATH = "{}/{}".format(DIR,game)
