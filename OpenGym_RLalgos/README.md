@@ -49,8 +49,6 @@ using tensorflow in [reinforce_tf.py](reinforce_tf.py)
 
 https://github.com/pytorch/examples/blob/main/reinforcement_learning/reinforce.py
 
-![image](https://user-images.githubusercontent.com/24553739/167301299-5a4c82f8-38b0-4008-bddf-12f37b94617b.png)
-
 https://github.com/dennybritz/reinforcement-learning/blob/master/PolicyGradient/CliffWalk%20REINFORCE%20with%20Baseline%20Solution.ipynb
 
 https://github.com/dennybritz/reinforcement-learning/blob/master/lib/envs/cliff_walking.py
@@ -95,5 +93,7 @@ https://github.com/brilee/MuGo
 
 https://coral.ai/examples/
 
+# pseudocodes
 
+![image](https://user-images.githubusercontent.com/24553739/167301299-5a4c82f8-38b0-4008-bddf-12f37b94617b.png)
 
