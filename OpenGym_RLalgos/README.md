@@ -8,6 +8,17 @@ https://torres.ai/deep-reinforcement-learning-explained-series/
 
 https://github.com/jorditorresBCN/Deep-Reinforcement-Learning-Explained/blob/master/DRL_15_16_17_DQN_Pong.ipynb
 
+https://github.com/Shmuma/Deep-Reinforcement-Learning-Hands-On
+
+# RL libraries
+
+https://github.com/facebookresearch/rl
+
+https://github.com/ray-project/ray/tree/master/rllib/agents
+
+https://stable-baselines.readthedocs.io/en/master/
+
+
 # DDQN
 
 https://towardsdatascience.com/double-deep-q-networks-905dd8325412
