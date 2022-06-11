@@ -44,7 +44,7 @@ https://www.davidsilver.uk/wp-content/uploads/2020/03/rainbow.pdf
 
 Dueling : http://proceedings.mlr.press/v48/wangf16.pdf or https://arxiv.org/pdf/1511.06581.pdf
 
-# peoples
+# people
 
 ## David Silver @ deepmind
 
