@@ -18,6 +18,8 @@ https://github.com/ray-project/ray/tree/master/rllib/agents
 
 https://stable-baselines.readthedocs.io/en/master/
 
+TensorFlow vs PyTorch : https://medium.com/data-science-at-microsoft/a-tale-of-two-frameworks-pytorch-vs-tensorflow-f73a975e733d
+
 
 # DDQN
 
@@ -75,6 +77,9 @@ https://github.com/RahulBarman101/Policy-Gradient-CartPole-PyTorch/blob/master/p
 ## DDPG - deep deterministic policy gradients
 
 https://paperswithcode.com/method/d4pg
+
+continuous policy gradients : https://towardsdatascience.com/a-minimal-working-example-for-continuous-policy-gradients-in-tensorflow-2-0-d3413ec38c6b
+
 
 # Open AI
 
