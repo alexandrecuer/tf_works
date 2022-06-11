@@ -21,7 +21,7 @@ https://stable-baselines.readthedocs.io/en/master/
 TensorFlow vs PyTorch : https://medium.com/data-science-at-microsoft/a-tale-of-two-frameworks-pytorch-vs-tensorflow-f73a975e733d
 
 
-# DDQN
+# Double DQN
 
 https://towardsdatascience.com/double-deep-q-networks-905dd8325412
 
