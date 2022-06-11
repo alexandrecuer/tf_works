@@ -56,6 +56,10 @@ les diapos du cours : https://www.davidsilver.uk/teaching/
 
 http://joschu.net/index.html
 
+https://www.youtube.com/watch?v=aUrX-rP_ss4
+
+http://rl-gym-doc.s3-website-us-west-2.amazonaws.com/mlss/2016-MLSS-RL.pdf
+
 # Reinforce and policy gradient
 
 ## training an agent to play gym cartpole v0
@@ -85,14 +89,6 @@ https://github.com/RahulBarman101/Policy-Gradient-CartPole-PyTorch/blob/master/p
 https://paperswithcode.com/method/d4pg
 
 continuous policy gradients : https://towardsdatascience.com/a-minimal-working-example-for-continuous-policy-gradients-in-tensorflow-2-0-d3413ec38c6b
-
-
-# Open AI
-
-https://www.youtube.com/watch?v=aUrX-rP_ss4
-
-http://rl-gym-doc.s3-website-us-west-2.amazonaws.com/mlss/2016-MLSS-RL.pdf
-
 
 # en interaction avec le monde réel
 
