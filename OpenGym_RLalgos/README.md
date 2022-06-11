@@ -46,13 +46,13 @@ Dueling : http://proceedings.mlr.press/v48/wangf16.pdf or https://arxiv.org/pdf/
 
 # peoples
 
-## David Silver
+## David Silver @ deepmind
 
 https://www.davidsilver.uk/
 
 les diapos du cours : https://www.davidsilver.uk/teaching/ 
 
-##  John Schulman
+##  John Schulman @ openai
 
 http://joschu.net/index.html
 
