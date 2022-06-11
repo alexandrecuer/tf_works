@@ -1,6 +1,4 @@
-# Finding a model to describe a building and optimization with real datas
-
-numerical analysis work related to the **BIOS** project - started in 2020
+# experiments and academic materials related to the **BIOS** project - started in 2020
 
 BIOS : Building Intelligent Operating System
 
