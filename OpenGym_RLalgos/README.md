@@ -90,6 +90,8 @@ https://paperswithcode.com/method/d4pg
 
 continuous policy gradients : https://towardsdatascience.com/a-minimal-working-example-for-continuous-policy-gradients-in-tensorflow-2-0-d3413ec38c6b
 
+https://arxiv.org/pdf/1509.02971v6.pdf
+
 # en interaction avec le monde réel
 
 https://github.com/vishwamano/Data-center-cooling-controller-using-Artificial-intelligence
