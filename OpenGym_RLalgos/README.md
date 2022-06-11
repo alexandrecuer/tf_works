@@ -44,11 +44,17 @@ https://www.davidsilver.uk/wp-content/uploads/2020/03/rainbow.pdf
 
 Dueling : http://proceedings.mlr.press/v48/wangf16.pdf or https://arxiv.org/pdf/1511.06581.pdf
 
-# David Silver
+# peoples
+
+## David Silver
 
 https://www.davidsilver.uk/
 
 les diapos du cours : https://www.davidsilver.uk/teaching/ 
+
+##  John Schulman
+
+http://joschu.net/index.html
 
 # Reinforce and policy gradient
 
