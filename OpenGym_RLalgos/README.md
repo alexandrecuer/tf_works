@@ -70,6 +70,8 @@ using tensorflow in [reinforce_tf.py](reinforce_tf.py)
 
 ## on the web
 
+https://ai.stackexchange.com/questions/11929/how-is-the-policy-gradient-calculated-in-reinforce
+
 https://github.com/pytorch/examples/blob/main/reinforcement_learning/reinforce.py
 
 https://github.com/dennybritz/reinforcement-learning/blob/master/PolicyGradient/CliffWalk%20REINFORCE%20with%20Baseline%20Solution.ipynb
