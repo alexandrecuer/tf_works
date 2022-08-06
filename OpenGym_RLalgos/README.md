@@ -16,6 +16,8 @@ https://github.com/facebookresearch/rl
 
 https://github.com/ray-project/ray/tree/master/rllib/agents
 
+https://docs.ray.io/en/latest/train/user_guide.html
+
 https://stable-baselines.readthedocs.io/en/master/
 
 TensorFlow vs PyTorch : https://medium.com/data-science-at-microsoft/a-tale-of-two-frameworks-pytorch-vs-tensorflow-f73a975e733d
