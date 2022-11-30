@@ -1,3 +1,5 @@
+
+
 https://adventuresinmachinelearning.com/
 
 https://github.com/adventuresinML/adventures-in-ml-code
@@ -11,6 +13,8 @@ https://github.com/jorditorresBCN/Deep-Reinforcement-Learning-Explained/blob/mas
 https://github.com/Shmuma/Deep-Reinforcement-Learning-Hands-On
 
 # RL libraries
+
+https://github.com/pfnet/pfrl
 
 https://github.com/facebookresearch/rl
 
