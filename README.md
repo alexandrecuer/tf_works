@@ -172,6 +172,10 @@ https://michaelgoerz.net/notes/custom-template-for-converting-jupyter-notebooks-
 
 http://blog.juliusschulz.de/blog/ultimate-ipython-notebook#converting-notebook-to-latex-pdf
 
+https://towardsdatascience.com/jupyter-notebook-to-pdf-in-a-few-lines-3c48d68a7a63
+```
+jupyter-nbconvert --to pdf inertie.ipynb
+```
 https://www.xm1math.net/doculatex/espacements.html
 
 ### slide plugin
